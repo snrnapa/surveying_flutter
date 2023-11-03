@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Surveying Napa',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Surveying App ver.dev1.0'),
@@ -46,64 +46,42 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       const Text(
-      //         'You have pushed the button this many times:',
-      //       ),
-      //       Text(
-      //         '$_counter',
-      //         style: Theme.of(context).textTheme.headlineMedium,
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      body: DataTable(
-        columns: const <DataColumn>[
-          DataColumn(
-            label: Text('Name'),
+      body: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(top: 32),
+            child: Text('Function List'),
           ),
-          DataColumn(
-            label: Text('Age'),
-          ),
-          DataColumn(
-            label: Text('Actions'),
-          ),
-        ],
-        rows: <DataRow>[
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text('John')),
-              DataCell(Text('30')),
-              DataCell(
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    // Handle edit action
-                  },
-                ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              ElevatedButton.icon(
+                focusNode: primaryFocus,
+                label: Text('Surveying'),
+                onPressed: () {},
+                icon: Icon(Icons.reorder),
+              ),
+              ElevatedButton.icon(
+                label: Text('Picture on Mapping'),
+                onPressed: () {},
+                icon: Icon(Icons.map),
+              ),
+              ElevatedButton.icon(
+                label: Text('Expenses'),
+                onPressed: () {},
+                icon: Icon(Icons.payment),
+              ),
+              ElevatedButton.icon(
+                label: Text('Setting'),
+                onPressed: () {},
+                icon: Icon(Icons.settings),
               ),
             ],
-          ),
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text('Alice')),
-              DataCell(Text('25')),
-              DataCell(
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    // Handle delete action
-                  },
-                ),
-              ),
-            ],
-          ),
+          )
         ],
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
