@@ -1,88 +1,76 @@
 import 'package:flutter/material.dart';
 
-var devlist = [
-      "Taro",
-    "Hanako",
-    "Eri",
-    "Koji",
-]
-
 class Surveying extends StatelessWidget {
+  final List<List<String>> data = [
+    ['A1', 'B1'],
+    ['A2', 'B2'],
+    ['A3', 'B3'],
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text('Surveying'),
-        ),
-        body: DataTable(
-          columns: const <DataColumn>[
-            DataColumn(
-              label: Text(''),
+      appBar: AppBar(
+        title: Text('Surveying'),
+      ),
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '野帳',
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 30,
+              ),
             ),
-            DataColumn(
-              label: Text('BS/後視'),
+            const Divider(
+              height: 20,
+              thickness: 1,
+              indent: 0,
+              endIndent: 0,
+              color: Colors.black,
             ),
-            DataColumn(
-              label: Text('FS/前視'),
+            Table(
+              children: _buildTableRows(),
             ),
-            DataColumn(
-              label: Text('Calc'),
+            Text(
+              '野帳Dev',
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 30,
+              ),
             ),
-          ],
-          rows: const <DataRow>[
-            DataRow(
-              cells: <DataCell>[
-                DataCell(Text('1')),
-                DataCell(Text('5.677')),
-                DataCell(Text('5.777')),
-                DataCell(Text('Result')),
-              ],
+            const Divider(
+              height: 20,
+              thickness: 1,
+              indent: 0,
+              endIndent: 0,
+              color: Colors.black,
             ),
-            DataRow(
-              cells: <DataCell>[
-                DataCell(Text('2')),
-                DataCell(Text('5.677')),
-                DataCell(Text('5.777')),
-                DataCell(Text('Result')),
-              ],
-            ),
-            DataRow(
-              cells: <DataCell>[
-                DataCell(Text('2')),
-                DataCell(Text('5.677')),
-                DataCell(Text('5.777')),
-                DataCell(Text('Result')),
-              ],
-            ),
-            DataRow(
-              cells: <DataCell>[
-                DataCell(Text('2')),
-                DataCell(Text('5.677')),
-                DataCell(Text('5.777')),
-                DataCell(Text('Result')),
-              ],
-            ),
-            DataRow(
-              cells: <DataCell>[
-                DataCell(Text('2')),
-                DataCell(Text('5.677')),
-                DataCell(Text('5.777')),
-                DataCell(Text('Result')),
-              ],
+            SizedBox(
+              height: 100,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Table(
+                    children: List.generate(100, (index) => index).map((no) {
+                  return TableRow(
+                    children: [Text('$no')],
+                  );
+                }).toList()),
+              ),
             ),
           ],
         ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => print(devlist),
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      );
+      ),
+    );
+  }
 
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () => print(devlist),
-        //   child: const Icon(Icons.add),
-        // ),
-      // );
+  // TableRowの動的生成
+  List<TableRow> _buildTableRows() {
+    return data.map((row) {
+      return TableRow(
+        children: row.map((cell) => Text(cell)).toList(),
+      );
+    }).toList();
   }
 }
