@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:surveying_app/surveying.dart';
 
 void main() {
   runApp(const MyApp());
@@ -60,7 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ElevatedButton.icon(
                 focusNode: primaryFocus,
                 label: Text('Surveying'),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Surveying()),
+                  );
+                },
                 icon: Icon(Icons.reorder),
               ),
               ElevatedButton.icon(
