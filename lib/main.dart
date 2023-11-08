@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: <Widget>[
           Container(
@@ -84,6 +85,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {},
                 icon: Icon(Icons.settings),
               ),
+              Container(
+                width: double.infinity,
+                child: TextField(),
+              )
             ],
           )
         ],

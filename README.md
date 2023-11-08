@@ -54,21 +54,12 @@ https://docs.google.com/presentation/d/1dn1KPM2g_FkbpsWe0QHkJ7rD3TzVsx_hTL99YhDH
 
 
 ## 参考サイト
+
+
+[textFieldの値を扱う](https://minoru-maru.com/%E3%80%90flutter%E3%80%91%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%83%9C%E3%83%83%E3%82%AF%E3%82%B9%E3%81%AB%E5%85%A5%E5%8A%9B%E3%81%95%E3%82%8C%E3%81%9F%E6%96%87%E5%AD%97%E5%88%97%E3%82%92%E6%89%B1/)
 [flutter初期ソースの説明](https://qiita.com/naoaki_kaito/items/ed77ee085ad61f951784)
 
 
 [ToDo画面作成](https://qiita.com/t_k_t/items/29848ac897e159030843)
 
 [Javaのコンストラクタについて](https://www.javadrive.jp/start/extends/index4.html)
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
