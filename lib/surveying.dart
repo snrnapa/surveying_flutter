@@ -9,163 +9,124 @@ class Surveying extends StatefulWidget {
 }
 
 class _ToDoListPageState extends State<Surveying> {
-  final selectedIndex = <int>[];
+  double bs = 0;
+  double fs = 0;
+  double gh = 0;
+  final TextEditingController _pointController = TextEditingController();
+  final TextEditingController _backSightController = TextEditingController();
+  final TextEditingController _frontSightController = TextEditingController();
 
-  var _tx1 = '';
-  var _tf1 = TextEditingController();
-
-  void _txchange() {
-    setState(() {
-      _tx1 = _tf1.text;
-    });
+  //FSとBSを合計しGHを算出する
+  double CalculateGroundHeight() {
+    gh = bs + fs;
+    return gh;
   }
+
+  final selectedIndex = <int>[];
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-            body: Column(children: <Widget>[
-      DataTable(
-        columns: const <DataColumn>[
-          DataColumn(
-            label: Text(
-              '地点',
-              style: TextStyle(fontStyle: FontStyle.italic),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text("Surveying v1.0.0"),
+        ),
+        body: Column(
+          children: <Widget>[
+            // Headerを実装している
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.center, // 子Widgetの配置
+                  margin: const EdgeInsets.all(10.0), // 外側余白
+                  padding: const EdgeInsets.all(10.0), // 内側余白
+                  width: 80,
+                  child: Text("地点"),
+                ),
+                Container(
+                  alignment: Alignment.center, // 子Widgetの配置
+                  margin: const EdgeInsets.all(10.0), // 外側余白
+                  padding: const EdgeInsets.all(10.0), // 内側余白
+                  width: 80,
+                  child: Text("BS"),
+                ),
+                Container(
+                  alignment: Alignment.center, // 子Widgetの配置
+                  margin: const EdgeInsets.all(10.0), // 外側余白
+                  padding: const EdgeInsets.all(10.0), // 内側余白
+                  width: 80,
+                  child: Text("FS"),
+                ),
+                Container(
+                  alignment: Alignment.center, // 子Widgetの配置
+                  margin: const EdgeInsets.all(10.0), // 外側余白
+                  padding: const EdgeInsets.all(10.0), // 内側余白
+                  width: 80,
+                  child: Text("GH"),
+                )
+              ],
             ),
-          ),
-          DataColumn(
-            label: Text(
-              '距離',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              '後視',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              '前視',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              '基準高',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
-        ],
-        // rows: [
-        //   DataRow(
-        //     cells: [
-        //       DataCell(TextButton(onPressed: () {}, child: Text("KBM4"))),
-        //       DataCell(Text('19')),
-        //       DataCell(Text('19')),
-        //       DataCell(Text('19')),
-        //       DataCell(Text('19')),
-        //     ],
-        //   ),
-        // ],
-        rows: List<DataRow>.generate(
-            5,
-            (index) => DataRow(
-                    selected: selectedIndex.contains(index),
-                    onSelectChanged: (value) {
-                      setState(() {
-                        if (value == true) {
-                          selectedIndex.add(index);
-                        } else {
-                          selectedIndex.remove(index);
-                        }
-                      });
-                    },
-                    cells: <DataCell>[
-                      // DataCell(Text('No ${index + 1}')),
-                      // DataCell(Text('$index + 1}')),
-                      // DataCell(Text('$index + 1}')),
-                      // DataCell(Text('$index + 1}')),
-                      // DataCell(Text('$index + 1}')),
-                      DataCell(TextField()),
-                      DataCell(TextField()),
-                      DataCell(TextField()),
-                      DataCell(TextField()),
-                      DataCell(TextField()),
-                    ])),
-      ),
-      const Divider(
-        height: 50,
-        thickness: 5,
-        indent: 0,
-        endIndent: 0,
-        color: Colors.green,
-      ),
-      // Headerを実装している
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            width: 80,
-            child: Text("地点"),
-          ),
-          Container(
-            width: 80,
-            child: Text("BS"),
-          ),
-          Container(
-            width: 80,
-            child: Text("FS"),
-          ),
-          Container(
-            width: 80,
-            child: Text("Result"),
-          )
-        ],
-      ),
-      // 表を実装している。
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            width: 80,
-            child: TextField(
-              controller: _tf1,
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(),
+            // 表を実装している。
+            for (int i = 0; i < 1; i++) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                    width: 50,
+                    child: TextField(
+                      controller: _pointController,
+                      decoration: InputDecoration(
+                        border: UnderlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 50,
+                    child: TextField(
+                      controller: _backSightController,
+                      decoration: InputDecoration(
+                        border: UnderlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 50,
+                    child: TextField(
+                      controller: _frontSightController,
+                      decoration: InputDecoration(
+                        border: UnderlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Text("${gh}")
+                ],
               ),
+            ],
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _pointController.clear();
+                  _backSightController.clear();
+                  _frontSightController.clear();
+                });
+              },
+              child: const Text('クリア'),
             ),
-          ),
-          Container(
-            width: 80,
-            child: TextField(
-              controller: _tf1,
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(),
-              ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  bs = double.parse(_backSightController.text);
+                  fs = double.parse(_frontSightController.text);
+                  CalculateGroundHeight();
+                });
+              },
+              child: const Text('Calculate'),
             ),
-          ),
-          Container(
-            width: 80,
-            child: TextField(
-              controller: _tf1,
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(),
-              ),
-            ),
-          ),
-          Container(
-            width: 80,
-            child: TextField(
-              controller: _tf1,
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(),
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ])));
+    );
   }
 }
