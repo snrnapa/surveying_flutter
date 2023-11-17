@@ -56,6 +56,9 @@ https://docs.google.com/presentation/d/1dn1KPM2g_FkbpsWe0QHkJ7rD3TzVsx_hTL99YhDH
 ## 参考サイト
 
 
+
+[複数のTextEditingControllerを作成する方法](https://zenn.dev/akinori25/articles/801c24178e782c)
+
 [textFieldの値を扱う](https://minoru-maru.com/%E3%80%90flutter%E3%80%91%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%83%9C%E3%83%83%E3%82%AF%E3%82%B9%E3%81%AB%E5%85%A5%E5%8A%9B%E3%81%95%E3%82%8C%E3%81%9F%E6%96%87%E5%AD%97%E5%88%97%E3%82%92%E6%89%B1/)
 [flutter初期ソースの説明](https://qiita.com/naoaki_kaito/items/ed77ee085ad61f951784)
 
