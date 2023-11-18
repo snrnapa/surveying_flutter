@@ -37,53 +37,80 @@ class _ToDoListPageState extends State<Surveying> {
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             title: Text("Surveying v1.0.0"),
           ),
-          body: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                width: 50,
-                height: 500,
-                child: ListView.builder(
-                  itemCount: _bsControllers.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return TextField(controller: _bsControllers[index]);
-                  },
-                  // itemBuilder: (BuildContext context, int index) {
-                  //   Text("[index]");
-                  // },
+          body: Card(
+            elevation: 4.0,
+            margin: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  height: 300,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text("Back"),
+                        Text("Front"),
+                        Text("Calc"),
+                      ]),
                 ),
-              ),
-              Container(
-                width: 50,
-                height: 500,
-                child: ListView.builder(
-                  itemCount: _fsControllers.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return TextField(controller: _fsControllers[index]);
-                  },
+                Container(
+                  width: double.infinity,
+                  height: 500,
+                  child: ListView.builder(
+                    itemCount: _bsControllers.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return TextField(
+                        controller: _bsControllers[index],
+                        keyboardType: TextInputType.number,
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Container(
-                width: 100,
-                // height: 500,
-                child: ListView.builder(
-                  itemCount: results.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return TextButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.teal),
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        '${results[index]}',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    );
-                  },
+                Container(
+                  width: double.infinity,
+                  height: 500,
+                  child: ListView.builder(
+                    itemCount: _fsControllers.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return TextField(
+                        controller: _fsControllers[index],
+                        keyboardType: TextInputType.number,
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+                Container(
+                  width: 100,
+                  // height: 500,
+                  child: ListView.builder(
+                    itemCount: results.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return TextButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.teal),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            int targetBs =
+                                int.parse(_bsControllers[index].text);
+                            int targetFs =
+                                int.parse(_fsControllers[index].text);
+                            results[index] = (targetBs + targetFs).toString();
+                          });
+                        },
+                        child: Text(
+                          '${results[index]}',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           )),
     );
   }
