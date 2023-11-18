@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'todo_item.dart';
-import 'todo_add_page.dart';
 
 class Surveying extends StatefulWidget {
   @override
@@ -15,9 +12,16 @@ class _ToDoListPageState extends State<Surveying> {
   double bs = 0;
   double fs = 0;
   double gh = 0;
-  final TextEditingController _pointController = TextEditingController();
-  final TextEditingController _backSightController = TextEditingController();
-  final TextEditingController _frontSightController = TextEditingController();
+
+  final List<TextEditingController> _bsControllers =
+      List.generate(5, (i) => TextEditingController());
+  final List<TextEditingController> _fsControllers =
+      List.generate(5, (i) => TextEditingController());
+  final List<TextEditingController> _resultControllers =
+      List.generate(5, (i) => TextEditingController());
+  // final TextEditingController _pointController = TextEditingController();
+  // final TextEditingController _backSightController = TextEditingController();
+  // final TextEditingController _frontSightController = TextEditingController();
 
   //FSとBSを合計しGHを算出する
   double CalculateGroundHeight() {
@@ -35,74 +39,44 @@ class _ToDoListPageState extends State<Surveying> {
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             title: Text("Surveying v1.0.0"),
           ),
-          body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text("地点"),
-                    Text("BackSight"),
-                    Text("FrontSight"),
-                    Text("GroundHeight"),
-                  ],
+          body: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                width: 50,
+                height: 500,
+                child: ListView.builder(
+                  itemCount: 5,
+                  itemBuilder: (BuildContext context, int index) {
+                    return TextField(controller: _bsControllers[index]);
+                  },
+                  // itemBuilder: (BuildContext context, int index) {
+                  //   Text("[index]");
+                  // },
                 ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(1),
-                      margin: EdgeInsets.all(10.0),
-                      height: 500,
-                      width: 100,
-                      color: Colors.blue,
-                      // padding: EdgeInsets.all(4),
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(5.0),
-                        itemCount: bsList.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text('${bsList[index]}'),
-                          );
-                        },
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(1),
-                      margin: EdgeInsets.all(10.0),
-                      height: 500,
-                      width: 100,
-                      color: Colors.blue,
-                      // padding: EdgeInsets.all(4),
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(5.0),
-                        itemCount: bsList.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text('${bsList[index]}'),
-                          );
-                        },
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(1),
-                      margin: EdgeInsets.all(10.0),
-                      height: 500,
-                      width: 100,
-                      color: Colors.blue,
-                      // padding: EdgeInsets.all(4),
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(5.0),
-                        itemCount: bsList.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text('${bsList[index]}'),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+              ),
+              Container(
+                width: 50,
+                height: 500,
+                child: ListView.builder(
+                  itemCount: 5,
+                  itemBuilder: (BuildContext context, int index) {
+                    return TextField(controller: _fsControllers[index]);
+                  },
                 ),
-              ])),
+              ),
+              Container(
+                width: 50,
+                height: 500,
+                child: ListView.builder(
+                  itemCount: 5,
+                  itemBuilder: (BuildContext context, int index) {
+                    return TextField(controller: _fsControllers[index]);
+                  },
+                ),
+              ),
+            ],
+          )),
     );
   }
 }

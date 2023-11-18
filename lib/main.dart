@@ -48,50 +48,52 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       resizeToAvoidBottomInset: false,
-      body: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(top: 32),
-            child: Text('Function List'),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 32),
+              child: Text('Function List'),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
 
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              ElevatedButton.icon(
-                focusNode: primaryFocus,
-                label: Text('Surveying'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Surveying()),
-                  );
-                },
-                icon: Icon(Icons.reorder),
-              ),
-              ElevatedButton.icon(
-                label: Text('Picture on Mapping'),
-                onPressed: () {},
-                icon: Icon(Icons.map),
-              ),
-              ElevatedButton.icon(
-                label: Text('Expenses'),
-                onPressed: () {},
-                icon: Icon(Icons.payment),
-              ),
-              ElevatedButton.icon(
-                label: Text('Setting'),
-                onPressed: () {},
-                icon: Icon(Icons.settings),
-              ),
-              Container(
-                width: double.infinity,
-                child: TextField(),
-              )
-            ],
-          )
-        ],
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                ElevatedButton.icon(
+                  focusNode: primaryFocus,
+                  label: Text('Surveying'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Surveying()),
+                    );
+                  },
+                  icon: Icon(Icons.reorder),
+                ),
+                ElevatedButton.icon(
+                  label: Text('Picture on Mapping'),
+                  onPressed: () {},
+                  icon: Icon(Icons.map),
+                ),
+                ElevatedButton.icon(
+                  label: Text('Expenses'),
+                  onPressed: () {},
+                  icon: Icon(Icons.payment),
+                ),
+                ElevatedButton.icon(
+                  label: Text('Setting'),
+                  onPressed: () {},
+                  icon: Icon(Icons.settings),
+                ),
+                Container(
+                  width: double.infinity,
+                  child: TextField(),
+                )
+              ],
+            )
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
