@@ -10,25 +10,28 @@ class _ToDoListPageState extends State<Surveying> {
   double fs = 0;
   double gh = 0;
 
+  // Pointの値をコントロールする
+  final List<TextEditingController> _pointControllers =
+      List.generate(10, (i) => TextEditingController());
+  // BSの値をコントロールする
   final List<TextEditingController> _bsControllers =
       List.generate(10, (i) => TextEditingController());
+  // FSの値をコントロールする
   final List<TextEditingController> _fsControllers =
       List.generate(10, (i) => TextEditingController());
 
-  final List<TextEditingController> _resultsContollers =
+  // GHの値をコントロールする
+  final List<TextEditingController> _ghController =
       List.generate(10, (i) => TextEditingController());
 
+  // 測点を連番で作成する
   final List<String> _pointList = List.generate(10, (i) => "No * $i");
 
   final List<String> results = List<String>.generate(10, (i) => "Item $i");
 
-  //FSとBSを合計しGHを算出する
-  double CalculateGroundHeight() {
-    gh = bs + fs;
-    return gh;
-  }
+  final List<bool> _kbmCheckList = List<bool>.generate(10, (i) => false);
 
-  final selectedIndex = <int>[];
+  // final selectedIndex = <int>[];
 
   @override
   Widget build(BuildContext context) {
@@ -65,28 +68,71 @@ class _ToDoListPageState extends State<Surveying> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Container(
-                        child: Column(
-                      children: [
-                        Text("Point"),
-                        Container(
-                          width: 50,
-                          height: 500,
-                          child: ListView.builder(
-                            itemCount: _pointList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return TextFormField(
-                                  readOnly: true,
-                                  initialValue: _pointList[index]);
-                            },
-                          ),
-                        ),
-                      ],
-                    )),
+                    // KBMのチェックボックスリストを作成する
                     Container(
                       child: Column(
                         children: [
-                          Text("Back"),
+                          Text(
+                            "kbm",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          Container(
+                            width: 50,
+                            height: 500,
+                            child: ListView.builder(
+                              itemCount: _kbmCheckList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Checkbox(
+                                  value: _kbmCheckList[index],
+                                  onChanged: (bool? checkedValue) {
+                                    setState(() {
+                                      _kbmCheckList[index] = checkedValue!;
+                                      _pointList[index] = "KBM";
+                                    });
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: [
+                          Text(
+                            "Point",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          Container(
+                            width: 50,
+                            height: 500,
+                            child: ListView.builder(
+                              itemCount: _pointList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return TextFormField(
+                                    readOnly: true,
+                                    // controller: _pointControllers[index]);
+                                    initialValue: _pointList[index]);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: [
+                          Text(
+                            "BS",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
                           Container(
                             width: 50,
                             height: 500,
@@ -104,7 +150,35 @@ class _ToDoListPageState extends State<Surveying> {
                     Container(
                       child: Column(
                         children: [
-                          Text("Front"),
+                          Text(
+                            "IH",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          Container(
+                            width: 50,
+                            height: 500,
+                            child: ListView.builder(
+                              itemCount: _bsControllers.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return TextFormField(
+                                    controller: _bsControllers[index]);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: [
+                          Text(
+                            "FS",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
                           Container(
                             width: 50,
                             height: 500,
@@ -122,7 +196,12 @@ class _ToDoListPageState extends State<Surveying> {
                     Container(
                         child: Column(
                       children: [
-                        Text("Calc"),
+                        Text(
+                          "GH",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
                         Container(
                           width: 100,
                           height: 500,
@@ -130,7 +209,7 @@ class _ToDoListPageState extends State<Surveying> {
                             itemCount: results.length,
                             itemBuilder: (BuildContext context, int index) {
                               return TextFormField(
-                                controller: _resultsContollers[index],
+                                controller: _ghController[index],
                                 readOnly: true,
                                 decoration: InputDecoration(
                                   prefixIcon: IconButton(
@@ -142,7 +221,7 @@ class _ToDoListPageState extends State<Surveying> {
                                             _fsControllers[index].text);
                                         results[index] =
                                             (targetBs + targetFs).toString();
-                                        _resultsContollers[index].text =
+                                        _ghController[index].text =
                                             results[index];
                                         print(results[index]);
                                       });
