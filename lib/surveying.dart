@@ -38,70 +38,112 @@ class _ToDoListPageState extends State<Surveying> {
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             title: Text("Surveying v1.0.0"),
           ),
-          body: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                width: 50,
-                height: 500,
-                child: ListView.builder(
-                  itemCount: _pointList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return TextFormField(
-                        readOnly: true, initialValue: _pointList[index]);
-                  },
+          body: Card(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: [
+                    Text(
+                      "NoteBook",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Icon(Icons.edit_note),
+                  ],
                 ),
-              ),
-              Container(
-                width: 50,
-                height: 500,
-                child: ListView.builder(
-                  itemCount: _bsControllers.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return TextFormField(controller: _bsControllers[index]);
-                  },
+                const Divider(
+                  height: 20,
+                  // thickness: 5,
+                  // indent: 20,
+                  endIndent: 0,
+                  color: Colors.black,
                 ),
-              ),
-              Container(
-                width: 50,
-                height: 500,
-                child: ListView.builder(
-                  itemCount: _fsControllers.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return TextFormField(controller: _fsControllers[index]);
-                  },
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text("Back"),
+                      Text("Front"),
+                      Text("Calc"),
+                      Text("Point"),
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                width: 100,
-                height: 500,
-                child: ListView.builder(
-                  itemCount: results.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return TextFormField(
-                      controller: _resultsContollers[index],
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        prefixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              int targetBs =
-                                  int.parse(_bsControllers[index].text);
-                              int targetFs =
-                                  int.parse(_fsControllers[index].text);
-                              results[index] = (targetBs + targetFs).toString();
-                              _resultsContollers[index].text = results[index];
-                              print(results[index]);
-                            });
-                          },
-                          icon: Icon(Icons.calculate),
-                        ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      width: 50,
+                      height: 500,
+                      child: ListView.builder(
+                        itemCount: _pointList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return TextFormField(
+                              readOnly: true, initialValue: _pointList[index]);
+                        },
                       ),
-                    );
-                  },
+                    ),
+                    Container(
+                      width: 50,
+                      height: 500,
+                      child: ListView.builder(
+                        itemCount: _bsControllers.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return TextFormField(
+                              controller: _bsControllers[index]);
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: 50,
+                      height: 500,
+                      child: ListView.builder(
+                        itemCount: _fsControllers.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return TextFormField(
+                              controller: _fsControllers[index]);
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: 100,
+                      height: 500,
+                      child: ListView.builder(
+                        itemCount: results.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return TextFormField(
+                            controller: _resultsContollers[index],
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              prefixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    int targetBs =
+                                        int.parse(_bsControllers[index].text);
+                                    int targetFs =
+                                        int.parse(_fsControllers[index].text);
+                                    results[index] =
+                                        (targetBs + targetFs).toString();
+                                    _resultsContollers[index].text =
+                                        results[index];
+                                    print(results[index]);
+                                  });
+                                },
+                                icon: Icon(Icons.calculate),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           )),
     );
   }
