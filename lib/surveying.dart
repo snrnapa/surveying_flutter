@@ -25,11 +25,17 @@ class _ToDoListPageState extends State<Surveying> {
       List.generate(10, (i) => TextEditingController());
 
   // 測点を連番で作成する
-  final List<String> _pointList = List.generate(10, (i) => "No * $i");
+  final List<String> _pointList = List.generate(10, (i) => "No.$i");
 
   final List<String> results = List<String>.generate(10, (i) => "Item $i");
 
-  final List<bool> _kbmCheckList = List<bool>.generate(10, (i) => false);
+  final List<bool> _bmCheckList = List<bool>.generate(10, (i) => false);
+
+  void GhCalclate(int index, String bs, String fs) {
+    int targetBs = int.parse(bs);
+    int targetFs = int.parse(fs);
+    _ghController[index].text = (targetBs + targetFs).toString();
+  }
 
   // final selectedIndex = <int>[];
 
@@ -68,12 +74,12 @@ class _ToDoListPageState extends State<Surveying> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    // KBMのチェックボックスリストを作成する
+                    // bmのチェックボックスリストを作成する
                     Container(
                       child: Column(
                         children: [
                           Text(
-                            "kbm",
+                            "bm",
                             style: TextStyle(
                               fontSize: 20,
                             ),
@@ -82,14 +88,13 @@ class _ToDoListPageState extends State<Surveying> {
                             width: 50,
                             height: 500,
                             child: ListView.builder(
-                              itemCount: _kbmCheckList.length,
+                              itemCount: _bmCheckList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Checkbox(
-                                  value: _kbmCheckList[index],
+                                  value: _bmCheckList[index],
                                   onChanged: (bool? checkedValue) {
                                     setState(() {
-                                      _kbmCheckList[index] = checkedValue!;
-                                      _pointList[index] = "KBM";
+                                      _bmCheckList[index] = checkedValue!;
                                     });
                                   },
                                 );
@@ -163,7 +168,8 @@ class _ToDoListPageState extends State<Surveying> {
                               itemCount: _bsControllers.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return TextFormField(
-                                    controller: _bsControllers[index]);
+                                    // controller: _Controllers[index]
+                                    );
                               },
                             ),
                           ),
@@ -215,15 +221,10 @@ class _ToDoListPageState extends State<Surveying> {
                                   prefixIcon: IconButton(
                                     onPressed: () {
                                       setState(() {
-                                        int targetBs = int.parse(
-                                            _bsControllers[index].text);
-                                        int targetFs = int.parse(
+                                        GhCalclate(
+                                            index,
+                                            _bsControllers[index].text,
                                             _fsControllers[index].text);
-                                        results[index] =
-                                            (targetBs + targetFs).toString();
-                                        _ghController[index].text =
-                                            results[index];
-                                        print(results[index]);
                                       });
                                     },
                                     icon: Icon(Icons.calculate),
