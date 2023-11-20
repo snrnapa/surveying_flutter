@@ -25,7 +25,7 @@ class _ToDoListPageState extends State<Surveying> {
       List.generate(10, (i) => TextEditingController());
 
   // GHの値をコントロールする
-  final List<TextEditingController> _ghController =
+  final List<TextEditingController> _ghControllers =
       List.generate(10, (i) => TextEditingController());
 
   // 測点を連番で作成する
@@ -35,13 +35,22 @@ class _ToDoListPageState extends State<Surveying> {
 
   final List<bool> _bmCheckList = List<bool>.generate(10, (i) => false);
 
-  void GhCalclate(int index, String bs, String fs) {
-    double targetBs = double.parse(bs);
+  void GhCalclate(int index, String gh, String fs, String lastFs) {
+    double targetGh = double.parse(gh);
     double targetFs = double.parse(fs);
-    _ghController[index].text = (targetBs + targetFs).toString();
+    double targetLastFs = 0;
+    if (!lastFs.isEmpty) {
+      targetLastFs = double.parse(lastFs);
+    }
+    _ghControllers[index].text =
+        (targetGh + targetFs - targetLastFs).toString();
   }
 
-  // final selectedIndex = <int>[];
+  void IhCalclate(int index, String baesGh, String bs) {
+    double targetBaseGh = double.parse(baesGh);
+    double targetBs = double.parse(bs);
+    _ihControllers[index].text = (targetBaseGh + targetBs).toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -233,16 +242,25 @@ class _ToDoListPageState extends State<Surveying> {
                             itemCount: results.length,
                             itemBuilder: (BuildContext context, int index) {
                               return TextFormField(
-                                controller: _ghController[index],
-                                readOnly: true,
+                                controller: _ghControllers[index],
+                                readOnly: !_bmCheckList[index],
                                 decoration: InputDecoration(
                                   prefixIcon: IconButton(
                                     onPressed: () {
                                       setState(() {
-                                        GhCalclate(
+                                        if (_bmCheckList[index]) {
+                                          IhCalclate(
                                             index,
+                                            _ghControllers[index].text,
                                             _bsControllers[index].text,
-                                            _fsControllers[index].text);
+                                          );
+                                        } else {
+                                          GhCalclate(
+                                              index,
+                                              _ghControllers[index - 1].text,
+                                              _fsControllers[index].text,
+                                              _fsControllers[index - 1].text);
+                                        }
                                       });
                                     },
                                     icon: Icon(Icons.calculate),
