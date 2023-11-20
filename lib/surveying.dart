@@ -20,6 +20,10 @@ class _ToDoListPageState extends State<Surveying> {
   final List<TextEditingController> _fsControllers =
       List.generate(10, (i) => TextEditingController());
 
+  // IHの値をコントロールする
+  final List<TextEditingController> _ihControllers =
+      List.generate(10, (i) => TextEditingController());
+
   // GHの値をコントロールする
   final List<TextEditingController> _ghController =
       List.generate(10, (i) => TextEditingController());
@@ -32,8 +36,8 @@ class _ToDoListPageState extends State<Surveying> {
   final List<bool> _bmCheckList = List<bool>.generate(10, (i) => false);
 
   void GhCalclate(int index, String bs, String fs) {
-    int targetBs = int.parse(bs);
-    int targetFs = int.parse(fs);
+    double targetBs = double.parse(bs);
+    double targetFs = double.parse(fs);
     _ghController[index].text = (targetBs + targetFs).toString();
   }
 
@@ -145,7 +149,12 @@ class _ToDoListPageState extends State<Surveying> {
                               itemCount: _bsControllers.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return TextFormField(
-                                    controller: _bsControllers[index]);
+                                  enabled: _bmCheckList[index],
+                                  controller: _bsControllers[index],
+                                  decoration: InputDecoration(
+                                      filled: !_bmCheckList[index],
+                                      fillColor: Colors.black12),
+                                );
                               },
                             ),
                           ),
@@ -168,8 +177,12 @@ class _ToDoListPageState extends State<Surveying> {
                               itemCount: _bsControllers.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return TextFormField(
-                                    // controller: _Controllers[index]
-                                    );
+                                  enabled: _bmCheckList[index],
+                                  controller: _ihControllers[index],
+                                  decoration: InputDecoration(
+                                      filled: !_bmCheckList[index],
+                                      fillColor: Colors.black12),
+                                );
                               },
                             ),
                           ),
@@ -192,7 +205,12 @@ class _ToDoListPageState extends State<Surveying> {
                               itemCount: _bsControllers.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return TextFormField(
-                                    controller: _fsControllers[index]);
+                                  enabled: !_bmCheckList[index],
+                                  controller: _fsControllers[index],
+                                  decoration: InputDecoration(
+                                      filled: _bmCheckList[index],
+                                      fillColor: Colors.black12),
+                                );
                               },
                             ),
                           ),
