@@ -10,6 +10,11 @@ class _ToDoListPageState extends State<Surveying> {
   double fs = 0;
   double gh = 0;
 
+  double textWidth = 60;
+  double textSize = 15;
+  double fieldTextSize = 13;
+  double iconFieldSize = 100;
+
   // Pointの値をコントロールする
   final List<TextEditingController> _pointControllers =
       List.generate(10, (i) => TextEditingController());
@@ -71,7 +76,7 @@ class _ToDoListPageState extends State<Surveying> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.blue,
-                          fontSize: 20,
+                          fontSize: textSize,
                           fontWeight: FontWeight.bold),
                     ),
                     Icon(Icons.edit_note),
@@ -79,8 +84,6 @@ class _ToDoListPageState extends State<Surveying> {
                 ),
                 const Divider(
                   height: 20,
-                  // thickness: 5,
-                  // indent: 20,
                   endIndent: 0,
                   color: Colors.black,
                 ),
@@ -94,11 +97,11 @@ class _ToDoListPageState extends State<Surveying> {
                           Text(
                             "bm",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 15,
                             ),
                           ),
                           Container(
-                            width: 50,
+                            width: 20,
                             height: 500,
                             child: ListView.builder(
                               itemCount: _bmCheckList.length,
@@ -123,16 +126,19 @@ class _ToDoListPageState extends State<Surveying> {
                           Text(
                             "Point",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: textSize,
                             ),
                           ),
                           Container(
-                            width: 50,
+                            width: textWidth,
                             height: 500,
                             child: ListView.builder(
                               itemCount: _pointList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return TextFormField(
+                                    style: TextStyle(
+                                      fontSize: fieldTextSize,
+                                    ),
                                     readOnly: true,
                                     // controller: _pointControllers[index]);
                                     initialValue: _pointList[index]);
@@ -148,16 +154,19 @@ class _ToDoListPageState extends State<Surveying> {
                           Text(
                             "BS",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: textSize,
                             ),
                           ),
                           Container(
-                            width: 50,
+                            width: textWidth,
                             height: 500,
                             child: ListView.builder(
                               itemCount: _bsControllers.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return TextFormField(
+                                  style: TextStyle(
+                                    fontSize: fieldTextSize,
+                                  ),
                                   enabled: _bmCheckList[index],
                                   controller: _bsControllers[index],
                                   decoration: InputDecoration(
@@ -176,21 +185,23 @@ class _ToDoListPageState extends State<Surveying> {
                           Text(
                             "IH",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: textSize,
                             ),
                           ),
                           Container(
-                            width: 50,
+                            width: textWidth,
                             height: 500,
                             child: ListView.builder(
                               itemCount: _bsControllers.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return TextFormField(
-                                  enabled: _bmCheckList[index],
+                                  style: TextStyle(
+                                    fontSize: fieldTextSize,
+                                  ),
+                                  enabled: true,
                                   controller: _ihControllers[index],
                                   decoration: InputDecoration(
-                                      filled: !_bmCheckList[index],
-                                      fillColor: Colors.black12),
+                                      filled: true, fillColor: Colors.black12),
                                 );
                               },
                             ),
@@ -204,16 +215,19 @@ class _ToDoListPageState extends State<Surveying> {
                           Text(
                             "FS",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: textSize,
                             ),
                           ),
                           Container(
-                            width: 50,
+                            width: textWidth,
                             height: 500,
                             child: ListView.builder(
                               itemCount: _bsControllers.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return TextFormField(
+                                  style: TextStyle(
+                                    fontSize: fieldTextSize,
+                                  ),
                                   enabled: !_bmCheckList[index],
                                   controller: _fsControllers[index],
                                   decoration: InputDecoration(
@@ -232,16 +246,19 @@ class _ToDoListPageState extends State<Surveying> {
                         Text(
                           "GH",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: textSize,
                           ),
                         ),
                         Container(
-                          width: 100,
+                          width: iconFieldSize,
                           height: 500,
                           child: ListView.builder(
                             itemCount: results.length,
                             itemBuilder: (BuildContext context, int index) {
                               return TextFormField(
+                                style: TextStyle(
+                                  fontSize: fieldTextSize,
+                                ),
                                 controller: _ghControllers[index],
                                 readOnly: !_bmCheckList[index],
                                 decoration: InputDecoration(
