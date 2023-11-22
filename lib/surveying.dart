@@ -14,6 +14,7 @@ class _ToDoListPageState extends State<Surveying> {
   double textSize = 15;
   double fieldTextSize = 13;
   double iconFieldSize = 100;
+  double elementHeight = 600;
 
   // Pointの値をコントロールする
   final List<TextEditingController> _pointControllers =
@@ -65,233 +66,236 @@ class _ToDoListPageState extends State<Surveying> {
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             title: Text("Surveying v1.0.0"),
           ),
-          body: Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: [
-                    Text(
-                      "NoteBook",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: textSize,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Icon(Icons.edit_note),
-                  ],
-                ),
-                const Divider(
-                  height: 20,
-                  endIndent: 0,
-                  color: Colors.black,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    // bmのチェックボックスリストを作成する
-                    Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            "bm",
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
-                          ),
-                          Container(
-                            width: 20,
-                            height: 500,
-                            child: ListView.builder(
-                              itemCount: _bmCheckList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Checkbox(
-                                  value: _bmCheckList[index],
-                                  onChanged: (bool? checkedValue) {
-                                    setState(() {
-                                      _bmCheckList[index] = checkedValue!;
-                                    });
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+          body: SingleChildScrollView(
+            child: Card(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Text(
+                        "NoteBook",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: textSize,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            "Point",
-                            style: TextStyle(
-                              fontSize: textSize,
+                      Icon(Icons.edit_note),
+                    ],
+                  ),
+                  const Divider(
+                    height: 20,
+                    endIndent: 0,
+                    color: Colors.black,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      // bmのチェックボックスリストを作成する
+                      Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              "bm",
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
                             ),
-                          ),
-                          Container(
-                            width: textWidth,
-                            height: 500,
-                            child: ListView.builder(
-                              itemCount: _pointList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return TextFormField(
+                            Container(
+                              width: 20,
+                              height: elementHeight,
+                              child: ListView.builder(
+                                itemCount: _bmCheckList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Checkbox(
+                                    value: _bmCheckList[index],
+                                    onChanged: (bool? checkedValue) {
+                                      setState(() {
+                                        _bmCheckList[index] = checkedValue!;
+                                      });
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Point",
+                              style: TextStyle(
+                                fontSize: textSize,
+                              ),
+                            ),
+                            Container(
+                              width: textWidth,
+                              height: elementHeight,
+                              child: ListView.builder(
+                                itemCount: _pointList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return TextFormField(
+                                      style: TextStyle(
+                                        fontSize: fieldTextSize,
+                                      ),
+                                      readOnly: true,
+                                      // controller: _pointControllers[index]);
+                                      initialValue: _pointList[index]);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              "BS",
+                              style: TextStyle(
+                                fontSize: textSize,
+                              ),
+                            ),
+                            Container(
+                              width: textWidth,
+                              height: elementHeight,
+                              child: ListView.builder(
+                                itemCount: _bsControllers.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return TextFormField(
                                     style: TextStyle(
                                       fontSize: fieldTextSize,
                                     ),
-                                    readOnly: true,
-                                    // controller: _pointControllers[index]);
-                                    initialValue: _pointList[index]);
-                              },
+                                    enabled: _bmCheckList[index],
+                                    controller: _bsControllers[index],
+                                    decoration: InputDecoration(
+                                        filled: !_bmCheckList[index],
+                                        fillColor: Colors.black12),
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            "BS",
-                            style: TextStyle(
-                              fontSize: textSize,
-                            ),
-                          ),
-                          Container(
-                            width: textWidth,
-                            height: 500,
-                            child: ListView.builder(
-                              itemCount: _bsControllers.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return TextFormField(
-                                  style: TextStyle(
-                                    fontSize: fieldTextSize,
-                                  ),
-                                  enabled: _bmCheckList[index],
-                                  controller: _bsControllers[index],
-                                  decoration: InputDecoration(
-                                      filled: !_bmCheckList[index],
-                                      fillColor: Colors.black12),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            "IH",
-                            style: TextStyle(
-                              fontSize: textSize,
-                            ),
-                          ),
-                          Container(
-                            width: textWidth,
-                            height: 500,
-                            child: ListView.builder(
-                              itemCount: _bsControllers.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return TextFormField(
-                                  style: TextStyle(
-                                    fontSize: fieldTextSize,
-                                  ),
-                                  enabled: true,
-                                  controller: _ihControllers[index],
-                                  decoration: InputDecoration(
-                                      filled: true, fillColor: Colors.black12),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            "FS",
-                            style: TextStyle(
-                              fontSize: textSize,
-                            ),
-                          ),
-                          Container(
-                            width: textWidth,
-                            height: 500,
-                            child: ListView.builder(
-                              itemCount: _bsControllers.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return TextFormField(
-                                  style: TextStyle(
-                                    fontSize: fieldTextSize,
-                                  ),
-                                  enabled: !_bmCheckList[index],
-                                  controller: _fsControllers[index],
-                                  decoration: InputDecoration(
-                                      filled: _bmCheckList[index],
-                                      fillColor: Colors.black12),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                        child: Column(
-                      children: [
-                        Text(
-                          "GH",
-                          style: TextStyle(
-                            fontSize: textSize,
-                          ),
+                          ],
                         ),
-                        Container(
-                          width: iconFieldSize,
-                          height: 500,
-                          child: ListView.builder(
-                            itemCount: results.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return TextFormField(
-                                style: TextStyle(
-                                  fontSize: fieldTextSize,
-                                ),
-                                controller: _ghControllers[index],
-                                readOnly: !_bmCheckList[index],
-                                decoration: InputDecoration(
-                                  prefixIcon: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (_bmCheckList[index]) {
-                                          IhCalclate(
-                                            index,
-                                            _ghControllers[index].text,
-                                            _bsControllers[index].text,
-                                          );
-                                        } else {
-                                          GhCalclate(
-                                              index,
-                                              _ghControllers[index - 1].text,
-                                              _fsControllers[index].text,
-                                              _fsControllers[index - 1].text);
-                                        }
-                                      });
-                                    },
-                                    icon: Icon(Icons.calculate),
-                                  ),
-                                ),
-                              );
-                            },
+                      ),
+                      Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              "IH",
+                              style: TextStyle(
+                                fontSize: textSize,
+                              ),
+                            ),
+                            Container(
+                              width: textWidth,
+                              height: elementHeight,
+                              child: ListView.builder(
+                                itemCount: _bsControllers.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return TextFormField(
+                                    style: TextStyle(
+                                      fontSize: fieldTextSize,
+                                    ),
+                                    enabled: true,
+                                    controller: _ihControllers[index],
+                                    decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.black12),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              "FS",
+                              style: TextStyle(
+                                fontSize: textSize,
+                              ),
+                            ),
+                            Container(
+                              width: textWidth,
+                              height: elementHeight,
+                              child: ListView.builder(
+                                itemCount: _bsControllers.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return TextFormField(
+                                    style: TextStyle(
+                                      fontSize: fieldTextSize,
+                                    ),
+                                    enabled: !_bmCheckList[index],
+                                    controller: _fsControllers[index],
+                                    decoration: InputDecoration(
+                                        filled: _bmCheckList[index],
+                                        fillColor: Colors.black12),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          child: Column(
+                        children: [
+                          Text(
+                            "GH",
+                            style: TextStyle(
+                              fontSize: textSize,
+                            ),
                           ),
-                        )
-                      ],
-                    )),
-                  ],
-                ),
-              ],
+                          Container(
+                            width: iconFieldSize,
+                            height: elementHeight,
+                            child: ListView.builder(
+                              itemCount: results.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return TextFormField(
+                                  style: TextStyle(
+                                    fontSize: fieldTextSize,
+                                  ),
+                                  controller: _ghControllers[index],
+                                  readOnly: !_bmCheckList[index],
+                                  decoration: InputDecoration(
+                                    prefixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          if (_bmCheckList[index]) {
+                                            IhCalclate(
+                                              index,
+                                              _ghControllers[index].text,
+                                              _bsControllers[index].text,
+                                            );
+                                          } else {
+                                            GhCalclate(
+                                                index,
+                                                _ghControllers[index - 1].text,
+                                                _fsControllers[index].text,
+                                                _fsControllers[index - 1].text);
+                                          }
+                                        });
+                                      },
+                                      icon: Icon(Icons.calculate),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      )),
+                    ],
+                  ),
+                ],
+              ),
             ),
           )),
     );
