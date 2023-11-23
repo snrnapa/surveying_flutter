@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'components/bs_list_container.dart';
+import 'components/fs_list_container.dart';
+import 'components/ih_list_container.dart';
+import 'components/header_text.dart';
+import 'components/list_container.dart';
 
 class Surveying extends StatefulWidget {
   @override
@@ -16,9 +21,6 @@ class _ToDoListPageState extends State<Surveying> {
   double iconFieldSize = 100;
   double elementHeight = 600;
 
-  // Pointの値をコントロールする
-  final List<TextEditingController> _pointControllers =
-      List.generate(10, (i) => TextEditingController());
   // BSの値をコントロールする
   final List<TextEditingController> _bsControllers =
       List.generate(10, (i) => TextEditingController());
@@ -209,146 +211,6 @@ class _ToDoListPageState extends State<Surveying> {
               ),
             ),
           )),
-    );
-  }
-}
-
-class HeaderText extends StatelessWidget {
-  const HeaderText({
-    Key? key,
-    required this.dispText,
-  }) : super(key: key);
-  final String dispText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      dispText,
-      style: TextStyle(
-        fontSize: 15,
-      ),
-    );
-  }
-}
-
-class ListContainer extends StatelessWidget {
-  const ListContainer({
-    Key? key,
-    required this.eleList,
-  }) : super(key: key);
-  final List<String> eleList;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 60,
-      height: 600,
-      child: ListView.builder(
-        itemCount: eleList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return TextFormField(
-              style: TextStyle(
-                fontSize: 13,
-              ),
-              readOnly: true,
-              // controller: _pointControllers[index]);
-              initialValue: eleList[index]);
-        },
-      ),
-    );
-  }
-}
-
-class BSListContainer extends StatelessWidget {
-  const BSListContainer({
-    Key? key,
-    required this.eleList,
-    required this.bmCheckList,
-  }) : super(key: key);
-  final List<TextEditingController> eleList;
-  final List<bool> bmCheckList;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 60,
-      height: 600,
-      child: ListView.builder(
-        itemCount: eleList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return TextFormField(
-            style: TextStyle(
-              fontSize: 13,
-            ),
-            enabled: bmCheckList[index],
-            controller: eleList[index],
-            decoration: InputDecoration(
-                filled: !bmCheckList[index], fillColor: Colors.black12),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class IHListContainer extends StatelessWidget {
-  const IHListContainer({
-    Key? key,
-    required this.eleList,
-  }) : super(key: key);
-  final List<TextEditingController> eleList;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 60,
-      height: 600,
-      child: ListView.builder(
-        itemCount: eleList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return TextFormField(
-            style: TextStyle(
-              fontSize: 13,
-            ),
-            enabled: true,
-            controller: eleList[index],
-            decoration:
-                InputDecoration(filled: true, fillColor: Colors.black12),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class FSListContainer extends StatelessWidget {
-  const FSListContainer({
-    Key? key,
-    required this.eleList,
-    required this.bmCheckList,
-  }) : super(key: key);
-  final List<TextEditingController> eleList;
-  final List<bool> bmCheckList;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 60,
-      height: 600,
-      child: ListView.builder(
-        itemCount: eleList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return TextFormField(
-            style: TextStyle(
-              fontSize: 13,
-            ),
-            enabled: !bmCheckList[index],
-            controller: eleList[index],
-            decoration: InputDecoration(
-                filled: bmCheckList[index], fillColor: Colors.black12),
-          );
-        },
-      ),
     );
   }
 }
