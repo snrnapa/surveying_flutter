@@ -96,12 +96,7 @@ class _ToDoListPageState extends State<Surveying> {
                       Container(
                         child: Column(
                           children: [
-                            Text(
-                              "bm",
-                              style: TextStyle(
-                                fontSize: 15,
-                              ),
-                            ),
+                            HeaderText(dispText: "BM"),
                             Container(
                               width: 20,
                               height: elementHeight,
@@ -125,12 +120,7 @@ class _ToDoListPageState extends State<Surveying> {
                       Container(
                         child: Column(
                           children: [
-                            Text(
-                              "Point",
-                              style: TextStyle(
-                                fontSize: textSize,
-                              ),
-                            ),
+                            HeaderText(dispText: "Point"),
                             Container(
                               width: textWidth,
                               height: elementHeight,
@@ -153,12 +143,7 @@ class _ToDoListPageState extends State<Surveying> {
                       Container(
                         child: Column(
                           children: [
-                            Text(
-                              "BS",
-                              style: TextStyle(
-                                fontSize: textSize,
-                              ),
-                            ),
+                            HeaderText(dispText: "BS"),
                             Container(
                               width: textWidth,
                               height: elementHeight,
@@ -184,12 +169,7 @@ class _ToDoListPageState extends State<Surveying> {
                       Container(
                         child: Column(
                           children: [
-                            Text(
-                              "IH",
-                              style: TextStyle(
-                                fontSize: textSize,
-                              ),
-                            ),
+                            HeaderText(dispText: "IH"),
                             Container(
                               width: textWidth,
                               height: elementHeight,
@@ -215,12 +195,7 @@ class _ToDoListPageState extends State<Surveying> {
                       Container(
                         child: Column(
                           children: [
-                            Text(
-                              "FS",
-                              style: TextStyle(
-                                fontSize: textSize,
-                              ),
-                            ),
+                            HeaderText(dispText: "FS"),
                             Container(
                               width: textWidth,
                               height: elementHeight,
@@ -298,6 +273,24 @@ class _ToDoListPageState extends State<Surveying> {
               ),
             ),
           )),
+    );
+  }
+}
+
+class HeaderText extends StatelessWidget {
+  const HeaderText({
+    Key? key,
+    required this.dispText,
+  }) : super(key: key);
+  final String dispText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      dispText,
+      style: TextStyle(
+        fontSize: 15,
+      ),
     );
   }
 }
