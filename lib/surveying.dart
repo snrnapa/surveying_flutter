@@ -121,22 +121,7 @@ class _ToDoListPageState extends State<Surveying> {
                         child: Column(
                           children: [
                             HeaderText(dispText: "Point"),
-                            Container(
-                              width: textWidth,
-                              height: elementHeight,
-                              child: ListView.builder(
-                                itemCount: _pointList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return TextFormField(
-                                      style: TextStyle(
-                                        fontSize: fieldTextSize,
-                                      ),
-                                      readOnly: true,
-                                      // controller: _pointControllers[index]);
-                                      initialValue: _pointList[index]);
-                                },
-                              ),
-                            ),
+                            ListContainer(eleList: _pointList),
                           ],
                         ),
                       ),
@@ -144,25 +129,9 @@ class _ToDoListPageState extends State<Surveying> {
                         child: Column(
                           children: [
                             HeaderText(dispText: "BS"),
-                            Container(
-                              width: textWidth,
-                              height: elementHeight,
-                              child: ListView.builder(
-                                itemCount: _bsControllers.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return TextFormField(
-                                    style: TextStyle(
-                                      fontSize: fieldTextSize,
-                                    ),
-                                    enabled: _bmCheckList[index],
-                                    controller: _bsControllers[index],
-                                    decoration: InputDecoration(
-                                        filled: !_bmCheckList[index],
-                                        fillColor: Colors.black12),
-                                  );
-                                },
-                              ),
-                            ),
+                            BSListContainer(
+                                eleList: _bsControllers,
+                                bmCheckList: _bmCheckList),
                           ],
                         ),
                       ),
@@ -170,25 +139,7 @@ class _ToDoListPageState extends State<Surveying> {
                         child: Column(
                           children: [
                             HeaderText(dispText: "IH"),
-                            Container(
-                              width: textWidth,
-                              height: elementHeight,
-                              child: ListView.builder(
-                                itemCount: _bsControllers.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return TextFormField(
-                                    style: TextStyle(
-                                      fontSize: fieldTextSize,
-                                    ),
-                                    enabled: true,
-                                    controller: _ihControllers[index],
-                                    decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.black12),
-                                  );
-                                },
-                              ),
-                            ),
+                            IHListContainer(eleList: _ihControllers),
                           ],
                         ),
                       ),
@@ -196,24 +147,9 @@ class _ToDoListPageState extends State<Surveying> {
                         child: Column(
                           children: [
                             HeaderText(dispText: "FS"),
-                            Container(
-                              width: textWidth,
-                              height: elementHeight,
-                              child: ListView.builder(
-                                itemCount: _bsControllers.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return TextFormField(
-                                    style: TextStyle(
-                                      fontSize: fieldTextSize,
-                                    ),
-                                    enabled: !_bmCheckList[index],
-                                    controller: _fsControllers[index],
-                                    decoration: InputDecoration(
-                                        filled: _bmCheckList[index],
-                                        fillColor: Colors.black12),
-                                  );
-                                },
-                              ),
+                            FSListContainer(
+                              eleList: _fsControllers,
+                              bmCheckList: _bmCheckList,
                             ),
                           ],
                         ),
@@ -290,6 +226,128 @@ class HeaderText extends StatelessWidget {
       dispText,
       style: TextStyle(
         fontSize: 15,
+      ),
+    );
+  }
+}
+
+class ListContainer extends StatelessWidget {
+  const ListContainer({
+    Key? key,
+    required this.eleList,
+  }) : super(key: key);
+  final List<String> eleList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 60,
+      height: 600,
+      child: ListView.builder(
+        itemCount: eleList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return TextFormField(
+              style: TextStyle(
+                fontSize: 13,
+              ),
+              readOnly: true,
+              // controller: _pointControllers[index]);
+              initialValue: eleList[index]);
+        },
+      ),
+    );
+  }
+}
+
+class BSListContainer extends StatelessWidget {
+  const BSListContainer({
+    Key? key,
+    required this.eleList,
+    required this.bmCheckList,
+  }) : super(key: key);
+  final List<TextEditingController> eleList;
+  final List<bool> bmCheckList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 60,
+      height: 600,
+      child: ListView.builder(
+        itemCount: eleList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return TextFormField(
+            style: TextStyle(
+              fontSize: 13,
+            ),
+            enabled: bmCheckList[index],
+            controller: eleList[index],
+            decoration: InputDecoration(
+                filled: !bmCheckList[index], fillColor: Colors.black12),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class IHListContainer extends StatelessWidget {
+  const IHListContainer({
+    Key? key,
+    required this.eleList,
+  }) : super(key: key);
+  final List<TextEditingController> eleList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 60,
+      height: 600,
+      child: ListView.builder(
+        itemCount: eleList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return TextFormField(
+            style: TextStyle(
+              fontSize: 13,
+            ),
+            enabled: true,
+            controller: eleList[index],
+            decoration:
+                InputDecoration(filled: true, fillColor: Colors.black12),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class FSListContainer extends StatelessWidget {
+  const FSListContainer({
+    Key? key,
+    required this.eleList,
+    required this.bmCheckList,
+  }) : super(key: key);
+  final List<TextEditingController> eleList;
+  final List<bool> bmCheckList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 60,
+      height: 600,
+      child: ListView.builder(
+        itemCount: eleList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return TextFormField(
+            style: TextStyle(
+              fontSize: 13,
+            ),
+            enabled: !bmCheckList[index],
+            controller: eleList[index],
+            decoration: InputDecoration(
+                filled: bmCheckList[index], fillColor: Colors.black12),
+          );
+        },
       ),
     );
   }
