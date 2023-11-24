@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:surveying_app/database_init.dart';
 import 'package:surveying_app/surveying.dart';
 
 void main() {
@@ -32,6 +33,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final dbInit = DatabaseInit.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,12 +68,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ElevatedButton.icon(
                   label: Text('Picture on Mapping'),
-                  onPressed: () {},
+                  onPressed: _insert,
                   icon: Icon(Icons.map),
                 ),
                 ElevatedButton.icon(
                   label: Text('Expenses'),
-                  onPressed: () {},
+                  onPressed: _query,
                   icon: Icon(Icons.payment),
                 ),
                 ElevatedButton.icon(
@@ -88,5 +91,23 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  // 登録ボタンクリック
+  void _insert() async {
+    // row to insert
+    Map<String, dynamic> row = {
+      DatabaseInit.columnName: '山田 太郎',
+      DatabaseInit.columnAge: 35
+    };
+    final id = await dbInit.insert(row);
+    print('登録しました。id: $id');
+  }
+
+  // 照会ボタンクリック
+  void _query() async {
+    final allRows = await dbInit.queryAllRows();
+    print('全てのデータを照会しました。');
+    allRows.forEach(print);
   }
 }

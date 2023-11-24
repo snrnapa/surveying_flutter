@@ -55,6 +55,8 @@ https://docs.google.com/presentation/d/1dn1KPM2g_FkbpsWe0QHkJ7rD3TzVsx_hTL99YhDH
 
 ## 参考サイト
 
+[DB接続の参考サイト](https://yakiimosan.com/flutter-sqlite-basic/#index_id0)
+
 
 
 [複数のTextEditingControllerを作成する方法](https://zenn.dev/akinori25/articles/801c24178e782c)
