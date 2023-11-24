@@ -7,10 +7,10 @@ import 'components/list_container.dart';
 
 class Surveying extends StatefulWidget {
   @override
-  _ToDoListPageState createState() => _ToDoListPageState();
+  _SurveyingPageState createState() => _SurveyingPageState();
 }
 
-class _ToDoListPageState extends State<Surveying> {
+class _SurveyingPageState extends State<Surveying> {
   double bs = 0;
   double fs = 0;
   double gh = 0;
