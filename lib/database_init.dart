@@ -5,14 +5,14 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseInit {
-  static final _databaseName = "MyDatabase.db"; // DB名
+  static final _databaseName = "Surveying.db"; // DB名
   static final _databaseVersion = 1; // スキーマのバージョン指定
 
-  static final table = 'my_table'; // テーブル名
+  static final table = 'mst_surveying'; // テーブル名
 
   static final columnId = '_id'; // カラム名：ID
-  static final columnName = 'name'; // カラム名:Name
-  static final columnAge = 'age'; // カラム名：age
+  static final columnSceneName = 'scene_name'; // カラム名:Name
+  static final columnSceneSeq = 'scene_seq'; // カラム名：age
 
   // DatabaseInit クラスを定義
   DatabaseInit._privateConstructor();
@@ -58,8 +58,8 @@ class DatabaseInit {
     await db.execute('''
           CREATE TABLE $table (
             $columnId INTEGER PRIMARY KEY,
-            $columnName TEXT NOT NULL,
-            $columnAge INTEGER NOT NULL
+            $columnSceneName TEXT NOT NULL,
+            $columnSceneSeq INTEGER NOT NULL
           )
           ''');
   }

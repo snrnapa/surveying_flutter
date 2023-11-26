@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ElevatedButton.icon(
                   label: Text('Picture on Mapping'),
-                  onPressed: _insert,
+                  onPressed: () => _insert('2', 'テスト改修工事', '1'),
                   icon: Icon(Icons.map),
                 ),
                 ElevatedButton.icon(
@@ -94,14 +94,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // 登録ボタンクリック
-  void _insert() async {
+  void _insert(sceneId, name, seq) async {
     // row to insert
+    // Map<String, dynamic> row = {
+    //   DatabaseInit.columnId: '0001',
+    //   DatabaseInit.columnSceneName: 'Napa市改修工事',
+    //   DatabaseInit.columnSceneSeq: 1
+    // };
     Map<String, dynamic> row = {
-      DatabaseInit.columnName: '山田 太郎',
-      DatabaseInit.columnAge: 35
+      DatabaseInit.columnId: sceneId,
+      DatabaseInit.columnSceneName: name,
+      DatabaseInit.columnSceneSeq: seq
     };
     final id = await dbInit.insert(row);
-    print('登録しました。id: $id');
+    print('登録しました。id: $sceneId');
   }
 
   // 照会ボタンクリック
