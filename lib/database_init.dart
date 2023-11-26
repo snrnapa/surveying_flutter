@@ -9,10 +9,10 @@ class DatabaseInit {
   static final _databaseVersion = 1; // スキーマのバージョン指定
 
   static final table = 'mst_surveying'; // テーブル名
-
-  static final columnId = '_id'; // カラム名：ID
-  static final columnSceneName = 'scene_name'; // カラム名:Name
-  static final columnSceneSeq = 'scene_seq'; // カラム名：age
+  static final columnId = '_id';
+  static final columnSceneName = 'scene_name';
+  static final columnSceneSeq = 'scene_seq';
+  static final columnUpdDate = 'upd_date';
 
   // DatabaseInit クラスを定義
   DatabaseInit._privateConstructor();
@@ -56,10 +56,10 @@ class DatabaseInit {
   // スキーマーのバージョンはテーブル変更時にバージョンを上げる（テーブル・カラム追加・変更・削除など）
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-          CREATE TABLE $table (
-            $columnId INTEGER PRIMARY KEY,
-            $columnSceneName TEXT NOT NULL,
-            $columnSceneSeq INTEGER NOT NULL
+          CREATE TABLE mst_surveying (
+            id INTEGER PRIMARY KEY,
+            scene_name TEXT NOT NULL,
+            scene_seq INTEGER NOT NULL PRIMARY KEY
           )
           ''');
   }
