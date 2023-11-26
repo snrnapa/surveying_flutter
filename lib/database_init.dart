@@ -60,6 +60,7 @@ class DatabaseInit {
             id INTEGER PRIMARY KEY,
             scene_name TEXT NOT NULL,
             scene_seq INTEGER NOT NULL PRIMARY KEY
+            upd_date TEXT
           )
           ''');
   }
