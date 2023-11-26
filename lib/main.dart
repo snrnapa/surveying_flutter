@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:surveying_app/database_init.dart';
-import 'package:surveying_app/surveying.dart';
+import 'package:surveying_app/surveying_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Surveying()),
+                      MaterialPageRoute(builder: (context) => SurveyingList()),
                     );
                   },
                   icon: Icon(Icons.reorder),
