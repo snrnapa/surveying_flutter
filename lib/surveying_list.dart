@@ -19,14 +19,33 @@ class _SurveyingListPageState extends State<SurveyingList> {
   DateFormat format = DateFormat('yyyy-MM-dd hh:mm:ss');
 
   void _insert() async {
+    final maxId = await dbInit.queryMaxId();
+
+    int targetId = 0;
+
+    if (maxId != null) {
+      targetId = maxId + 1;
+    }
+
     Map<String, dynamic> row = {
-      "id": 1,
+      "id": targetId,
       "scene_name": sceneNameController.text,
       "scene_seq": 1,
       "upd_date": format.format(now),
     };
     final id = await dbInit.insert(row);
     print('登録しました。id: $id');
+  }
+
+  void _query() async {
+    final allRows = await dbInit.queryAllRows();
+    print('全てのデータを照会しました。');
+    allRows.forEach(print);
+  }
+
+  Future<int?> getMaxId() async {
+    final allRows = await dbInit.queryMaxId();
+    print(allRows);
   }
 
   @override
@@ -62,6 +81,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
                 children: [
                   ListTile(
                     title: TextField(
+                      controller: sceneNameController,
                       decoration: InputDecoration(labelText: "Scene Name"),
                     ),
                     subtitle: TextField(
@@ -72,6 +92,12 @@ class _SurveyingListPageState extends State<SurveyingList> {
                 ],
               ),
             ),
+            Column(
+              children: [
+                TextButton(onPressed: () => {getMaxId()}, child: Text("最大ID")),
+                TextButton(onPressed: () => {_query()}, child: Text("全検索")),
+              ],
+            )
           ],
         ),
         floatingActionButton: FloatingActionButton(

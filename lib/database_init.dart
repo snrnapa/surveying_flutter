@@ -43,6 +43,7 @@ class DatabaseInit {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     // 取得パスを基に、データベースのパスを生成
     String path = join(documentsDirectory.path, _databaseName);
+    // await deleteDatabase(path);
     // データベース接続
     return await openDatabase(path,
         version: _databaseVersion,
@@ -57,10 +58,11 @@ class DatabaseInit {
   Future _onCreate(Database db, int version) async {
     await db.execute('''
           CREATE TABLE mst_surveying (
-            id INTEGER PRIMARY KEY,
+            id INTEGER ,
             scene_name TEXT NOT NULL,
-            scene_seq INTEGER NOT NULL PRIMARY KEY
-            upd_date TEXT
+            scene_seq INTEGER NOT NULL ,
+            upd_date TEXT,
+            primary key ("id" , "scene_seq")
           )
           ''');
   }
@@ -82,6 +84,13 @@ class DatabaseInit {
     Database? db = await instance.database;
     return Sqflite.firstIntValue(
         await db!.rawQuery('SELECT COUNT(*) FROM $table'));
+  }
+
+  // レコード数を確認
+  Future<int?> queryMaxId() async {
+    Database? db = await instance.database;
+    return Sqflite.firstIntValue(
+        await db!.rawQuery('SELECT max(id) FROM $table'));
   }
 
   //　更新処理
