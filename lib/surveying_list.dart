@@ -22,17 +22,11 @@ class _SurveyingListPageState extends State<SurveyingList> {
   // initStateで動かす処理。
 // catsテーブルに登録されている全データを取ってくる
   Future getAllSceneList() async {
-    setState(() => isLoading = true); //テーブル読み込み前に「読み込み中」の状態にする
-
-    print("----------------------------");
-    print("SurveyngList画面が表示されました。現場データを読み込み開始します");
+    setState(() => isLoading = true);
 
     resultCardList = await dbInit.queryAllRows();
 
-    print("現場データを読み取り完了し、出力しました");
-    print(resultCardList);
-    print("----------------------------");
-    setState(() => isLoading = false); //「読み込み済」の状態にする
+    setState(() => isLoading = false);
   }
 
   final dbInit = DatabaseInit.instance;
@@ -71,7 +65,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
   Widget build(BuildContext context) {
     return isLoading
         ? const Center(
-            child: CircularProgressIndicator(), // これが「グルグル」の処理
+            child: CircularProgressIndicator(), //読み込み中の画面表示
           )
         : SafeArea(
             child: Scaffold(
@@ -79,55 +73,54 @@ class _SurveyingListPageState extends State<SurveyingList> {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 title: Text("SurveyinList"),
               ),
-              body: Column(
-                children: [
-                  ListView.builder(
-                    shrinkWrap: true, //追加
-                    physics: NeverScrollableScrollPhysics(), //追加
-                    itemCount: resultCardList.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: Column(
-                          children: [
-                            ListTile(
-                              title: Text(
-                                  "SceneName:${resultCardList[index]['scene_name']}"),
-                              subtitle: Text(
-                                  "LastUpdDate:${resultCardList[index]['upd_date']}"),
-                              leading: Icon(Icons.done),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                  Card(
-                    child: Column(
-                      children: [
-                        ListTile(
-                          title: TextField(
-                            controller: sceneNameController,
-                            decoration:
-                                InputDecoration(labelText: "Scene Name"),
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true, //追加
+                      physics: NeverScrollableScrollPhysics(), //追加
+                      itemCount: resultCardList.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                    "SceneName:${resultCardList[index]['scene_name']}"),
+                                subtitle: Text(
+                                    "LastUpdDate:${resultCardList[index]['upd_date']}"),
+                                leading: Icon(Icons.done),
+                              ),
+                            ],
                           ),
-                          subtitle: TextField(
-                            decoration: InputDecoration(labelText: "Notice"),
-                          ),
-                          leading: Icon(Icons.post_add),
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                  ),
-                  Column(
-                    children: [
-                      TextButton(
-                          onPressed: () => {getMaxId()}, child: Text("最大ID")),
-                      TextButton(
-                          onPressed: () => {print(resultCardList[1])},
-                          child: Text("全検索")),
-                    ],
-                  )
-                ],
+                    Card(
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: TextField(
+                              controller: sceneNameController,
+                              decoration:
+                                  InputDecoration(labelText: "Scene Name"),
+                            ),
+                            subtitle: TextField(
+                              decoration: InputDecoration(labelText: "Notice"),
+                            ),
+                            leading: Icon(Icons.post_add),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        TextButton(
+                            onPressed: () => {getMaxId()}, child: Text("最大ID")),
+                      ],
+                    )
+                  ],
+                ),
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
