@@ -95,12 +95,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // 登録ボタンクリック
   void _insert(sceneId, name, seq) async {
-    // row to insert
-    // Map<String, dynamic> row = {
-    //   DatabaseInit.columnId: '0001',
-    //   DatabaseInit.columnSceneName: 'Napa市改修工事',
-    //   DatabaseInit.columnSceneSeq: 1
-    // };
     Map<String, dynamic> row = {
       DatabaseInit.columnId: sceneId,
       DatabaseInit.columnSceneName: name,
