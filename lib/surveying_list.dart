@@ -19,13 +19,15 @@ class _SurveyingListPageState extends State<SurveyingList> {
     getAllSceneList();
   }
 
-  // initStateで動かす処理。
-// catsテーブルに登録されている全データを取ってくる
   Future getAllSceneList() async {
     setState(() => isLoading = true);
-
     resultCardList = await dbInit.queryAllRows();
+    setState(() => isLoading = false);
+  }
 
+  Future insertSceneList() async {
+    setState(() => isLoading = true);
+    resultCardList = await dbInit.queryAllRows();
     setState(() => isLoading = false);
   }
 
@@ -35,7 +37,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
   TextEditingController sceneNoticeController = TextEditingController();
 
   DateTime now = DateTime.now();
-  DateFormat format = DateFormat('yyyy-MM-dd hh:mm:ss');
+  DateFormat formatTimeStamp = DateFormat('yyyy-MM-dd hh:mm:ss');
 
   void _insert() async {
     final maxId = await dbInit.queryMaxId();
@@ -46,14 +48,16 @@ class _SurveyingListPageState extends State<SurveyingList> {
       targetId = maxId + 1;
     }
 
-    Map<String, dynamic> row = {
-      "id": targetId,
-      "scene_name": sceneNameController.text,
-      "scene_seq": 1,
-      "upd_date": format.format(now),
+    var targetRow = <String, dynamic>{
+      'id': targetId,
+      'scene_name': sceneNameController.text,
+      'scene_seq': 1,
+      'upd_date': formatTimeStamp.format(now),
     };
-    final id = await dbInit.insert(row);
-    print('登録しました。id: $id');
+
+    dbInit.insert(targetRow);
+
+    // print(targetRow);
   }
 
   Future<int?> getMaxId() async {
@@ -76,26 +80,6 @@ class _SurveyingListPageState extends State<SurveyingList> {
               body: SingleChildScrollView(
                 child: Column(
                   children: [
-                    ListView.builder(
-                      shrinkWrap: true, //追加
-                      physics: NeverScrollableScrollPhysics(), //追加
-                      itemCount: resultCardList.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: Column(
-                            children: [
-                              ListTile(
-                                title: Text(
-                                    "SceneName:${resultCardList[index]['scene_name']}"),
-                                subtitle: Text(
-                                    "LastUpdDate:${resultCardList[index]['upd_date']}"),
-                                leading: Icon(Icons.done),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
                     Card(
                       child: Column(
                         children: [
@@ -106,12 +90,33 @@ class _SurveyingListPageState extends State<SurveyingList> {
                                   InputDecoration(labelText: "Scene Name"),
                             ),
                             subtitle: TextField(
+                              controller: sceneNoticeController,
                               decoration: InputDecoration(labelText: "Notice"),
                             ),
                             leading: Icon(Icons.post_add),
                           ),
                         ],
                       ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true, //追加
+                      physics: NeverScrollableScrollPhysics(), //追加
+                      itemCount: resultCardList.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: Text(
+                                    "No.${resultCardList[index]['id']}\n${resultCardList[index]['scene_name']}"),
+                                subtitle: Text(
+                                    "${resultCardList[index]['upd_date']}"),
+                                leading: Icon(Icons.engineering),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
                     Column(
                       children: [
