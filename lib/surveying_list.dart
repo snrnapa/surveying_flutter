@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:surveying_app/components/card_template.dart';
+import 'package:surveying_app/components/utils.dart';
 import 'package:surveying_app/surveying.dart';
 import 'database_init.dart';
 
@@ -14,6 +15,7 @@ class SurveyingList extends StatefulWidget {
 class _SurveyingListPageState extends State<SurveyingList> {
   List<Map<String, dynamic>> resultCardList = [];
   bool isLoading = false;
+  var utils = Utils();
 
   @override
   void initState() {
@@ -39,22 +41,17 @@ class _SurveyingListPageState extends State<SurveyingList> {
       'scene_name': sceneNameController.text,
       'scene_seq': 1,
       'scene_note': sceneNoteController.text,
-      'upd_date': formatTimeStamp.format(now),
+      'upd_date': utils.time2Str(),
     };
 
     dbInit.insert(targetRow);
     getAllSceneList();
-
-    // print(targetRow);
   }
 
   final dbInit = DatabaseInit.instance;
 
   TextEditingController sceneNameController = TextEditingController();
   TextEditingController sceneNoteController = TextEditingController();
-
-  DateTime now = DateTime.now();
-  DateFormat formatTimeStamp = DateFormat('yyyy-MM-dd hh:mm:ss');
 
   Future<int?> deleteAll() async {
     final allRows = await dbInit.delete();
