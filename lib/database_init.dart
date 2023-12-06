@@ -9,9 +9,10 @@ class DatabaseInit {
   static final _databaseVersion = 1; // スキーマのバージョン指定
 
   static final table = 'mst_surveying'; // テーブル名
-  static final columnId = '_id';
+  static final columnId = 'id';
   static final columnSceneName = 'scene_name';
   static final columnSceneSeq = 'scene_seq';
+  static final columnSceneNote = 'scene_note';
   static final columnUpdDate = 'upd_date';
 
   // DatabaseInit クラスを定義
@@ -43,6 +44,7 @@ class DatabaseInit {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     // 取得パスを基に、データベースのパスを生成
     String path = join(documentsDirectory.path, _databaseName);
+    // DBを削除するとき
     // await deleteDatabase(path);
     // データベース接続
     return await openDatabase(path,
@@ -61,6 +63,7 @@ class DatabaseInit {
             id INTEGER ,
             scene_name TEXT NOT NULL,
             scene_seq INTEGER NOT NULL ,
+            scene_note TEXT,
             upd_date TEXT,
             primary key ("id" , "scene_seq")
           )
@@ -102,8 +105,9 @@ class DatabaseInit {
   }
 
   //　削除処理
-  Future<int> delete(int id) async {
+  Future<int> delete() async {
     Database? db = await instance.database;
-    return await db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
+    // return await db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
+    return await db!.delete(table);
   }
 }

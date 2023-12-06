@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ElevatedButton.icon(
                   label: Text('Picture on Mapping'),
-                  onPressed: () => _insert('2', 'テスト改修工事', '1'),
+                  onPressed: () => {},
                   icon: Icon(Icons.map),
                 ),
                 ElevatedButton.icon(

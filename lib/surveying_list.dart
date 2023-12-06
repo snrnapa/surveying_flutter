@@ -25,25 +25,9 @@ class _SurveyingListPageState extends State<SurveyingList> {
     setState(() => isLoading = false);
   }
 
-  Future insertSceneList() async {
-    setState(() => isLoading = true);
-    resultCardList = await dbInit.queryAllRows();
-    setState(() => isLoading = false);
-  }
-
-  final dbInit = DatabaseInit.instance;
-
-  TextEditingController sceneNameController = TextEditingController();
-  TextEditingController sceneNoticeController = TextEditingController();
-
-  DateTime now = DateTime.now();
-  DateFormat formatTimeStamp = DateFormat('yyyy-MM-dd hh:mm:ss');
-
-  void _insert() async {
+  void insertScene() async {
+    int targetId = 1;
     final maxId = await dbInit.queryMaxId();
-
-    int targetId = 0;
-
     if (maxId != null) {
       targetId = maxId + 1;
     }
@@ -52,16 +36,26 @@ class _SurveyingListPageState extends State<SurveyingList> {
       'id': targetId,
       'scene_name': sceneNameController.text,
       'scene_seq': 1,
+      'scene_note': sceneNoteController.text,
       'upd_date': formatTimeStamp.format(now),
     };
 
     dbInit.insert(targetRow);
+    getAllSceneList();
 
     // print(targetRow);
   }
 
-  Future<int?> getMaxId() async {
-    final allRows = await dbInit.queryMaxId();
+  final dbInit = DatabaseInit.instance;
+
+  TextEditingController sceneNameController = TextEditingController();
+  TextEditingController sceneNoteController = TextEditingController();
+
+  DateTime now = DateTime.now();
+  DateFormat formatTimeStamp = DateFormat('yyyy-MM-dd hh:mm:ss');
+
+  Future<int?> deleteAll() async {
+    final allRows = await dbInit.delete();
     print(allRows);
   }
 
@@ -90,8 +84,8 @@ class _SurveyingListPageState extends State<SurveyingList> {
                                   InputDecoration(labelText: "Scene Name"),
                             ),
                             subtitle: TextField(
-                              controller: sceneNoticeController,
-                              decoration: InputDecoration(labelText: "Notice"),
+                              controller: sceneNoteController,
+                              decoration: InputDecoration(labelText: "Note"),
                             ),
                             leading: Icon(Icons.post_add),
                           ),
@@ -110,9 +104,10 @@ class _SurveyingListPageState extends State<SurveyingList> {
                                 title: Text(
                                     "No.${resultCardList[index]['id']}\n${resultCardList[index]['scene_name']}"),
                                 subtitle: Text(
-                                    "${resultCardList[index]['upd_date']}"),
+                                    "${resultCardList[index]['scene_note']}"),
                                 leading: Icon(Icons.engineering),
                               ),
+                              Text(resultCardList[index]['upd_date'])
                             ],
                           ),
                         );
@@ -121,7 +116,8 @@ class _SurveyingListPageState extends State<SurveyingList> {
                     Column(
                       children: [
                         TextButton(
-                            onPressed: () => {getMaxId()}, child: Text("最大ID")),
+                            onPressed: () => {dbInit.delete()},
+                            child: Text("削除")),
                       ],
                     )
                   ],
@@ -129,7 +125,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
-                  _insert();
+                  insertScene();
                 },
                 backgroundColor: Colors.green,
                 child: const Icon(Icons.add_circle),
