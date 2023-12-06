@@ -19,7 +19,7 @@ class IHListContainer extends StatelessWidget {
             style: TextStyle(
               fontSize: 13,
             ),
-            enabled: true,
+            enabled: false,
             controller: eleList[index],
             decoration:
                 InputDecoration(filled: true, fillColor: Colors.black12),

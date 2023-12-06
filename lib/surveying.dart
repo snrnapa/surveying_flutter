@@ -82,6 +82,21 @@ class _SurveyingPageState extends State<Surveying> {
   final List<String> _pointList = List.generate(10, (i) => "No.$i");
   final List<bool> _bmCheckList = List<bool>.generate(10, (i) => false);
 
+  void AllCalclate() {
+    for (var j = 0; j < _pointList.length; j++) {
+      if (_bmCheckList[j]) {
+        IhCalclate(
+          j,
+          _ghControllers[j].text,
+          _bsControllers[j].text,
+        );
+      } else {
+        GhCalclate(j, _ghControllers[j - 1].text, _fsControllers[j].text,
+            _fsControllers[j - 1].text);
+      }
+    }
+  }
+
   void GhCalclate(int index, String gh, String fs, String lastFs) {
     double targetGh = double.parse(gh);
     double targetFs = double.parse(fs);
@@ -99,7 +114,13 @@ class _SurveyingPageState extends State<Surveying> {
     _ihControllers[index].text = (targetBaseGh + targetBs).toString();
   }
 
+  void trnDeleteAndReload() async {
+    await dbInit.trnDelte(state['id'], state['scene_seq']);
+    await getAllNumber();
+  }
+
   void SaveList() async {
+    AllCalclate();
     String nowTime = utils.time2Str();
     List<Map<String, dynamic>> targetMapList = [];
 
@@ -110,7 +131,7 @@ class _SurveyingPageState extends State<Surveying> {
         "category": "bs",
         "list_index": i,
         "number": _bsControllers[i].text.isEmpty == true
-            ? null
+            ? ""
             : _bsControllers[i].text,
         "upd_date": nowTime,
       };
@@ -167,24 +188,6 @@ class _SurveyingPageState extends State<Surveying> {
     }
   }
 
-  // 登録ボタンクリック
-  void _insert(sceneId, name, seq) async {
-    // Map<String, dynamic> row = {
-    //   DatabaseInit.columnId: sceneId,
-    //   DatabaseInit.columnSceneName: name,
-    //   DatabaseInit.columnSceneSeq: seq
-    // };
-    // final id = await dbInit.insert(row);
-    // print('登録しました。id: $sceneId');
-  }
-
-  // 照会ボタンクリック
-  void _query() async {
-    final allRows = await dbInit.queryAllRows();
-    print('全てのデータを照会しました。');
-    allRows.forEach(print);
-  }
-
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -206,6 +209,18 @@ class _SurveyingPageState extends State<Surveying> {
                       height: 20,
                       endIndent: 0,
                       color: Colors.black,
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => {AllCalclate()},
+                          icon: const Icon(Icons.calculate),
+                        ),
+                        IconButton(
+                          onPressed: () => {trnDeleteAndReload()},
+                          icon: const Icon(Icons.delete),
+                        ),
+                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -294,30 +309,7 @@ class _SurveyingPageState extends State<Surveying> {
                                     ),
                                     controller: _ghControllers[index],
                                     readOnly: !_bmCheckList[index],
-                                    decoration: InputDecoration(
-                                      prefixIcon: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            if (_bmCheckList[index]) {
-                                              IhCalclate(
-                                                index,
-                                                _ghControllers[index].text,
-                                                _bsControllers[index].text,
-                                              );
-                                            } else {
-                                              GhCalclate(
-                                                  index,
-                                                  _ghControllers[index - 1]
-                                                      .text,
-                                                  _fsControllers[index].text,
-                                                  _fsControllers[index - 1]
-                                                      .text);
-                                            }
-                                          });
-                                        },
-                                        icon: Icon(Icons.calculate),
-                                      ),
-                                    ),
+                                    decoration: InputDecoration(),
                                   );
                                 },
                               ),
