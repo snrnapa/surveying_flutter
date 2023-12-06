@@ -24,8 +24,8 @@ class DatabaseInit {
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
-    // // DBを削除するとき
-    // await deleteDatabase(path);
+    // DBを削除するとき
+    await deleteDatabase(path);
     return await openDatabase(path,
         version: _databaseVersion, onCreate: _onCreate);
   }
@@ -42,17 +42,19 @@ class DatabaseInit {
             primary key ("id" , "scene_seq")
           )
           ''');
-    // trn_surveyingテーブルの作成
 
     await db.execute('''
           CREATE TABLE trn_surveying (
             id INTEGER ,
             scene_seq INTEGER NOT NULL ,
-            category TEXT NOT NULL ,
+            bm_flg TEXT NOT NULL ,
             list_index INTEGER NOT NULL ,
-            number INTEGER,
+            bs_number INTEGER,
+            fs_number INTEGER,
+            ih_number INTEGER,
+            gh_number INTEGER,
             upd_date TEXT,
-            primary key ("id" , "scene_seq" , "category", "list_index")
+            primary key ("id" , "scene_seq" , "list_index")
           )
           ''');
   }
@@ -78,12 +80,18 @@ class DatabaseInit {
   }
 
   // トランザクション照会処理
-  Future<List<Map<String, dynamic>>> readTrn(id, seq, category) async {
+  Future<List<Map<String, dynamic>>> readTrn(id, seq) async {
     Database? db = await instance.database;
     return await db!.query("trn_surveying",
-        columns: ['list_index', 'number'],
-        where: "id = ? and scene_seq = ? and category = ?",
-        whereArgs: [id, seq, category]);
+        columns: [
+          'list_index',
+          'bs_number',
+          'fs_number',
+          'ih_number',
+          'gh_number',
+        ],
+        where: "id = ? and scene_seq = ?",
+        whereArgs: [id, seq]);
   }
 
   // レコード数を確認

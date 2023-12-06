@@ -24,10 +24,7 @@ class _SurveyingPageState extends State<Surveying> {
   late Map<String, dynamic> state;
   bool isLoading = false;
   bool existFlg = false;
-  List<Map<String, dynamic>> bsTrn = [];
-  List<Map<String, dynamic>> fsTrn = [];
-  List<Map<String, dynamic>> ghTrn = [];
-  List<Map<String, dynamic>> ihTrn = [];
+  List<Map<String, dynamic>> resultTrn = [];
 
   @override
   void initState() {
@@ -39,18 +36,16 @@ class _SurveyingPageState extends State<Surveying> {
 
   Future getAllNumber() async {
     setState(() => isLoading = true);
-    bsTrn = await dbInit.readTrn(state['id'], state['scene_seq'], "bs");
-    fsTrn = await dbInit.readTrn(state['id'], state['scene_seq'], "fs");
-    ghTrn = await dbInit.readTrn(state['id'], state['scene_seq'], "gh");
-    ihTrn = await dbInit.readTrn(state['id'], state['scene_seq'], "ih");
-    for (var i = 0; i < bsTrn.length; i++) {
-      _bsControllers[i].text = bsTrn[i]['number'].toString();
-      _fsControllers[i].text = fsTrn[i]['number'].toString();
-      _ghControllers[i].text = ghTrn[i]['number'].toString();
-      _ihControllers[i].text = ihTrn[i]['number'].toString();
+    resultTrn = await dbInit.readTrn(state['id'], state['scene_seq']);
+
+    for (var i = 0; i < resultTrn.length; i++) {
+      _bsControllers[i].text = resultTrn[i]['bs_number'].toString();
+      _fsControllers[i].text = resultTrn[i]['fs_number'].toString();
+      _ihControllers[i].text = resultTrn[i]['ih_number'].toString();
+      _ghControllers[i].text = resultTrn[i]['gh_number'].toString();
     }
 
-    print(bsTrn);
+    print(resultTrn);
 
     setState(() => isLoading = false);
   }
@@ -90,9 +85,11 @@ class _SurveyingPageState extends State<Surveying> {
           _ghControllers[j].text,
           _bsControllers[j].text,
         );
+        print(j);
       } else {
         GhCalclate(j, _ghControllers[j - 1].text, _fsControllers[j].text,
             _fsControllers[j - 1].text);
+        print(j);
       }
     }
   }
@@ -128,56 +125,15 @@ class _SurveyingPageState extends State<Surveying> {
       Map<String, dynamic> row = {
         "id": state['id'],
         "scene_seq": state['scene_seq'],
-        "category": "bs",
+        "bm_flg": _bmCheckList[i] ? 1 : 0,
         "list_index": i,
-        "number": _bsControllers[i].text.isEmpty == true
-            ? ""
-            : _bsControllers[i].text,
+        "bs_number": _bsControllers[i].text,
+        "fs_number": _fsControllers[i].text,
+        "ih_number": _ihControllers[i].text,
+        "gh_number": _ghControllers[i].text,
         "upd_date": nowTime,
       };
 
-      targetMapList.add(row);
-    }
-
-    for (var i = 0; i < _ihControllers.length; i++) {
-      Map<String, dynamic> row = {
-        "id": state['id'],
-        "scene_seq": state['scene_seq'],
-        "category": "ih",
-        "list_index": i,
-        "number": _ihControllers[i].text.isEmpty == true
-            ? null
-            : _ihControllers[i].text,
-        "upd_date": nowTime,
-      };
-      targetMapList.add(row);
-    }
-
-    for (var i = 0; i < _fsControllers.length; i++) {
-      Map<String, dynamic> row = {
-        "id": state['id'],
-        "scene_seq": state['scene_seq'],
-        "category": "fs",
-        "list_index": i,
-        "number": _fsControllers[i].text.isEmpty == true
-            ? null
-            : _fsControllers[i].text,
-        "upd_date": nowTime,
-      };
-      targetMapList.add(row);
-    }
-
-    for (var i = 0; i < _ghControllers.length; i++) {
-      Map<String, dynamic> row = {
-        "id": state['id'],
-        "scene_seq": state['scene_seq'],
-        "category": "gh",
-        "list_index": i,
-        "number": _ghControllers[i].text.isEmpty == true
-            ? null
-            : _ghControllers[i].text,
-        "upd_date": nowTime,
-      };
       targetMapList.add(row);
     }
 
