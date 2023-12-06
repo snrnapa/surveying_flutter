@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:surveying_app/components/card_template.dart';
+import 'package:surveying_app/components/utils.dart';
 import 'components/bs_list_container.dart';
 import 'components/fs_list_container.dart';
 import 'components/ih_list_container.dart';
@@ -21,6 +22,7 @@ class Surveying extends StatefulWidget {
 class _SurveyingPageState extends State<Surveying> {
   // 状態を管理する変数
   late Map<String, dynamic> state;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -28,6 +30,14 @@ class _SurveyingPageState extends State<Surveying> {
 
     // 受け取ったデータを状態を管理する変数に格納
     state = widget.result;
+
+    getAllNumber();
+  }
+
+  Future getAllNumber() async {
+    setState(() => isLoading = true);
+    // resultCardList = await dbInit.queryAllRows();
+    setState(() => isLoading = false);
   }
 
   final dbInit = DatabaseInit.instance;
@@ -38,10 +48,10 @@ class _SurveyingPageState extends State<Surveying> {
   double elementHeight = 600;
 
   // 題名部分の変数など
+  var utils = Utils();
+
   DateTime now = DateTime.now();
   DateFormat format = DateFormat('yyyy-MM-dd hh:mm:ss');
-
-  Map<String, List> saveTargetMap = {};
 
   // BSの値をコントロールする
   final List<TextEditingController> _bsControllers =
@@ -79,47 +89,80 @@ class _SurveyingPageState extends State<Surveying> {
   }
 
   void SaveList() async {
-    // List pointResult = [];
-    // List bsResult = [];
-    // List fsResult = [];
-    // List ihResult = [];
-    // List ghResult = [];
+    String nowTime = utils.time2Str();
+    List<Map<String, dynamic>> targetMapList = [];
 
-    // for (var i = 0; i < _bsControllers.length; i++) {
-    //   pointResult.add(_pointList[i]);
-    //   bsResult.add(_bsControllers[i].text);
-    //   ihResult.add(_ihControllers[i].text);
-    //   fsResult.add(_fsControllers[i].text);
-    //   ghResult.add(_ghControllers[i].text);
-    // }
+    for (var i = 0; i < _bsControllers.length; i++) {
+      Map<String, dynamic> row = {
+        "id": state['id'],
+        "scene_seq": state['scene_seq'],
+        "category": "bs",
+        "list_index": i,
+        "number": _bsControllers[i].text.isEmpty == true
+            ? null
+            : _bsControllers[i].text,
+        "upd_date": nowTime,
+      };
 
-    // saveTargetMap['pointRes'] = pointResult;
-    // saveTargetMap['bsRes'] = bsResult;
-    // saveTargetMap['ifRes'] = ihResult;
-    // saveTargetMap['fsRes'] = fsResult;
-    // saveTargetMap['ghRes'] = ghResult;
-    // print("-------------------計算結果出力開始-------------------");
+      targetMapList.add(row);
+    }
 
-    // saveTargetMap.forEach((key, value) {
-    //   print('$key --- $value');
-    // });
+    for (var i = 0; i < _ihControllers.length; i++) {
+      Map<String, dynamic> row = {
+        "id": state['id'],
+        "scene_seq": state['scene_seq'],
+        "category": "ih",
+        "list_index": i,
+        "number": _ihControllers[i].text.isEmpty == true
+            ? null
+            : _ihControllers[i].text,
+        "upd_date": nowTime,
+      };
+      targetMapList.add(row);
+    }
 
-    // print("-------------------計算結果出力開始-------------------");
+    for (var i = 0; i < _fsControllers.length; i++) {
+      Map<String, dynamic> row = {
+        "id": state['id'],
+        "scene_seq": state['scene_seq'],
+        "category": "fs",
+        "list_index": i,
+        "number": _fsControllers[i].text.isEmpty == true
+            ? null
+            : _fsControllers[i].text,
+        "upd_date": nowTime,
+      };
+      targetMapList.add(row);
+    }
 
-    // int sceneId = 35;
-    // String sceneName = "テスト工事測量";
-    // int sceneSeq = 1;
+    for (var i = 0; i < _ghControllers.length; i++) {
+      Map<String, dynamic> row = {
+        "id": state['id'],
+        "scene_seq": state['scene_seq'],
+        "category": "gh",
+        "list_index": i,
+        "number": _ghControllers[i].text.isEmpty == true
+            ? null
+            : _ghControllers[i].text,
+        "upd_date": nowTime,
+      };
+      targetMapList.add(row);
+    }
 
-    // Map<String, dynamic> row = {
-    //   "id": sceneId,
-    //   "scene_name": sceneName,
-    //   "snece_seq": sceneSeq
-    // };
+    // print(targetMapList);
+    dbInit.readAllTrn().then((value) {
+      // value.forEach((eleme) => {
+      //   print(eleme);
+      // });
 
-    // _query();
+      print("${value}\n");
+    });
 
-    // final resultId = await dbInit.insert(row);
-    // print('登録しました。id: $resultId');
+    dbInit.trnDelte(state['id'], state['scene_seq']);
+
+    for (var j = 0; j < targetMapList.length; j++) {
+      dbInit.insertTrn(targetMapList[j]);
+    }
   }
 
   // 登録ボタンクリック

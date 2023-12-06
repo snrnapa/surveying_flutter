@@ -44,7 +44,7 @@ class DatabaseInit {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     // 取得パスを基に、データベースのパスを生成
     String path = join(documentsDirectory.path, _databaseName);
-    // DBを削除するとき
+    // // DBを削除するとき
     // await deleteDatabase(path);
     // データベース接続
     return await openDatabase(path,
@@ -58,6 +58,7 @@ class DatabaseInit {
   // 引数:スキーマーのversion
   // スキーマーのバージョンはテーブル変更時にバージョンを上げる（テーブル・カラム追加・変更・削除など）
   Future _onCreate(Database db, int version) async {
+    // mst_surveyingテーブルの作成
     await db.execute('''
           CREATE TABLE mst_surveying (
             id INTEGER ,
@@ -68,18 +69,45 @@ class DatabaseInit {
             primary key ("id" , "scene_seq")
           )
           ''');
+    // trn_surveyingテーブルの作成
+
+    await db.execute('''
+          CREATE TABLE trn_surveying (
+            id INTEGER ,
+            scene_seq INTEGER NOT NULL ,
+            category TEXT NOT NULL ,
+            list_index INTEGER NOT NULL ,
+            number INTEGER,
+            upd_date TEXT,
+            primary key ("id" , "scene_seq" , "category", "list_index")
+          )
+          ''');
   }
 
-  // 登録処理
+  // マスタデータ登録処理
   Future<int> insert(Map<String, dynamic> row) async {
     Database? db = await instance.database;
     return await db!.insert(table, row);
   }
 
-  // 照会処理
+  //　トランザクション登録処理
+  Future<int> insertTrn(Map<String, dynamic> row) async {
+    Database? db = await instance.database;
+    Future<int> dummy = delete();
+
+    return await db!.insert("trn_surveying", row);
+  }
+
+  // マスタデータ照会処理
   Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database? db = await instance.database;
     return await db!.query(table);
+  }
+
+  // トランザクション照会処理
+  Future<List<Map<String, dynamic>>> readAllTrn() async {
+    Database? db = await instance.database;
+    return await db!.query("trn_surveying");
   }
 
   // レコード数を確認
@@ -109,5 +137,12 @@ class DatabaseInit {
     Database? db = await instance.database;
     // return await db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
     return await db!.delete(table);
+  }
+
+  Future<int> trnDelte(int id, int seq) async {
+    Database? db = await instance.database;
+    return await db!.delete("trn_surveying",
+        where: ' id = ? and scene_seq = ?', whereArgs: [id, seq]);
+    // return await db!.delete(table);
   }
 }
