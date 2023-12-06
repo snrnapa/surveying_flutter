@@ -23,6 +23,11 @@ class _SurveyingPageState extends State<Surveying> {
   // 状態を管理する変数
   late Map<String, dynamic> state;
   bool isLoading = false;
+  bool existFlg = false;
+  List<Map<String, dynamic>> bsTrn = [];
+  List<Map<String, dynamic>> fsTrn = [];
+  List<Map<String, dynamic>> ghTrn = [];
+  List<Map<String, dynamic>> ihTrn = [];
 
   @override
   void initState() {
@@ -36,7 +41,19 @@ class _SurveyingPageState extends State<Surveying> {
 
   Future getAllNumber() async {
     setState(() => isLoading = true);
-    // resultCardList = await dbInit.queryAllRows();
+    bsTrn = await dbInit.readTrn(state['id'], state['scene_seq'], "bs");
+    fsTrn = await dbInit.readTrn(state['id'], state['scene_seq'], "fs");
+    ghTrn = await dbInit.readTrn(state['id'], state['scene_seq'], "gh");
+    ihTrn = await dbInit.readTrn(state['id'], state['scene_seq'], "ih");
+    for (var i = 0; i < bsTrn.length; i++) {
+      _bsControllers[i].text = bsTrn[i]['number'].toString();
+      _fsControllers[i].text = fsTrn[i]['number'].toString();
+      _ghControllers[i].text = ghTrn[i]['number'].toString();
+      _ihControllers[i].text = ihTrn[i]['number'].toString();
+    }
+
+    print(bsTrn);
+
     setState(() => isLoading = false);
   }
 
@@ -149,15 +166,6 @@ class _SurveyingPageState extends State<Surveying> {
       targetMapList.add(row);
     }
 
-    // print(targetMapList);
-    dbInit.readAllTrn().then((value) {
-      // value.forEach((eleme) => {
-      //   print(eleme);
-      // });
-
-      print("${value}\n");
-    });
-
     dbInit.trnDelte(state['id'], state['scene_seq']);
 
     for (var j = 0; j < targetMapList.length; j++) {
@@ -185,148 +193,156 @@ class _SurveyingPageState extends State<Surveying> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text("Surveying v1.0.0"),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              CardTemplate(result: state),
-              const Divider(
-                height: 20,
-                endIndent: 0,
-                color: Colors.black,
+    return isLoading
+        ? const Center(
+            child: CircularProgressIndicator(), //読み込み中の画面表示
+          )
+        : SafeArea(
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                title: Text("Surveying v1.0.0"),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  // bmのチェックボックスリストを作成する
-                  Container(
-                    child: Column(
-                      children: [
-                        HeaderText(dispText: "BM"),
+              body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    CardTemplate(result: state),
+                    const Divider(
+                      height: 20,
+                      endIndent: 0,
+                      color: Colors.black,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        // bmのチェックボックスリストを作成する
                         Container(
-                          width: 20,
-                          height: elementHeight,
-                          child: ListView.builder(
-                            itemCount: _bmCheckList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Checkbox(
-                                value: _bmCheckList[index],
-                                onChanged: (bool? checkedValue) {
-                                  setState(() {
-                                    _bmCheckList[index] = checkedValue!;
-                                  });
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      children: [
-                        HeaderText(dispText: "Point"),
-                        ListContainer(eleList: _pointList),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      children: [
-                        HeaderText(dispText: "BS"),
-                        BSListContainer(
-                            eleList: _bsControllers, bmCheckList: _bmCheckList),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      children: [
-                        HeaderText(dispText: "IH"),
-                        IHListContainer(eleList: _ihControllers),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      children: [
-                        HeaderText(dispText: "FS"),
-                        FSListContainer(
-                          eleList: _fsControllers,
-                          bmCheckList: _bmCheckList,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                      child: Column(
-                    children: [
-                      Text(
-                        "GH",
-                        style: TextStyle(
-                          fontSize: textSize,
-                        ),
-                      ),
-                      Container(
-                        width: iconFieldSize,
-                        height: elementHeight,
-                        child: ListView.builder(
-                          itemCount: results.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return TextFormField(
-                              style: TextStyle(
-                                fontSize: fieldTextSize,
-                              ),
-                              controller: _ghControllers[index],
-                              readOnly: !_bmCheckList[index],
-                              decoration: InputDecoration(
-                                prefixIcon: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (_bmCheckList[index]) {
-                                        IhCalclate(
-                                          index,
-                                          _ghControllers[index].text,
-                                          _bsControllers[index].text,
-                                        );
-                                      } else {
-                                        GhCalclate(
-                                            index,
-                                            _ghControllers[index - 1].text,
-                                            _fsControllers[index].text,
-                                            _fsControllers[index - 1].text);
-                                      }
-                                    });
+                          child: Column(
+                            children: [
+                              HeaderText(dispText: "BM"),
+                              Container(
+                                width: 20,
+                                height: elementHeight,
+                                child: ListView.builder(
+                                  itemCount: _bmCheckList.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Checkbox(
+                                      value: _bmCheckList[index],
+                                      onChanged: (bool? checkedValue) {
+                                        setState(() {
+                                          _bmCheckList[index] = checkedValue!;
+                                        });
+                                      },
+                                    );
                                   },
-                                  icon: Icon(Icons.calculate),
                                 ),
                               ),
-                            );
-                          },
+                            ],
+                          ),
                         ),
-                      )
-                    ],
-                  )),
-                ],
+                        Container(
+                          child: Column(
+                            children: [
+                              HeaderText(dispText: "Point"),
+                              ListContainer(eleList: _pointList),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Column(
+                            children: [
+                              HeaderText(dispText: "BS"),
+                              BSListContainer(
+                                  eleList: _bsControllers,
+                                  bmCheckList: _bmCheckList),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Column(
+                            children: [
+                              HeaderText(dispText: "IH"),
+                              IHListContainer(eleList: _ihControllers),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Column(
+                            children: [
+                              HeaderText(dispText: "FS"),
+                              FSListContainer(
+                                eleList: _fsControllers,
+                                bmCheckList: _bmCheckList,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                            child: Column(
+                          children: [
+                            Text(
+                              "GH",
+                              style: TextStyle(
+                                fontSize: textSize,
+                              ),
+                            ),
+                            Container(
+                              width: iconFieldSize,
+                              height: elementHeight,
+                              child: ListView.builder(
+                                itemCount: results.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return TextFormField(
+                                    style: TextStyle(
+                                      fontSize: fieldTextSize,
+                                    ),
+                                    controller: _ghControllers[index],
+                                    readOnly: !_bmCheckList[index],
+                                    decoration: InputDecoration(
+                                      prefixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            if (_bmCheckList[index]) {
+                                              IhCalclate(
+                                                index,
+                                                _ghControllers[index].text,
+                                                _bsControllers[index].text,
+                                              );
+                                            } else {
+                                              GhCalclate(
+                                                  index,
+                                                  _ghControllers[index - 1]
+                                                      .text,
+                                                  _fsControllers[index].text,
+                                                  _fsControllers[index - 1]
+                                                      .text);
+                                            }
+                                          });
+                                        },
+                                        icon: Icon(Icons.calculate),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        )),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            SaveList();
-          },
-          backgroundColor: Colors.green,
-          child: const Icon(Icons.save_alt),
-        ),
-      ),
-    );
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  SaveList();
+                },
+                backgroundColor: Colors.green,
+                child: const Icon(Icons.save_alt),
+              ),
+            ),
+          );
   }
 }

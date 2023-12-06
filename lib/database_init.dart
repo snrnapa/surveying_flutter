@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -105,9 +106,12 @@ class DatabaseInit {
   }
 
   // トランザクション照会処理
-  Future<List<Map<String, dynamic>>> readAllTrn() async {
+  Future<List<Map<String, dynamic>>> readTrn(id, seq, category) async {
     Database? db = await instance.database;
-    return await db!.query("trn_surveying");
+    return await db!.query("trn_surveying",
+        columns: ['list_index', 'number'],
+        where: "id = ? and scene_seq = ? and category = ?",
+        whereArgs: [id, seq, category]);
   }
 
   // レコード数を確認
