@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ElevatedButton.icon(
                   label: Text('Expenses'),
-                  onPressed: _query,
+                  onPressed: () {},
                   icon: Icon(Icons.payment),
                 ),
                 ElevatedButton.icon(
@@ -91,23 +91,5 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
-  }
-
-  // 登録ボタンクリック
-  void _insert(sceneId, name, seq) async {
-    Map<String, dynamic> row = {
-      DatabaseInit.columnId: sceneId,
-      DatabaseInit.columnSceneName: name,
-      DatabaseInit.columnSceneSeq: seq
-    };
-    final id = await dbInit.insert(row);
-    print('登録しました。id: $sceneId');
-  }
-
-  // 照会ボタンクリック
-  void _query() async {
-    final allRows = await dbInit.queryAllRows();
-    print('全てのデータを照会しました。');
-    allRows.forEach(print);
   }
 }
