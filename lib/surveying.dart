@@ -32,10 +32,8 @@ class _SurveyingPageState extends State<Surveying> {
   @override
   void initState() {
     super.initState();
-
     // 受け取ったデータを状態を管理する変数に格納
     state = widget.result;
-
     getAllNumber();
   }
 
@@ -67,9 +65,6 @@ class _SurveyingPageState extends State<Surveying> {
   // 題名部分の変数など
   var utils = Utils();
 
-  DateTime now = DateTime.now();
-  DateFormat format = DateFormat('yyyy-MM-dd hh:mm:ss');
-
   // BSの値をコントロールする
   final List<TextEditingController> _bsControllers =
       List.generate(10, (i) => TextEditingController());
@@ -85,7 +80,6 @@ class _SurveyingPageState extends State<Surveying> {
 
   // 測点を連番で作成する
   final List<String> _pointList = List.generate(10, (i) => "No.$i");
-  final List<String> results = List<String>.generate(10, (i) => "Item $i");
   final List<bool> _bmCheckList = List<bool>.generate(10, (i) => false);
 
   void GhCalclate(int index, String gh, String fs, String lastFs) {
@@ -292,7 +286,7 @@ class _SurveyingPageState extends State<Surveying> {
                               width: iconFieldSize,
                               height: elementHeight,
                               child: ListView.builder(
-                                itemCount: results.length,
+                                itemCount: _ghControllers.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return TextFormField(
                                     style: TextStyle(
