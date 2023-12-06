@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:surveying_app/components/card_template.dart';
+import 'package:surveying_app/surveying.dart';
 import 'database_init.dart';
 
 class SurveyingList extends StatefulWidget {
@@ -97,19 +99,16 @@ class _SurveyingListPageState extends State<SurveyingList> {
                       physics: NeverScrollableScrollPhysics(), //追加
                       itemCount: resultCardList.length,
                       itemBuilder: (context, index) {
-                        return Card(
-                          child: Column(
-                            children: [
-                              ListTile(
-                                title: Text(
-                                    "No.${resultCardList[index]['id']}\n${resultCardList[index]['scene_name']}"),
-                                subtitle: Text(
-                                    "${resultCardList[index]['scene_note']}"),
-                                leading: Icon(Icons.engineering),
-                              ),
-                              Text(resultCardList[index]['upd_date'])
-                            ],
-                          ),
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Surveying(result: resultCardList[index])),
+                            );
+                          },
+                          child: CardTemplate(result: resultCardList[index]),
                         );
                       },
                     ),

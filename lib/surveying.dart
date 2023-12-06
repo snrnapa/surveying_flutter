@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:surveying_app/components/card_template.dart';
 import 'components/bs_list_container.dart';
 import 'components/fs_list_container.dart';
 import 'components/ih_list_container.dart';
@@ -8,11 +9,27 @@ import 'components/list_container.dart';
 import 'database_init.dart';
 
 class Surveying extends StatefulWidget {
+  final Map<String, dynamic> result;
+
+  // コンストラクタ
+  const Surveying({Key? key, required this.result}) : super(key: key);
+
   @override
   _SurveyingPageState createState() => _SurveyingPageState();
 }
 
 class _SurveyingPageState extends State<Surveying> {
+  // 状態を管理する変数
+  late Map<String, dynamic> state;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 受け取ったデータを状態を管理する変数に格納
+    state = widget.result;
+  }
+
   final dbInit = DatabaseInit.instance;
   double textWidth = 60;
   double textSize = 15;
@@ -23,7 +40,6 @@ class _SurveyingPageState extends State<Surveying> {
   // 題名部分の変数など
   DateTime now = DateTime.now();
   DateFormat format = DateFormat('yyyy-MM-dd hh:mm:ss');
-  String scene_name = "高松市";
 
   Map<String, List> saveTargetMap = {};
 
@@ -100,7 +116,7 @@ class _SurveyingPageState extends State<Surveying> {
     //   "snece_seq": sceneSeq
     // };
 
-    _query();
+    // _query();
 
     // final resultId = await dbInit.insert(row);
     // print('登録しました。id: $resultId');
@@ -108,13 +124,13 @@ class _SurveyingPageState extends State<Surveying> {
 
   // 登録ボタンクリック
   void _insert(sceneId, name, seq) async {
-    Map<String, dynamic> row = {
-      DatabaseInit.columnId: sceneId,
-      DatabaseInit.columnSceneName: name,
-      DatabaseInit.columnSceneSeq: seq
-    };
-    final id = await dbInit.insert(row);
-    print('登録しました。id: $sceneId');
+    // Map<String, dynamic> row = {
+    //   DatabaseInit.columnId: sceneId,
+    //   DatabaseInit.columnSceneName: name,
+    //   DatabaseInit.columnSceneSeq: seq
+    // };
+    // final id = await dbInit.insert(row);
+    // print('登録しました。id: $sceneId');
   }
 
   // 照会ボタンクリック
@@ -136,17 +152,7 @@ class _SurveyingPageState extends State<Surveying> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Card(
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text("工事名が入る場所だよ工事:${scene_name}"),
-                      subtitle: Text(format.format(now)),
-                      leading: Icon(Icons.edit_note),
-                    ),
-                  ],
-                ),
-              ),
+              CardTemplate(result: state),
               const Divider(
                 height: 20,
                 endIndent: 0,
