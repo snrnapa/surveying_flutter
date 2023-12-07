@@ -1,45 +1,112 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:surveying_app/components/card_template.dart';
+import 'package:surveying_app/components/utils.dart';
 import 'components/bs_list_container.dart';
 import 'components/fs_list_container.dart';
 import 'components/ih_list_container.dart';
 import 'components/header_text.dart';
 import 'components/list_container.dart';
+import 'database_init.dart';
 
 class Surveying extends StatefulWidget {
+  final Map<String, dynamic> result;
+
+  // コンストラクタ
+  const Surveying({Key? key, required this.result}) : super(key: key);
+
   @override
   _SurveyingPageState createState() => _SurveyingPageState();
 }
 
 class _SurveyingPageState extends State<Surveying> {
+  // 状態を管理する変数
+  late Map<String, dynamic> state;
+  bool isLoading = false;
+  bool existFlg = false;
+  List<Map<String, dynamic>> resultTrn = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // 受け取ったデータを状態を管理する変数に格納
+    state = widget.result;
+    getAllNumber();
+  }
+
+  Future getAllNumber() async {
+    setState(() => isLoading = true);
+    resultTrn = await dbInit.readTrn(state['id'], state['scene_seq']);
+
+    for (var i = 0; i < resultTrn.length; i++) {
+      _bsControllers[i].text = resultTrn[i]['bs_number'].toString();
+      _fsControllers[i].text = resultTrn[i]['fs_number'].toString();
+      _ihControllers[i].text = resultTrn[i]['ih_number'].toString();
+      _ghControllers[i].text = resultTrn[i]['gh_number'].toString();
+      _bmCheckList[i] = resultTrn[i]['bm_flg'] == '0' ? false : true;
+    }
+
+    print(resultTrn);
+
+    setState(() => isLoading = false);
+  }
+
+  final dbInit = DatabaseInit.instance;
   double textWidth = 60;
   double textSize = 15;
   double fieldTextSize = 13;
   double iconFieldSize = 100;
   double elementHeight = 600;
+  int itemCount = 10;
 
-  Map<String, List> saveTargetMap = {};
+  // 題名部分の変数など
+  var utils = Utils();
 
   // BSの値をコントロールする
-  final List<TextEditingController> _bsControllers =
-      List.generate(10, (i) => TextEditingController());
+  late final List<TextEditingController> _bsControllers =
+      List.generate(itemCount, (i) => TextEditingController());
   // FSの値をコントロールする
-  final List<TextEditingController> _fsControllers =
-      List.generate(10, (i) => TextEditingController());
+  late final List<TextEditingController> _fsControllers =
+      List.generate(itemCount, (i) => TextEditingController());
   // IHの値をコントロールする
-  final List<TextEditingController> _ihControllers =
-      List.generate(10, (i) => TextEditingController());
+  late final List<TextEditingController> _ihControllers =
+      List.generate(itemCount, (i) => TextEditingController());
   // GHの値をコントロールする
-  final List<TextEditingController> _ghControllers =
-      List.generate(10, (i) => TextEditingController());
+  late final List<TextEditingController> _ghControllers =
+      List.generate(itemCount, (i) => TextEditingController());
 
   // 測点を連番で作成する
-  final List<String> _pointList = List.generate(10, (i) => "No.$i");
-  final List<String> results = List<String>.generate(10, (i) => "Item $i");
-  final List<bool> _bmCheckList = List<bool>.generate(10, (i) => false);
+  late final List<String> _pointList = List.generate(itemCount, (i) => "No.$i");
+  late final List<bool> _bmCheckList =
+      List<bool>.generate(itemCount, (i) => false);
+
+  void AllCalclate() {
+    for (var j = 0; j < _pointList.length; j++) {
+      if (_bmCheckList[j]) {
+        IhCalclate(
+          j,
+          _ghControllers[j].text,
+          _bsControllers[j].text,
+        );
+        print("IHの計算を行いました${j}番目");
+      } else {
+        GhCalclate(j, _ghControllers[j - 1].text, _fsControllers[j].text,
+            _fsControllers[j - 1].text);
+        print("GHの計算を行いました${j}番目");
+      }
+    }
+  }
 
   void GhCalclate(int index, String gh, String fs, String lastFs) {
-    double targetGh = double.parse(gh);
-    double targetFs = double.parse(fs);
+    double targetGh = 0;
+    double targetFs = 0;
+
+    if (gh != "" && fs != "") {
+      targetGh = double.parse(gh);
+      targetFs = double.parse(fs);
+    } else {
+      return;
+    }
     double targetLastFs = 0;
     if (!lastFs.isEmpty) {
       targetLastFs = double.parse(lastFs);
@@ -49,199 +116,196 @@ class _SurveyingPageState extends State<Surveying> {
   }
 
   void IhCalclate(int index, String baesGh, String bs) {
-    double targetBaseGh = double.parse(baesGh);
-    double targetBs = double.parse(bs);
+    double targetBaseGh = 0;
+    double targetBs = 0;
+
+    if (baesGh != "" && bs != "") {
+      targetBaseGh = double.parse(baesGh);
+      targetBs = double.parse(bs);
+    } else {
+      return;
+    }
     _ihControllers[index].text = (targetBaseGh + targetBs).toString();
   }
 
-  void SaveList() {
-    List pointResult = [];
-    List bsResult = [];
-    List fsResult = [];
-    List ihResult = [];
-    List ghResult = [];
+  void trnDeleteAndReload() async {
+    await dbInit.trnDelte(state['id'], state['scene_seq']);
+    await getAllNumber();
+  }
+
+  void SaveList() async {
+    AllCalclate();
+    String nowTime = utils.time2Str();
+    List<Map<String, dynamic>> targetMapList = [];
 
     for (var i = 0; i < _bsControllers.length; i++) {
-      pointResult.add(_pointList[i]);
-      bsResult.add(_bsControllers[i].text);
-      ihResult.add(_ihControllers[i].text);
-      fsResult.add(_fsControllers[i].text);
-      ghResult.add(_ghControllers[i].text);
+      Map<String, dynamic> row = {
+        "id": state['id'],
+        "scene_seq": state['scene_seq'],
+        "bm_flg": _bmCheckList[i] ? 1 : 0,
+        "list_index": i,
+        "bs_number": _bsControllers[i].text,
+        "fs_number": _fsControllers[i].text,
+        "ih_number": _ihControllers[i].text,
+        "gh_number": _ghControllers[i].text,
+        "upd_date": nowTime,
+      };
+
+      targetMapList.add(row);
     }
 
-    saveTargetMap['pointRes'] = pointResult;
-    saveTargetMap['bsRes'] = bsResult;
-    saveTargetMap['ifRes'] = ihResult;
-    saveTargetMap['fsRes'] = fsResult;
-    saveTargetMap['ghRes'] = ghResult;
-    print("-------------------計算結果出力開始-------------------");
+    dbInit.trnDelte(state['id'], state['scene_seq']);
 
-    saveTargetMap.forEach((key, value) {
-      print('$key --- $value');
-    });
-
-    print("-------------------計算結果出力開始-------------------");
+    for (var j = 0; j < targetMapList.length; j++) {
+      dbInit.insertTrn(targetMapList[j]);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text("Surveying v1.0.0"),
-        ),
-        body: SingleChildScrollView(
-          child: Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: [
-                    Text(
-                      "NoteBook",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: textSize,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Icon(Icons.edit_note),
-                  ],
-                ),
-                const Divider(
-                  height: 20,
-                  endIndent: 0,
-                  color: Colors.black,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return isLoading
+        ? const Center(
+            child: CircularProgressIndicator(), //読み込み中の画面表示
+          )
+        : SafeArea(
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                title: Text("Surveying v1.0.0"),
+              ),
+              body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    // bmのチェックボックスリストを作成する
-                    Container(
-                      child: Column(
-                        children: [
-                          HeaderText(dispText: "BM"),
-                          Container(
-                            width: 20,
-                            height: elementHeight,
-                            child: ListView.builder(
-                              itemCount: _bmCheckList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Checkbox(
-                                  value: _bmCheckList[index],
-                                  onChanged: (bool? checkedValue) {
-                                    setState(() {
-                                      _bmCheckList[index] = checkedValue!;
-                                    });
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                    CardTemplate(result: state),
+                    const Divider(
+                      height: 20,
+                      endIndent: 0,
+                      color: Colors.black,
                     ),
-                    Container(
-                      child: Column(
-                        children: [
-                          HeaderText(dispText: "Point"),
-                          ListContainer(eleList: _pointList),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          HeaderText(dispText: "BS"),
-                          BSListContainer(
-                              eleList: _bsControllers,
-                              bmCheckList: _bmCheckList),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          HeaderText(dispText: "IH"),
-                          IHListContainer(eleList: _ihControllers),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          HeaderText(dispText: "FS"),
-                          FSListContainer(
-                            eleList: _fsControllers,
-                            bmCheckList: _bmCheckList,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                        child: Column(
+                    Row(
                       children: [
-                        Text(
-                          "GH",
-                          style: TextStyle(
-                            fontSize: textSize,
+                        IconButton(
+                          onPressed: () => {AllCalclate()},
+                          icon: const Icon(Icons.calculate),
+                        ),
+                        IconButton(
+                          onPressed: () => {trnDeleteAndReload()},
+                          icon: const Icon(Icons.delete),
+                        ),
+                        IconButton(
+                          onPressed: () => {getAllNumber()},
+                          icon: const Icon(Icons.published_with_changes),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        // bmのチェックボックスリストを作成する
+                        Container(
+                          child: Column(
+                            children: [
+                              HeaderText(dispText: "BM"),
+                              Container(
+                                width: 20,
+                                height: elementHeight,
+                                child: ListView.builder(
+                                  itemCount: _bmCheckList.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Checkbox(
+                                      value: _bmCheckList[index],
+                                      onChanged: (bool? checkedValue) {
+                                        setState(() {
+                                          _bmCheckList[index] = checkedValue!;
+                                        });
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Container(
-                          width: iconFieldSize,
-                          height: elementHeight,
-                          child: ListView.builder(
-                            itemCount: results.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return TextFormField(
-                                style: TextStyle(
-                                  fontSize: fieldTextSize,
-                                ),
-                                controller: _ghControllers[index],
-                                readOnly: !_bmCheckList[index],
-                                decoration: InputDecoration(
-                                  prefixIcon: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (_bmCheckList[index]) {
-                                          IhCalclate(
-                                            index,
-                                            _ghControllers[index].text,
-                                            _bsControllers[index].text,
-                                          );
-                                        } else {
-                                          GhCalclate(
-                                              index,
-                                              _ghControllers[index - 1].text,
-                                              _fsControllers[index].text,
-                                              _fsControllers[index - 1].text);
-                                        }
-                                      });
-                                    },
-                                    icon: Icon(Icons.calculate),
-                                  ),
-                                ),
-                              );
-                            },
+                          child: Column(
+                            children: [
+                              HeaderText(dispText: "Point"),
+                              ListContainer(eleList: _pointList),
+                            ],
                           ),
-                        )
+                        ),
+                        Container(
+                          child: Column(
+                            children: [
+                              HeaderText(dispText: "BS"),
+                              BSListContainer(
+                                  eleList: _bsControllers,
+                                  bmCheckList: _bmCheckList),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Column(
+                            children: [
+                              HeaderText(dispText: "IH"),
+                              IHListContainer(eleList: _ihControllers),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Column(
+                            children: [
+                              HeaderText(dispText: "FS"),
+                              FSListContainer(
+                                eleList: _fsControllers,
+                                bmCheckList: _bmCheckList,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                            child: Column(
+                          children: [
+                            Text(
+                              "GH",
+                              style: TextStyle(
+                                fontSize: textSize,
+                              ),
+                            ),
+                            Container(
+                              width: iconFieldSize,
+                              height: elementHeight,
+                              child: ListView.builder(
+                                itemCount: _ghControllers.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return TextFormField(
+                                    style: TextStyle(
+                                      fontSize: fieldTextSize,
+                                    ),
+                                    controller: _ghControllers[index],
+                                    readOnly: !_bmCheckList[index],
+                                    decoration: InputDecoration(),
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        )),
                       ],
-                    )),
+                    ),
                   ],
                 ),
-              ],
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  SaveList();
+                },
+                backgroundColor: Colors.green,
+                child: const Icon(Icons.save_alt),
+              ),
             ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            SaveList();
-          },
-          backgroundColor: Colors.green,
-          child: const Icon(Icons.save_alt),
-        ),
-      ),
-    );
+          );
   }
 }

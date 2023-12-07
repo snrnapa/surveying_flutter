@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:surveying_app/database_init.dart';
-import 'package:surveying_app/surveying.dart';
+import 'package:surveying_app/surveying_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -61,19 +61,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Surveying()),
+                      MaterialPageRoute(builder: (context) => SurveyingList()),
                     );
                   },
                   icon: Icon(Icons.reorder),
                 ),
                 ElevatedButton.icon(
                   label: Text('Picture on Mapping'),
-                  onPressed: () => _insert('2', 'テスト改修工事', '1'),
+                  onPressed: () => {},
                   icon: Icon(Icons.map),
                 ),
                 ElevatedButton.icon(
                   label: Text('Expenses'),
-                  onPressed: _query,
+                  onPressed: () {},
                   icon: Icon(Icons.payment),
                 ),
                 ElevatedButton.icon(
@@ -91,29 +91,5 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
-  }
-
-  // 登録ボタンクリック
-  void _insert(sceneId, name, seq) async {
-    // row to insert
-    // Map<String, dynamic> row = {
-    //   DatabaseInit.columnId: '0001',
-    //   DatabaseInit.columnSceneName: 'Napa市改修工事',
-    //   DatabaseInit.columnSceneSeq: 1
-    // };
-    Map<String, dynamic> row = {
-      DatabaseInit.columnId: sceneId,
-      DatabaseInit.columnSceneName: name,
-      DatabaseInit.columnSceneSeq: seq
-    };
-    final id = await dbInit.insert(row);
-    print('登録しました。id: $sceneId');
-  }
-
-  // 照会ボタンクリック
-  void _query() async {
-    final allRows = await dbInit.queryAllRows();
-    print('全てのデータを照会しました。');
-    allRows.forEach(print);
   }
 }
