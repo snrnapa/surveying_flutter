@@ -24,8 +24,8 @@ class DatabaseInit {
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
-    // DBを削除するとき
-    await deleteDatabase(path);
+    // // DBを削除するとき
+    // await deleteDatabase(path);
     return await openDatabase(path,
         version: _databaseVersion, onCreate: _onCreate);
   }
@@ -85,6 +85,7 @@ class DatabaseInit {
     return await db!.query("trn_surveying",
         columns: [
           'list_index',
+          'bm_flg',
           'bs_number',
           'fs_number',
           'ih_number',

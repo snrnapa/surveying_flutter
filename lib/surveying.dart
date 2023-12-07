@@ -43,6 +43,7 @@ class _SurveyingPageState extends State<Surveying> {
       _fsControllers[i].text = resultTrn[i]['fs_number'].toString();
       _ihControllers[i].text = resultTrn[i]['ih_number'].toString();
       _ghControllers[i].text = resultTrn[i]['gh_number'].toString();
+      _bmCheckList[i] = resultTrn[i]['bm_flg'] == '0' ? false : true;
     }
 
     print(resultTrn);
@@ -85,18 +86,25 @@ class _SurveyingPageState extends State<Surveying> {
           _ghControllers[j].text,
           _bsControllers[j].text,
         );
-        print(j);
+        print("IHの計算を行いました${j}番目");
       } else {
         GhCalclate(j, _ghControllers[j - 1].text, _fsControllers[j].text,
             _fsControllers[j - 1].text);
-        print(j);
+        print("GHの計算を行いました${j}番目");
       }
     }
   }
 
   void GhCalclate(int index, String gh, String fs, String lastFs) {
-    double targetGh = double.parse(gh);
-    double targetFs = double.parse(fs);
+    double targetGh = 0;
+    double targetFs = 0;
+
+    if (gh != "" && fs != "") {
+      targetGh = double.parse(gh);
+      targetFs = double.parse(fs);
+    } else {
+      return;
+    }
     double targetLastFs = 0;
     if (!lastFs.isEmpty) {
       targetLastFs = double.parse(lastFs);
@@ -106,8 +114,15 @@ class _SurveyingPageState extends State<Surveying> {
   }
 
   void IhCalclate(int index, String baesGh, String bs) {
-    double targetBaseGh = double.parse(baesGh);
-    double targetBs = double.parse(bs);
+    double targetBaseGh = 0;
+    double targetBs = 0;
+
+    if (baesGh != "" && bs != "") {
+      targetBaseGh = double.parse(baesGh);
+      targetBs = double.parse(bs);
+    } else {
+      return;
+    }
     _ihControllers[index].text = (targetBaseGh + targetBs).toString();
   }
 
@@ -175,6 +190,10 @@ class _SurveyingPageState extends State<Surveying> {
                         IconButton(
                           onPressed: () => {trnDeleteAndReload()},
                           icon: const Icon(Icons.delete),
+                        ),
+                        IconButton(
+                          onPressed: () => {getAllNumber()},
+                          icon: const Icon(Icons.published_with_changes),
                         ),
                       ],
                     ),
