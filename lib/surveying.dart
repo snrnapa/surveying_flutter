@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:surveying_app/components/card_template.dart';
+import 'package:surveying_app/components/textform_divider.dart';
 import 'package:surveying_app/components/utils.dart';
 import 'components/bs_list_container.dart';
 import 'components/fs_list_container.dart';
@@ -57,7 +58,7 @@ class _SurveyingPageState extends State<Surveying> {
   double fieldTextSize = 13;
   double iconFieldSize = 100;
   double elementHeight = 600;
-  int itemCount = 10;
+  int itemCount = 20;
 
   // 題名部分の変数など
   var utils = Utils();
@@ -173,130 +174,118 @@ class _SurveyingPageState extends State<Surveying> {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 title: Text("Surveying v1.0.0"),
               ),
-              body: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    CardTemplate(result: state),
-                    const Divider(
-                      height: 20,
-                      endIndent: 0,
-                      color: Colors.black,
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => {AllCalclate()},
-                          icon: const Icon(Icons.calculate),
-                        ),
-                        IconButton(
-                          onPressed: () => {trnDeleteAndReload()},
-                          icon: const Icon(Icons.delete),
-                        ),
-                        IconButton(
-                          onPressed: () => {getAllNumber()},
-                          icon: const Icon(Icons.published_with_changes),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        // bmのチェックボックスリストを作成する
-                        Container(
-                          child: Column(
-                            children: [
-                              HeaderText(dispText: "BM"),
-                              Container(
-                                width: 20,
-                                height: elementHeight,
-                                child: ListView.builder(
-                                  itemCount: _bmCheckList.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Checkbox(
-                                      value: _bmCheckList[index],
-                                      onChanged: (bool? checkedValue) {
-                                        setState(() {
-                                          _bmCheckList[index] = checkedValue!;
-                                        });
-                                      },
-                                    );
+              body: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  CardTemplate(result: state),
+                  const Divider(
+                    height: 20,
+                    endIndent: 0,
+                    color: Colors.black,
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () => {AllCalclate()},
+                        icon: const Icon(Icons.calculate),
+                      ),
+                      IconButton(
+                        onPressed: () => {trnDeleteAndReload()},
+                        icon: const Icon(Icons.delete),
+                      ),
+                      IconButton(
+                        onPressed: () => {getAllNumber()},
+                        icon: const Icon(Icons.published_with_changes),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                      child: CustomScrollView(
+                    scrollDirection: Axis.vertical,
+                    slivers: [
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Checkbox(
+                                  value: _bmCheckList[index],
+                                  onChanged: (bool? checkedValue) {
+                                    setState(() {
+                                      _bmCheckList[index] = checkedValue!;
+                                    });
                                   },
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            children: [
-                              HeaderText(dispText: "Point"),
-                              ListContainer(eleList: _pointList),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            children: [
-                              HeaderText(dispText: "BS"),
-                              BSListContainer(
-                                  eleList: _bsControllers,
-                                  bmCheckList: _bmCheckList),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            children: [
-                              HeaderText(dispText: "IH"),
-                              IHListContainer(eleList: _ihControllers),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            children: [
-                              HeaderText(dispText: "FS"),
-                              FSListContainer(
-                                eleList: _fsControllers,
-                                bmCheckList: _bmCheckList,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                            child: Column(
-                          children: [
-                            Text(
-                              "GH",
-                              style: TextStyle(
-                                fontSize: textSize,
-                              ),
-                            ),
-                            Container(
-                              width: iconFieldSize,
-                              height: elementHeight,
-                              child: ListView.builder(
-                                itemCount: _ghControllers.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return TextFormField(
+                                TextformDivider(),
+                                Flexible(
+                                  child: TextFormField(
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                      readOnly: true,
+                                      // controller: _pointControllers[index]);
+                                      initialValue: _pointList[index]),
+                                ),
+                                TextformDivider(),
+                                Flexible(
+                                  child: TextFormField(
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                    ),
+                                    enabled: _bmCheckList[index],
+                                    controller: _bsControllers[index],
+                                    decoration: InputDecoration(
+                                        filled: !_bmCheckList[index],
+                                        fillColor: Colors.black12),
+                                  ),
+                                ),
+                                TextformDivider(),
+                                Flexible(
+                                  child: TextFormField(
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                    ),
+                                    enabled: false,
+                                    controller: _ihControllers[index],
+                                    decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.black12),
+                                  ),
+                                ),
+                                TextformDivider(),
+                                Flexible(
+                                  child: TextFormField(
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                    ),
+                                    enabled: !_bmCheckList[index],
+                                    controller: _bsControllers[index],
+                                    decoration: InputDecoration(
+                                        filled: _bmCheckList[index],
+                                        fillColor: Colors.black12),
+                                  ),
+                                ),
+                                TextformDivider(),
+                                Flexible(
+                                  child: TextFormField(
                                     style: TextStyle(
                                       fontSize: fieldTextSize,
                                     ),
                                     controller: _ghControllers[index],
                                     readOnly: !_bmCheckList[index],
                                     decoration: InputDecoration(),
-                                  );
-                                },
-                              ),
-                            )
-                          ],
-                        )),
-                      ],
-                    ),
-                  ],
-                ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                          childCount: _bmCheckList.length, // 子要素の数
+                        ),
+                      ),
+                    ],
+                  ))
+                ],
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {

@@ -13,6 +13,7 @@ class ListContainer extends StatelessWidget {
       width: 60,
       height: 600,
       child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: eleList.length,
         itemBuilder: (BuildContext context, int index) {
           return TextFormField(
