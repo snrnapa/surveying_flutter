@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:surveying_app/components/card_template.dart';
 import 'package:surveying_app/components/textform_divider.dart';
 import 'package:surveying_app/components/utils.dart';
-import 'components/bs_list_container.dart';
-import 'components/fs_list_container.dart';
-import 'components/ih_list_container.dart';
-import 'components/header_text.dart';
-import 'components/list_container.dart';
 import 'database_init.dart';
 
 class Surveying extends StatefulWidget {
