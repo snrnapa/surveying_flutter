@@ -57,26 +57,28 @@ class _SurveyingPageState extends State<Surveying> {
   double fieldTextSize = 13;
   double iconFieldSize = 100;
   double elementHeight = 600;
+  int itemCount = 10;
 
   // 題名部分の変数など
   var utils = Utils();
 
   // BSの値をコントロールする
-  final List<TextEditingController> _bsControllers =
-      List.generate(10, (i) => TextEditingController());
+  late final List<TextEditingController> _bsControllers =
+      List.generate(itemCount, (i) => TextEditingController());
   // FSの値をコントロールする
-  final List<TextEditingController> _fsControllers =
-      List.generate(10, (i) => TextEditingController());
+  late final List<TextEditingController> _fsControllers =
+      List.generate(itemCount, (i) => TextEditingController());
   // IHの値をコントロールする
-  final List<TextEditingController> _ihControllers =
-      List.generate(10, (i) => TextEditingController());
+  late final List<TextEditingController> _ihControllers =
+      List.generate(itemCount, (i) => TextEditingController());
   // GHの値をコントロールする
-  final List<TextEditingController> _ghControllers =
-      List.generate(10, (i) => TextEditingController());
+  late final List<TextEditingController> _ghControllers =
+      List.generate(itemCount, (i) => TextEditingController());
 
   // 測点を連番で作成する
-  final List<String> _pointList = List.generate(10, (i) => "No.$i");
-  final List<bool> _bmCheckList = List<bool>.generate(10, (i) => false);
+  late final List<String> _pointList = List.generate(itemCount, (i) => "No.$i");
+  late final List<bool> _bmCheckList =
+      List<bool>.generate(itemCount, (i) => false);
 
   void AllCalclate() {
     for (var j = 0; j < _pointList.length; j++) {
