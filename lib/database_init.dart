@@ -68,7 +68,7 @@ class DatabaseInit {
   //　トランザクション登録処理
   Future<int> insertTrn(Map<String, dynamic> row) async {
     Database? db = await instance.database;
-    Future<int> dummy = delete();
+    // Future<int> dummy = delete();
 
     return await db!.insert("trn_surveying", row);
   }

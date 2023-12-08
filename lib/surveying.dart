@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:surveying_app/components/card_template.dart';
+import 'package:surveying_app/components/header_text.dart';
 import 'package:surveying_app/components/textform_divider.dart';
 import 'package:surveying_app/components/utils.dart';
 import 'database_init.dart';
@@ -169,7 +170,6 @@ class _SurveyingPageState extends State<Surveying> {
                 title: Text("Surveying v1.0.0"),
               ),
               body: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   CardTemplate(result: state),
                   const Divider(
@@ -191,6 +191,17 @@ class _SurveyingPageState extends State<Surveying> {
                         onPressed: () => {getAllNumber()},
                         icon: const Icon(Icons.published_with_changes),
                       ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      HeaderText(dispText: "Bm"),
+                      HeaderText(dispText: "No"),
+                      HeaderText(dispText: "Fs"),
+                      HeaderText(dispText: "Ih"),
+                      HeaderText(dispText: "Bs"),
+                      HeaderText(dispText: "Gh"),
                     ],
                   ),
                   Expanded(
@@ -254,7 +265,7 @@ class _SurveyingPageState extends State<Surveying> {
                                       fontSize: 13,
                                     ),
                                     enabled: !_bmCheckList[index],
-                                    controller: _bsControllers[index],
+                                    controller: _fsControllers[index],
                                     decoration: InputDecoration(
                                         filled: _bmCheckList[index],
                                         fillColor: Colors.black12),
