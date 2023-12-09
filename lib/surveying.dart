@@ -170,7 +170,7 @@ class _SurveyingPageState extends State<Surveying> {
                 title: Text("Surveying v1.0.0"),
               ),
               body: Column(
-                children: <Widget>[
+                children: [
                   CardTemplate(result: state),
                   const Divider(
                     height: 20,
@@ -193,103 +193,205 @@ class _SurveyingPageState extends State<Surveying> {
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      HeaderText(dispText: "Bm"),
-                      HeaderText(dispText: "No"),
-                      HeaderText(dispText: "Fs"),
-                      HeaderText(dispText: "Ih"),
-                      HeaderText(dispText: "Bs"),
-                      HeaderText(dispText: "Gh"),
-                    ],
-                  ),
-                  Expanded(
-                      child: CustomScrollView(
-                    scrollDirection: Axis.vertical,
-                    slivers: [
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Checkbox(
-                                  value: _bmCheckList[index],
-                                  onChanged: (bool? checkedValue) {
-                                    setState(() {
-                                      _bmCheckList[index] = checkedValue!;
-                                    });
-                                  },
+                  SingleChildScrollView(
+                    child: Table(
+                      // defaultVerticalAlignment:
+                      //     TableCellVerticalAlignment.middle,
+                      children: [
+                        TableRow(
+                          children: [
+                            TableCell(
+                              child: Container(
+                                color: Colors.green,
+                                padding: const EdgeInsets.all(8),
+                                child: Center(
+                                  child: Text('Bm',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
-                                TextformDivider(),
-                                Flexible(
-                                  child: TextFormField(
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                color: Colors.green,
+                                padding: const EdgeInsets.all(8),
+                                child: Center(
+                                  child: Text('No',
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                color: Colors.green,
+                                padding: const EdgeInsets.all(8),
+                                child: Center(
+                                    child: Text('FS',
+                                        style: TextStyle(color: Colors.white))),
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                color: Colors.green,
+                                padding: const EdgeInsets.all(8),
+                                child: Center(
+                                    child: Text('IH',
+                                        style: TextStyle(color: Colors.white))),
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                color: Colors.green,
+                                padding: const EdgeInsets.all(8),
+                                child: Center(
+                                    child: Text('BS',
+                                        style: TextStyle(color: Colors.white))),
+                              ),
+                            ),
+                            TableCell(
+                              child: Container(
+                                color: Colors.green,
+                                padding: const EdgeInsets.all(8),
+                                child: Center(
+                                    child: Text('GH',
+                                        style: TextStyle(color: Colors.white))),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // データ部分
+                        for (int index = 0; index < itemCount; index++)
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Container(
+                                  constraints: BoxConstraints(minHeight: 50),
+                                  color: index % 2 == 0
+                                      ? Colors.white
+                                      : Colors.grey[200],
+                                  padding: const EdgeInsets.all(8),
+                                  child: Center(
+                                    child: Checkbox(
+                                      value: _bmCheckList[index],
+                                      onChanged: (bool? checkedValue) {
+                                        setState(() {
+                                          _bmCheckList[index] = checkedValue!;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: Container(
+                                  constraints: BoxConstraints(minHeight: 50),
+                                  color: index % 2 == 0
+                                      ? Colors.white
+                                      : Colors.grey[200],
+                                  padding: const EdgeInsets.all(8),
+                                  child: Center(
+                                    child: TextFormField(
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                        ),
+                                        readOnly: true,
+                                        // controller: _pointControllers[index]);
+                                        initialValue: _pointList[index]),
+                                  ),
+                                ),
+                              ),
+
+                              //BS
+                              TableCell(
+                                child: Container(
+                                  constraints: BoxConstraints(minHeight: 50),
+                                  color: index % 2 == 0
+                                      ? Colors.white
+                                      : Colors.grey[200],
+                                  padding: const EdgeInsets.all(8),
+                                  child: Center(
+                                    child: TextFormField(
                                       style: TextStyle(
                                         fontSize: 13,
                                       ),
-                                      readOnly: true,
-                                      // controller: _pointControllers[index]);
-                                      initialValue: _pointList[index]),
-                                ),
-                                TextformDivider(),
-                                Flexible(
-                                  child: TextFormField(
-                                    style: TextStyle(
-                                      fontSize: 13,
+                                      enabled: _bmCheckList[index],
+                                      controller: _bsControllers[index],
+                                      decoration: InputDecoration(
+                                          filled: !_bmCheckList[index],
+                                          fillColor: Colors.black12),
                                     ),
-                                    enabled: _bmCheckList[index],
-                                    controller: _bsControllers[index],
-                                    decoration: InputDecoration(
-                                        filled: !_bmCheckList[index],
-                                        fillColor: Colors.black12),
                                   ),
                                 ),
-                                TextformDivider(),
-                                Flexible(
-                                  child: TextFormField(
-                                    style: TextStyle(
-                                      fontSize: 13,
+                              ),
+
+                              //IH
+                              TableCell(
+                                child: Container(
+                                  constraints: BoxConstraints(minHeight: 50),
+                                  color: index % 2 == 0
+                                      ? Colors.white
+                                      : Colors.grey[200],
+                                  padding: const EdgeInsets.all(8),
+                                  child: Center(
+                                    child: TextFormField(
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                      enabled: false,
+                                      controller: _ihControllers[index],
+                                      decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.black12),
                                     ),
-                                    enabled: false,
-                                    controller: _ihControllers[index],
-                                    decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.black12),
                                   ),
                                 ),
-                                TextformDivider(),
-                                Flexible(
-                                  child: TextFormField(
-                                    style: TextStyle(
-                                      fontSize: 13,
+                              ),
+                              //FS
+                              TableCell(
+                                child: Container(
+                                  constraints: BoxConstraints(minHeight: 50),
+                                  color: index % 2 == 0
+                                      ? Colors.white
+                                      : Colors.grey[200],
+                                  padding: const EdgeInsets.all(8),
+                                  child: Center(
+                                    child: TextFormField(
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                      enabled: !_bmCheckList[index],
+                                      controller: _fsControllers[index],
+                                      decoration: InputDecoration(
+                                          filled: _bmCheckList[index],
+                                          fillColor: Colors.black12),
                                     ),
-                                    enabled: !_bmCheckList[index],
-                                    controller: _fsControllers[index],
-                                    decoration: InputDecoration(
-                                        filled: _bmCheckList[index],
-                                        fillColor: Colors.black12),
                                   ),
                                 ),
-                                TextformDivider(),
-                                Flexible(
-                                  child: TextFormField(
-                                    style: TextStyle(
-                                      fontSize: fieldTextSize,
+                              ),
+                              // GH
+                              TableCell(
+                                child: Container(
+                                  constraints: BoxConstraints(minHeight: 50),
+                                  color: index % 2 == 0
+                                      ? Colors.white
+                                      : Colors.grey[200],
+                                  padding: const EdgeInsets.all(8),
+                                  child: Center(
+                                    child: TextFormField(
+                                      style: TextStyle(
+                                        fontSize: fieldTextSize,
+                                      ),
+                                      controller: _ghControllers[index],
+                                      readOnly: !_bmCheckList[index],
+                                      decoration: InputDecoration(),
                                     ),
-                                    controller: _ghControllers[index],
-                                    readOnly: !_bmCheckList[index],
-                                    decoration: InputDecoration(),
                                   ),
                                 ),
-                              ],
-                            );
-                          },
-                          childCount: _bmCheckList.length, // 子要素の数
-                        ),
-                      ),
-                    ],
-                  ))
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               floatingActionButton: FloatingActionButton(
