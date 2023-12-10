@@ -75,7 +75,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
                   children: [
                     Card(
                       child: Column(
-                        children: [
+                        children: <Widget>[
                           ListTile(
                             title: TextField(
                               controller: sceneNameController,
