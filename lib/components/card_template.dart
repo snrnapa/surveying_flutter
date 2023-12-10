@@ -11,27 +11,33 @@ class CardTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      color: Colors.blue[400],
+      color: Colors.green[100],
       child: Row(
         children: [
           Container(
+            width: 200,
+            // color: Colors.black,
             alignment: Alignment.centerLeft,
             child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                ListTile(
+                  title: Text('No.${result['id']}   ${result['scene_name']}'),
+                  subtitle: Text('${result['scene_note']}'),
+                ),
                 Text(
-                    style: TextStyle(color: Colors.white),
-                    "No.${result['id']}\n${result['scene_name']}"),
-                Text(
-                    style: TextStyle(color: Colors.white),
-                    "${result['scene_note']}"),
-                Text(result['upd_date']),
+                    style: TextStyle(fontSize: 13, color: Colors.black),
+                    "${result['upd_date']}"),
               ],
             ),
           ),
           Container(
-            width: 100,
-            child: Image.asset('appImage/kushima.jpg'),
-          )
+              padding: EdgeInsets.all(8),
+              width: 150,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset('appImage/kushima.jpg'),
+              ))
         ],
       ),
     );
