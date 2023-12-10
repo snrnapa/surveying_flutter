@@ -55,6 +55,64 @@ class _MyHomePageState extends State<MyHomePage> {
 
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+                ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width *
+                          0.4, // カードの横幅（最大値）
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SurveyingList()),
+                        );
+                      },
+                      child: Card(
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: [
+                            // 画像
+                            SizedBox(
+                                width: double.infinity,
+                                height: 128,
+                                child: Container(
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.asset(
+                                        'appImage/kushima.jpg',
+                                        fit: BoxFit.cover,
+                                      )),
+                                )),
+                            // タイトル
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.only(left: 4),
+                              child: Text(
+                                'Surveying',
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ),
+                            // 説明文
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.only(left: 4),
+                              child: const Text(
+                                '水準測量',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
                 ElevatedButton.icon(
                   focusNode: primaryFocus,
                   label: Text('Surveying'),
