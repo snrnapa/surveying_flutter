@@ -193,205 +193,107 @@ class _SurveyingPageState extends State<Surveying> {
                       ),
                     ],
                   ),
-                  SingleChildScrollView(
-                    child: Table(
-                      // defaultVerticalAlignment:
-                      //     TableCellVerticalAlignment.middle,
-                      children: [
-                        TableRow(
-                          children: [
-                            TableCell(
-                              child: Container(
-                                color: Colors.green,
-                                padding: const EdgeInsets.all(8),
-                                child: Center(
-                                  child: Text('Bm',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              child: Container(
-                                color: Colors.green,
-                                padding: const EdgeInsets.all(8),
-                                child: Center(
-                                  child: Text('No',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                              ),
-                            ),
-                            TableCell(
-                              child: Container(
-                                color: Colors.green,
-                                padding: const EdgeInsets.all(8),
-                                child: Center(
-                                    child: Text('FS',
-                                        style: TextStyle(color: Colors.white))),
-                              ),
-                            ),
-                            TableCell(
-                              child: Container(
-                                color: Colors.green,
-                                padding: const EdgeInsets.all(8),
-                                child: Center(
-                                    child: Text('IH',
-                                        style: TextStyle(color: Colors.white))),
-                              ),
-                            ),
-                            TableCell(
-                              child: Container(
-                                color: Colors.green,
-                                padding: const EdgeInsets.all(8),
-                                child: Center(
-                                    child: Text('BS',
-                                        style: TextStyle(color: Colors.white))),
-                              ),
-                            ),
-                            TableCell(
-                              child: Container(
-                                color: Colors.green,
-                                padding: const EdgeInsets.all(8),
-                                child: Center(
-                                    child: Text('GH',
-                                        style: TextStyle(color: Colors.white))),
-                              ),
-                            ),
-                          ],
-                        ),
-                        // データ部分
+                  Expanded(
+                      child: SingleChildScrollView(
+                    child: DataTable(
+                      columnSpacing: 10.0,
+                      columns: const [
+                        DataColumn(label: Text('BM')),
+                        DataColumn(label: Text('No')),
+                        DataColumn(label: Text('BS')),
+                        DataColumn(label: Text('Ih')),
+                        DataColumn(label: Text('FS')),
+                        DataColumn(label: Text('Gh')),
+                      ],
+                      rows: [
                         for (int index = 0; index < itemCount; index++)
-                          TableRow(
-                            children: [
-                              TableCell(
-                                child: Container(
-                                  constraints: BoxConstraints(minHeight: 50),
-                                  color: index % 2 == 0
-                                      ? Colors.white
-                                      : Colors.grey[200],
-                                  padding: const EdgeInsets.all(8),
-                                  child: Center(
-                                    child: Checkbox(
-                                      value: _bmCheckList[index],
-                                      onChanged: (bool? checkedValue) {
-                                        setState(() {
-                                          _bmCheckList[index] = checkedValue!;
-                                        });
-                                      },
-                                    ),
+                          //BMちぇっくりすと
+                          DataRow(cells: [
+                            DataCell(Checkbox(
+                              value: _bmCheckList[index],
+                              onChanged: (bool? checkedValue) {
+                                setState(() {
+                                  _bmCheckList[index] = checkedValue!;
+                                });
+                              },
+                            )),
+                            //PointListちぇっくりすと
+                            DataCell(
+                              TextFormField(
+                                  style: TextStyle(
+                                    fontSize: 13,
                                   ),
-                                ),
-                              ),
-                              TableCell(
-                                child: Container(
-                                  constraints: BoxConstraints(minHeight: 50),
-                                  color: index % 2 == 0
-                                      ? Colors.white
-                                      : Colors.grey[200],
-                                  padding: const EdgeInsets.all(8),
-                                  child: Center(
-                                    child: TextFormField(
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                        ),
-                                        readOnly: true,
-                                        // controller: _pointControllers[index]);
-                                        initialValue: _pointList[index]),
+                                  readOnly: true,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
                                   ),
+                                  // controller: _pointControllers[index]);
+                                  initialValue: _pointList[index]),
+                            ),
+                            //BS
+                            DataCell(Container(
+                              child: TextFormField(
+                                style: TextStyle(
+                                  fontSize: 13,
                                 ),
+                                enabled: _bmCheckList[index],
+                                controller: _bsControllers[index],
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    filled: !_bmCheckList[index],
+                                    fillColor: Colors.black12),
                               ),
+                            )),
+                            //Ih
+                            DataCell(
+                              TextFormField(
+                                style: TextStyle(
+                                  fontSize: 13,
+                                ),
+                                enabled: false,
+                                controller: _ihControllers[index],
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    filled: true,
+                                    fillColor: Colors.black12),
+                              ),
+                            ),
+                            //FS
+                            DataCell(
+                              TextFormField(
+                                style: TextStyle(
+                                  fontSize: 13,
+                                ),
+                                enabled: !_bmCheckList[index],
+                                controller: _fsControllers[index],
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    filled: _bmCheckList[index],
+                                    fillColor: Colors.black12),
+                              ),
+                            ),
 
-                              //BS
-                              TableCell(
-                                child: Container(
-                                  constraints: BoxConstraints(minHeight: 50),
-                                  color: index % 2 == 0
-                                      ? Colors.white
-                                      : Colors.grey[200],
-                                  padding: const EdgeInsets.all(8),
-                                  child: Center(
-                                    child: TextFormField(
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                      ),
-                                      enabled: _bmCheckList[index],
-                                      controller: _bsControllers[index],
-                                      decoration: InputDecoration(
-                                          filled: !_bmCheckList[index],
-                                          fillColor: Colors.black12),
-                                    ),
-                                  ),
+                            //GH
+                            DataCell(
+                              TextFormField(
+                                style: TextStyle(
+                                  fontSize: fieldTextSize,
+                                ),
+                                controller: _ghControllers[index],
+                                readOnly: !_bmCheckList[index],
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
                                 ),
                               ),
-
-                              //IH
-                              TableCell(
-                                child: Container(
-                                  constraints: BoxConstraints(minHeight: 50),
-                                  color: index % 2 == 0
-                                      ? Colors.white
-                                      : Colors.grey[200],
-                                  padding: const EdgeInsets.all(8),
-                                  child: Center(
-                                    child: TextFormField(
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                      ),
-                                      enabled: false,
-                                      controller: _ihControllers[index],
-                                      decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.black12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              //FS
-                              TableCell(
-                                child: Container(
-                                  constraints: BoxConstraints(minHeight: 50),
-                                  color: index % 2 == 0
-                                      ? Colors.white
-                                      : Colors.grey[200],
-                                  padding: const EdgeInsets.all(8),
-                                  child: Center(
-                                    child: TextFormField(
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                      ),
-                                      enabled: !_bmCheckList[index],
-                                      controller: _fsControllers[index],
-                                      decoration: InputDecoration(
-                                          filled: _bmCheckList[index],
-                                          fillColor: Colors.black12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              // GH
-                              TableCell(
-                                child: Container(
-                                  constraints: BoxConstraints(minHeight: 50),
-                                  color: index % 2 == 0
-                                      ? Colors.white
-                                      : Colors.grey[200],
-                                  padding: const EdgeInsets.all(8),
-                                  child: Center(
-                                    child: TextFormField(
-                                      style: TextStyle(
-                                        fontSize: fieldTextSize,
-                                      ),
-                                      controller: _ghControllers[index],
-                                      readOnly: !_bmCheckList[index],
-                                      decoration: InputDecoration(),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ]),
+                        // DataRow(cells: [
+                        //   DataCell(Text('次郎')),
+                        //   DataCell(Text('25')),
+                        // ]),
                       ],
                     ),
-                  ),
+                  ))
                 ],
               ),
               floatingActionButton: FloatingActionButton(
