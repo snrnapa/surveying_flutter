@@ -196,97 +196,139 @@ class _SurveyingPageState extends State<Surveying> {
                   Expanded(
                       child: SingleChildScrollView(
                     child: DataTable(
+                      dividerThickness: 2,
+                      horizontalMargin: 10,
                       columnSpacing: 10.0,
                       columns: const [
-                        DataColumn(label: Text('BM')),
-                        DataColumn(label: Text('No')),
-                        DataColumn(label: Text('BS')),
-                        DataColumn(label: Text('Ih')),
-                        DataColumn(label: Text('FS')),
-                        DataColumn(label: Text('Gh')),
+                        DataColumn(
+                            label: Text(
+                          'BM',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'No',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'BS',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Ih',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'FS',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        )),
+                        DataColumn(
+                            label: Text(
+                          'Gh',
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                        )),
                       ],
                       rows: [
                         for (int index = 0; index < itemCount; index++)
                           //BMちぇっくりすと
-                          DataRow(cells: [
-                            DataCell(Checkbox(
-                              value: _bmCheckList[index],
-                              onChanged: (bool? checkedValue) {
-                                setState(() {
-                                  _bmCheckList[index] = checkedValue!;
-                                });
-                              },
-                            )),
-                            //PointListちぇっくりすと
-                            DataCell(
-                              TextFormField(
-                                  style: TextStyle(
-                                    fontSize: 13,
+                          DataRow(
+                              color: MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
+                                // All rows will have the same selected color.
+                                if (states.contains(MaterialState.selected)) {
+                                  return Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.08);
+                                }
+                                // Even rows will have a grey color.
+                                if (index.isEven) {
+                                  return Colors.blue[100];
+                                }
+                                return null; // Use default value for other states and odd rows.
+                              }),
+                              cells: [
+                                DataCell(Checkbox(
+                                  value: _bmCheckList[index],
+                                  onChanged: (bool? checkedValue) {
+                                    setState(() {
+                                      _bmCheckList[index] = checkedValue!;
+                                    });
+                                  },
+                                )),
+                                //PointListちぇっくりすと
+                                DataCell(
+                                  TextFormField(
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                      readOnly: true,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                      ),
+                                      // controller: _pointControllers[index]);
+                                      initialValue: _pointList[index]),
+                                ),
+                                //BS
+                                DataCell(Container(
+                                  child: TextFormField(
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                    ),
+                                    enabled: _bmCheckList[index],
+                                    controller: _bsControllers[index],
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        filled: !_bmCheckList[index],
+                                        fillColor: Colors.black26),
                                   ),
-                                  readOnly: true,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
+                                )),
+                                //Ih
+                                DataCell(
+                                  TextFormField(
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                    ),
+                                    enabled: false,
+                                    controller: _ihControllers[index],
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        filled: true,
+                                        fillColor: Colors.black26),
                                   ),
-                                  // controller: _pointControllers[index]);
-                                  initialValue: _pointList[index]),
-                            ),
-                            //BS
-                            DataCell(Container(
-                              child: TextFormField(
-                                style: TextStyle(
-                                  fontSize: 13,
                                 ),
-                                enabled: _bmCheckList[index],
-                                controller: _bsControllers[index],
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    filled: !_bmCheckList[index],
-                                    fillColor: Colors.black12),
-                              ),
-                            )),
-                            //Ih
-                            DataCell(
-                              TextFormField(
-                                style: TextStyle(
-                                  fontSize: 13,
+                                //FS
+                                DataCell(
+                                  TextFormField(
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                    ),
+                                    enabled: !_bmCheckList[index],
+                                    controller: _fsControllers[index],
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        filled: _bmCheckList[index],
+                                        fillColor: Colors.black26),
+                                  ),
                                 ),
-                                enabled: false,
-                                controller: _ihControllers[index],
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    filled: true,
-                                    fillColor: Colors.black12),
-                              ),
-                            ),
-                            //FS
-                            DataCell(
-                              TextFormField(
-                                style: TextStyle(
-                                  fontSize: 13,
-                                ),
-                                enabled: !_bmCheckList[index],
-                                controller: _fsControllers[index],
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    filled: _bmCheckList[index],
-                                    fillColor: Colors.black12),
-                              ),
-                            ),
 
-                            //GH
-                            DataCell(
-                              TextFormField(
-                                style: TextStyle(
-                                  fontSize: fieldTextSize,
+                                //GH
+                                DataCell(
+                                  TextFormField(
+                                    style: TextStyle(
+                                      fontSize: fieldTextSize,
+                                    ),
+                                    controller: _ghControllers[index],
+                                    readOnly: !_bmCheckList[index],
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
                                 ),
-                                controller: _ghControllers[index],
-                                readOnly: !_bmCheckList[index],
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                          ]),
+                              ]),
                         // DataRow(cells: [
                         //   DataCell(Text('次郎')),
                         //   DataCell(Text('25')),
