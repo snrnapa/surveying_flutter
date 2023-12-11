@@ -68,7 +68,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                title: Text("SurveyinList"),
+                title: const Text("SurveyinList"),
               ),
               body: SingleChildScrollView(
                 child: Column(
@@ -79,21 +79,22 @@ class _SurveyingListPageState extends State<SurveyingList> {
                           ListTile(
                             title: TextField(
                               controller: sceneNameController,
-                              decoration:
-                                  InputDecoration(labelText: "Scene Name"),
+                              decoration: const InputDecoration(
+                                  labelText: "Scene Name"),
                             ),
                             subtitle: TextField(
                               controller: sceneNoteController,
-                              decoration: InputDecoration(labelText: "Note"),
+                              decoration:
+                                  const InputDecoration(labelText: "Note"),
                             ),
-                            leading: Icon(Icons.post_add),
+                            leading: const Icon(Icons.post_add),
                           ),
                         ],
                       ),
                     ),
                     ListView.builder(
                       shrinkWrap: true, //追加
-                      physics: NeverScrollableScrollPhysics(), //追加
+                      physics: const NeverScrollableScrollPhysics(), //追加
                       itemCount: resultCardList.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
@@ -113,7 +114,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
                       children: [
                         TextButton(
                             onPressed: () => {dbInit.delete()},
-                            child: Text("削除")),
+                            child: const Text("削除")),
                       ],
                     )
                   ],

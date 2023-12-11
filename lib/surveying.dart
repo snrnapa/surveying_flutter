@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:surveying_app/components/card_template.dart';
-import 'package:surveying_app/components/header_text.dart';
-import 'package:surveying_app/components/textform_divider.dart';
 import 'package:surveying_app/components/utils.dart';
 import 'database_init.dart';
 
@@ -262,11 +260,11 @@ class _SurveyingPageState extends State<Surveying> {
                                 //PointListちぇっくりすと
                                 DataCell(
                                   TextFormField(
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 13,
                                       ),
                                       readOnly: true,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         border: InputBorder.none,
                                       ),
                                       // controller: _pointControllers[index]);
@@ -275,7 +273,7 @@ class _SurveyingPageState extends State<Surveying> {
                                 //BS
                                 DataCell(Container(
                                   child: TextFormField(
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 13,
                                     ),
                                     enabled: _bmCheckList[index],
@@ -289,12 +287,12 @@ class _SurveyingPageState extends State<Surveying> {
                                 //Ih
                                 DataCell(
                                   TextFormField(
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 13,
                                     ),
                                     enabled: false,
                                     controller: _ihControllers[index],
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         border: InputBorder.none,
                                         filled: true,
                                         fillColor: Colors.black26),
@@ -303,7 +301,7 @@ class _SurveyingPageState extends State<Surveying> {
                                 //FS
                                 DataCell(
                                   TextFormField(
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 13,
                                     ),
                                     enabled: !_bmCheckList[index],
@@ -323,16 +321,12 @@ class _SurveyingPageState extends State<Surveying> {
                                     ),
                                     controller: _ghControllers[index],
                                     readOnly: !_bmCheckList[index],
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       border: InputBorder.none,
                                     ),
                                   ),
                                 ),
                               ]),
-                        // DataRow(cells: [
-                        //   DataCell(Text('次郎')),
-                        //   DataCell(Text('25')),
-                        // ]),
                       ],
                     ),
                   ))
