@@ -157,6 +157,8 @@ class _SurveyingPageState extends State<Surveying> {
 
   @override
   Widget build(BuildContext context) {
+    double _height = MediaQuery.of(context).size.height;
+    double _width = MediaQuery.of(context).size.width;
     return isLoading
         ? const Center(
             child: CircularProgressIndicator(), //読み込み中の画面表示
@@ -193,6 +195,8 @@ class _SurveyingPageState extends State<Surveying> {
                   ),
                   Expanded(
                       child: SingleChildScrollView(
+                          child: SizedBox(
+                    width: _width * 0.9,
                     child: DataTable(
                       dividerThickness: 2,
                       horizontalMargin: 10,
@@ -329,7 +333,7 @@ class _SurveyingPageState extends State<Surveying> {
                               ]),
                       ],
                     ),
-                  ))
+                  )))
                 ],
               ),
               floatingActionButton: FloatingActionButton(

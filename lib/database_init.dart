@@ -117,11 +117,17 @@ class DatabaseInit {
         .update("mst_surveying", row, where: 'id = ?', whereArgs: [id]);
   }
 
-  //　削除処理
-  Future<int> delete() async {
+  //　マスタ削除処理
+  Future<int> deleteMst(int id) async {
     Database? db = await instance.database;
-    // return await db!.delete(table, where: 'id = ?', whereArgs: [id]);
-    return await db!.delete("mst_surveying");
+    return await db!.delete("mst_surveying", where: 'id = ?', whereArgs: [id]);
+  }
+
+  //　トランザクション削除処理
+  Future<int> deleteTrn(int id, int seq) async {
+    Database? db = await instance.database;
+    return await db!.delete("trn_surveying",
+        where: 'id = ? and scene_seq = ?', whereArgs: [id, seq]);
   }
 
   Future<int> trnDelte(int id, int seq) async {

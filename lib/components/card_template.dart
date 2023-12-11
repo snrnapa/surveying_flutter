@@ -1,50 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:surveying_app/database_init.dart';
 
 class CardTemplate extends StatelessWidget {
-  const CardTemplate({
+  CardTemplate({
     Key? key,
     required this.result,
   }) : super(key: key);
   final Map<String, dynamic> result;
 
+  void deleteMstAndTrn() async {
+    int dummy1 = await dbInit.deleteMst(result['id']);
+    int dummy2 = await dbInit.deleteTrn(result['id'], result['scene_seq']);
+    print(dummy1);
+    print(dummy2);
+  }
+
+  final dbInit = DatabaseInit.instance;
   @override
   Widget build(BuildContext context) {
+    double _height = MediaQuery.of(context).size.height;
+    double _width = MediaQuery.of(context).size.width;
     return Card(
-        margin: EdgeInsets.all(5),
+        elevation: 10,
+        margin: const EdgeInsets.all(7),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         color: Colors.green[100],
         child: Padding(
-          padding: EdgeInsets.only(left: 16),
+          padding: const EdgeInsets.only(left: 16),
           child: Row(
             children: [
               Container(
-                width: 230,
+                width: _width * 0.4,
                 // color: Colors.black,
                 alignment: Alignment.centerLeft,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListTile(
-                      title:
-                          Text('No.${result['id']}   ${result['scene_name']}'),
-                      subtitle: Text('Note:${result['scene_note']}'),
-                    ),
-                    Text(
+                        title: Text(
+                            'No.${result['id']}   ${result['scene_name']}'),
+                        subtitle: Text('Note:${result['scene_note']}')),
+                    const Text(
                         style: TextStyle(fontSize: 13, color: Colors.black),
                         "担当者 : Napa"),
                     Text(
-                        style: TextStyle(fontSize: 13, color: Colors.black),
+                        style:
+                            const TextStyle(fontSize: 13, color: Colors.black),
                         "Upd : ${result['upd_date']}"),
                   ],
                 ),
               ),
               Container(
-                  padding: EdgeInsets.all(8),
-                  width: 150,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset('appImage/kushima.jpg'),
-                  ))
+                padding: const EdgeInsets.all(8),
+                width: _width * 0.4,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset('appImage/kushima.jpg'),
+                ),
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          deleteMstAndTrn();
+                        },
+                        icon: const Icon(Icons.delete))
+                  ],
+                ),
+              )
             ],
           ),
         ));

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:surveying_app/components/card_template.dart';
 import 'package:surveying_app/components/utils.dart';
 import 'package:surveying_app/surveying.dart';
@@ -53,13 +52,11 @@ class _SurveyingListPageState extends State<SurveyingList> {
   TextEditingController sceneNameController = TextEditingController();
   TextEditingController sceneNoteController = TextEditingController();
 
-  Future<int?> deleteAll() async {
-    final allRows = await dbInit.delete();
-    print(allRows);
-  }
-
   @override
   Widget build(BuildContext context) {
+    double _height = MediaQuery.of(context).size.height;
+    double _width = MediaQuery.of(context).size.width;
+
     return isLoading
         ? const Center(
             child: CircularProgressIndicator(), //読み込み中の画面表示
@@ -106,17 +103,11 @@ class _SurveyingListPageState extends State<SurveyingList> {
                                       Surveying(result: resultCardList[index])),
                             );
                           },
+                          onLongPress: () {},
                           child: CardTemplate(result: resultCardList[index]),
                         );
                       },
                     ),
-                    Column(
-                      children: [
-                        TextButton(
-                            onPressed: () => {dbInit.delete()},
-                            child: const Text("削除")),
-                      ],
-                    )
                   ],
                 ),
               ),

@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: 'Surveying App ver.dev1.0'),
     );
   }
@@ -38,6 +39,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double _height = MediaQuery.of(context).size.height;
+    double _width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -57,8 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxWidth:
-                        MediaQuery.of(context).size.width * 0.4, // カードの横幅（最大値）
+                    maxWidth: _width * 0.4,
                   ),
                   child: GestureDetector(
                     onTap: () {
@@ -79,8 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxWidth:
-                        MediaQuery.of(context).size.width * 0.4, // カードの横幅（最大値）
+                    maxWidth: _width * 0.4, // カードの横幅（最大値）
                   ),
                   child: GestureDetector(
                     onTap: () {
@@ -102,15 +104,14 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             SizedBox(
-              height: 16,
+              height: _height * 0.03,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxWidth:
-                        MediaQuery.of(context).size.width * 0.4, // カードの横幅（最大値）
+                    maxWidth: _width * 0.4, // カードの横幅（最大値）
                   ),
                   child: GestureDetector(
                     onTap: () {
@@ -131,8 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                    maxWidth:
-                        MediaQuery.of(context).size.width * 0.4, // カードの横幅（最大値）
+                    maxWidth: _width * 0.4, // カードの横幅（最大値）
                   ),
                   child: GestureDetector(
                     onTap: () {
