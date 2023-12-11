@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'card_icon.dart';
 
 class MenuCardTemplate extends StatelessWidget {
   const MenuCardTemplate({
     Key? key,
-    required this.imagePath,
+    required this.icon,
     required this.mainTitle,
     required this.explain,
   }) : super(key: key);
-  final String imagePath;
+  final Widget icon;
   final String mainTitle;
   final String explain;
 
@@ -20,18 +21,11 @@ class MenuCardTemplate extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // 画像
           SizedBox(
-              width: double.infinity,
-              height: 128,
-              child: Container(
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      imagePath,
-                      fit: BoxFit.cover,
-                    )),
-              )),
+            width: double.infinity,
+            height: 128,
+            child: Container(child: CardIcon(icon: icon)),
+          ),
           // タイトル
           Container(
             width: double.infinity,

@@ -70,27 +70,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     },
                     child: MenuCardTemplate(
-                        imagePath: 'appImage/kushima.jpg',
+                        icon: Icon(
+                          Icons.note_alt_outlined,
+                          size: 100,
+                        ),
                         mainTitle: 'Surveying',
                         explain: '水準測量です'),
                   ),
                 ),
-                // ElevatedButton.icon(
-                //   focusNode: primaryFocus,
-                //   label: Text('Surveying'),
-                //   onPressed: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => SurveyingList()),
-                //     );
-                //   },
-                //   icon: Icon(Icons.reorder),
-                // ),
-                // ElevatedButton.icon(
-                //   label: Text('Picture on Mapping'),
-                //   onPressed: () => {},
-                //   icon: Icon(Icons.map),
-                // ),
+
                 // ElevatedButton.icon(
                 //   label: Text('Expenses'),
                 //   onPressed: () {},
