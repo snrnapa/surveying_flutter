@@ -46,16 +46,15 @@ class _MyHomePageState extends State<MyHomePage> {
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(top: 32),
               child: Text('Function List'),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
                 ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth:
@@ -69,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             builder: (context) => SurveyingList()),
                       );
                     },
-                    child: MenuCardTemplate(
+                    child: const MenuCardTemplate(
                         icon: Icon(
                           Icons.note_alt_outlined,
                           size: 100,
@@ -78,21 +77,80 @@ class _MyHomePageState extends State<MyHomePage> {
                         explain: '水準測量です'),
                   ),
                 ),
-
-                // ElevatedButton.icon(
-                //   label: Text('Expenses'),
-                //   onPressed: () {},
-                //   icon: Icon(Icons.payment),
-                // ),
-                // ElevatedButton.icon(
-                //   label: Text('Setting'),
-                //   onPressed: () {},
-                //   icon: Icon(Icons.settings),
-                // ),
-                // Container(
-                //   width: double.infinity,
-                //   child: TextField(),
-                // )
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth:
+                        MediaQuery.of(context).size.width * 0.4, // カードの横幅（最大値）
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SurveyingList()),
+                      );
+                    },
+                    child: const MenuCardTemplate(
+                        icon: Icon(
+                          Icons.collections,
+                          size: 100,
+                        ),
+                        mainTitle: 'Picture on Mapping',
+                        explain: '地図上に写真を配置'),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth:
+                        MediaQuery.of(context).size.width * 0.4, // カードの横幅（最大値）
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SurveyingList()),
+                      );
+                    },
+                    child: const MenuCardTemplate(
+                        icon: Icon(
+                          Icons.payments,
+                          size: 100,
+                        ),
+                        mainTitle: 'Expense',
+                        explain: '経費精算アプリ'),
+                  ),
+                ),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth:
+                        MediaQuery.of(context).size.width * 0.4, // カードの横幅（最大値）
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SurveyingList()),
+                      );
+                    },
+                    child: const MenuCardTemplate(
+                        icon: Icon(
+                          Icons.collections,
+                          size: 100,
+                        ),
+                        mainTitle: 'Setting',
+                        explain: '各種設定'),
+                  ),
+                ),
               ],
             )
           ],
