@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:surveying_app/components/menu_card_template.dart';
 import 'package:surveying_app/database_init.dart';
 import 'package:surveying_app/surveying_list.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Surveying Napa',
       theme: ThemeData(
+        textTheme: GoogleFonts.murechoTextTheme(
+          Theme.of(context).textTheme,
+        ),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
