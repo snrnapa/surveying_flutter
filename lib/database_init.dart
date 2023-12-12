@@ -16,18 +16,24 @@ class DatabaseInit {
 
   Future<Database?> get database async {
     if (_database != null) return _database;
-    _database = await _initDatabase();
+    _database = await initDatabase();
     return _database;
   }
 
   // データベース接続
-  _initDatabase() async {
+  initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
-    // // DBを削除するとき
-    // await deleteDatabase(path);
     return await openDatabase(path,
         version: _databaseVersion, onCreate: _onCreate);
+  }
+
+  // 開発用　DBを削除するとき
+  void dropDatabase() async {
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String path = join(documentsDirectory.path, _databaseName);
+    // DBを削除するとき
+    await deleteDatabase(path);
   }
 
   Future _onCreate(Database db, int version) async {
@@ -38,6 +44,8 @@ class DatabaseInit {
             scene_name TEXT NOT NULL,
             scene_seq INTEGER NOT NULL ,
             scene_note TEXT,
+            person_in_charge TEXT,
+            place TEXT,
             upd_date TEXT,
             primary key ("id" , "scene_seq")
           )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:surveying_app/components/basic_text.dart';
 import 'package:surveying_app/database_init.dart';
 
 class CardTemplate extends StatelessWidget {
@@ -33,15 +34,9 @@ class CardTemplate extends StatelessWidget {
                         title:
                             Text('ID:${result['id']}\n${result['scene_name']}'),
                         subtitle: Text('${result['scene_note']}')),
-                    Text(
-                        style: TextStyle(fontSize: 13, color: Colors.black),
-                        "担当 : Napa"),
-                    Text(
-                        style: TextStyle(fontSize: 13, color: Colors.black),
-                        "場所 : 愛媛県松山市一番町"),
-                    Text(
-                        style: TextStyle(fontSize: 13, color: Colors.black),
-                        "Upd : ${result['upd_date']}"),
+                    BasicText(text: "担当: ${result['person_in_charge']}"),
+                    BasicText(text: "場所: ${result['place']}"),
+                    BasicText(text: "場所: ${result['upd_date']}"),
                   ],
                 ),
               ),

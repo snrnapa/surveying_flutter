@@ -81,6 +81,8 @@ class _SurveyingListPageState extends State<SurveyingList> {
       'scene_seq': 1,
       'scene_note': sceneNoteController.text,
       'upd_date': utils.time2Str(),
+      'person_in_charge': scenePersonController.text,
+      'place': scenePlaceController.text,
     };
 
     dbInit.insert(targetRow);
@@ -90,7 +92,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
   void navigatorEdit(int index) async {
     await Navigator.push(
       context,
-      new MaterialPageRoute<bool>(
+      MaterialPageRoute<bool>(
           builder: (context) =>
               SurveyingListEdit(result: resultCardList[index])),
     );
@@ -102,6 +104,8 @@ class _SurveyingListPageState extends State<SurveyingList> {
 
   TextEditingController sceneNameController = TextEditingController();
   TextEditingController sceneNoteController = TextEditingController();
+  TextEditingController scenePersonController = TextEditingController();
+  TextEditingController scenePlaceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +158,16 @@ class _SurveyingListPageState extends State<SurveyingList> {
                                     controller: sceneNoteController,
                                     decoration: const InputDecoration(
                                         labelText: "Note"),
+                                  ),
+                                  TextField(
+                                    controller: scenePersonController,
+                                    decoration:
+                                        const InputDecoration(labelText: "担当"),
+                                  ),
+                                  TextField(
+                                    controller: scenePlaceController,
+                                    decoration: const InputDecoration(
+                                        labelText: "Place"),
                                   ),
                                 ],
                               ),

@@ -40,7 +40,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final dbInit = DatabaseInit.instance;
-
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
@@ -156,7 +155,41 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ],
-            )
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: _width * 0.4, // カードの横幅（最大値）
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  dbInit.dropDatabase();
+                },
+                child: const MenuCardTemplate(
+                    icon: Icon(
+                      Icons.adb,
+                      size: 100,
+                    ),
+                    mainTitle: 'Debug',
+                    explain: '開発用 DBを削除します'),
+              ),
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: _width * 0.4, // カードの横幅（最大値）
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  dbInit.initDatabase();
+                },
+                child: const MenuCardTemplate(
+                    icon: Icon(
+                      Icons.adb,
+                      size: 100,
+                    ),
+                    mainTitle: 'Debug',
+                    explain: '開発用 DBを新規作成します'),
+              ),
+            ),
           ],
         ),
       ),

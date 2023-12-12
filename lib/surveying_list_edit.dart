@@ -17,6 +17,10 @@ class _SurveyingListEditPageState extends State<SurveyingListEdit> {
       TextEditingController(text: state['scene_name']);
   late TextEditingController sceneNoteController =
       TextEditingController(text: state['scene_note']);
+  late TextEditingController scenePersonController =
+      TextEditingController(text: state['person_in_charge']);
+  late TextEditingController scenePlaceController =
+      TextEditingController(text: state['place']);
 
   late Map<String, dynamic> state;
   bool isLoading = false;
@@ -29,6 +33,8 @@ class _SurveyingListEditPageState extends State<SurveyingListEdit> {
 
     _targetRow['scene_name'] = sceneNameController.text;
     _targetRow['scene_note'] = sceneNoteController.text;
+    _targetRow['person_in_charge'] = scenePersonController.text;
+    _targetRow['place'] = scenePlaceController.text;
     _targetRow['upd_date'] = utils.time2Str();
 
     dbInit.update(_targetRow);
@@ -59,7 +65,7 @@ class _SurveyingListEditPageState extends State<SurveyingListEdit> {
                 title: const Text("Edit"),
               ),
               body: SizedBox(
-                height: _height * 0.3,
+                height: _height * 0.4,
                 child: Card(
                   elevation: 10,
                   margin: const EdgeInsets.all(7),
@@ -91,6 +97,16 @@ class _SurveyingListEditPageState extends State<SurveyingListEdit> {
                               controller: sceneNoteController,
                               decoration:
                                   const InputDecoration(labelText: "Note"),
+                            ),
+                            TextField(
+                              controller: scenePersonController,
+                              decoration:
+                                  const InputDecoration(labelText: "担当"),
+                            ),
+                            TextField(
+                              controller: scenePlaceController,
+                              decoration:
+                                  const InputDecoration(labelText: "Place"),
                             ),
                           ],
                         ),
