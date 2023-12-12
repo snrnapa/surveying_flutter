@@ -8,13 +8,6 @@ class CardTemplate extends StatelessWidget {
   }) : super(key: key);
   final Map<String, dynamic> result;
 
-  void deleteMstAndTrn() async {
-    int dummy1 = await dbInit.deleteMst(result['id']);
-    int dummy2 = await dbInit.deleteTrn(result['id'], result['scene_seq']);
-    print(dummy1);
-    print(dummy2);
-  }
-
   final dbInit = DatabaseInit.instance;
   @override
   Widget build(BuildContext context) {
@@ -30,7 +23,7 @@ class CardTemplate extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: _width * 0.4,
+                width: _width * 0.45,
                 // color: Colors.black,
                 alignment: Alignment.centerLeft,
                 child: Column(
@@ -52,23 +45,12 @@ class CardTemplate extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.all(8),
-                width: _width * 0.4,
+                width: _width * 0.35,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset('appImage/kushima.jpg'),
                 ),
               ),
-              Container(
-                child: Column(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          deleteMstAndTrn();
-                        },
-                        icon: const Icon(Icons.delete))
-                  ],
-                ),
-              )
             ],
           ),
         ));

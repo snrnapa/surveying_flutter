@@ -264,6 +264,7 @@ class _SurveyingPageState extends State<Surveying> {
                                 //PointListちぇっくりすと
                                 DataCell(
                                   TextFormField(
+                                      keyboardType: TextInputType.number,
                                       style: const TextStyle(
                                         fontSize: 13,
                                       ),
@@ -277,6 +278,7 @@ class _SurveyingPageState extends State<Surveying> {
                                 //BS
                                 DataCell(Container(
                                   child: TextFormField(
+                                    keyboardType: TextInputType.number,
                                     style: const TextStyle(
                                       fontSize: 13,
                                     ),
@@ -291,6 +293,7 @@ class _SurveyingPageState extends State<Surveying> {
                                 //Ih
                                 DataCell(
                                   TextFormField(
+                                    keyboardType: TextInputType.number,
                                     style: const TextStyle(
                                       fontSize: 13,
                                     ),
@@ -305,6 +308,7 @@ class _SurveyingPageState extends State<Surveying> {
                                 //FS
                                 DataCell(
                                   TextFormField(
+                                    keyboardType: TextInputType.number,
                                     style: const TextStyle(
                                       fontSize: 13,
                                     ),
@@ -320,6 +324,7 @@ class _SurveyingPageState extends State<Surveying> {
                                 //GH
                                 DataCell(
                                   TextFormField(
+                                    keyboardType: TextInputType.number,
                                     style: TextStyle(
                                       fontSize: fieldTextSize,
                                     ),
