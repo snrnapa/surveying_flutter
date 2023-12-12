@@ -112,9 +112,9 @@ class DatabaseInit {
   //　更新処理
   Future<int> update(Map<String, dynamic> row) async {
     Database? db = await instance.database;
-    int id = row["id"];
-    return await db!
-        .update("mst_surveying", row, where: 'id = ?', whereArgs: [id]);
+    return await db!.update("mst_surveying", row,
+        where: 'id = ? and scene_seq = ?',
+        whereArgs: [row['id'], row['scene_seq']]);
   }
 
   //　マスタ削除処理

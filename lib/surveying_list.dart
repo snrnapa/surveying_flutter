@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:surveying_app/components/card_template.dart';
 import 'package:surveying_app/components/utils.dart';
 import 'package:surveying_app/surveying.dart';
+import 'package:surveying_app/surveying_list_edit.dart';
 import 'database_init.dart';
 
 class SurveyingList extends StatefulWidget {
@@ -49,7 +50,8 @@ class _SurveyingListPageState extends State<SurveyingList> {
 
   Future getAllSceneList() async {
     setState(() => isLoading = true);
-    resultCardList = await dbInit.queryAllRows();
+    List<Map<String, dynamic>> result = await dbInit.queryAllRows();
+    setState(() => resultCardList = result);
     setState(() => isLoading = false);
   }
 
@@ -82,6 +84,17 @@ class _SurveyingListPageState extends State<SurveyingList> {
     };
 
     dbInit.insert(targetRow);
+    getAllSceneList();
+  }
+
+  void navigatorEdit(int index) async {
+    await Navigator.push(
+      context,
+      new MaterialPageRoute<bool>(
+          builder: (context) =>
+              SurveyingListEdit(result: resultCardList[index])),
+    );
+
     getAllSceneList();
   }
 
@@ -182,7 +195,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      ();
+                                      navigatorEdit(index);
                                     },
                                     icon: const Icon(Icons.edit),
                                   ),

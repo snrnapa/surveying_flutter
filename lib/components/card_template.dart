@@ -30,15 +30,17 @@ class CardTemplate extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListTile(
-                        title: Text(
-                            'No.${result['id']}   ${result['scene_name']}'),
-                        subtitle: Text('Note:${result['scene_note']}')),
-                    const Text(
-                        style: TextStyle(fontSize: 13, color: Colors.black),
-                        "担当者 : Napa"),
+                        title:
+                            Text('ID:${result['id']}\n${result['scene_name']}'),
+                        subtitle: Text('${result['scene_note']}')),
                     Text(
-                        style:
-                            const TextStyle(fontSize: 13, color: Colors.black),
+                        style: TextStyle(fontSize: 13, color: Colors.black),
+                        "担当 : Napa"),
+                    Text(
+                        style: TextStyle(fontSize: 13, color: Colors.black),
+                        "場所 : 愛媛県松山市一番町"),
+                    Text(
+                        style: TextStyle(fontSize: 13, color: Colors.black),
                         "Upd : ${result['upd_date']}"),
                   ],
                 ),
