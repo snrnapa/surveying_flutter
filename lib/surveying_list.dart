@@ -108,25 +108,48 @@ class _SurveyingListPageState extends State<SurveyingList> {
               body: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Card(
-                      child: Column(
-                        children: <Widget>[
-                          ListTile(
-                            title: TextField(
-                              controller: sceneNameController,
-                              decoration: const InputDecoration(
-                                  labelText: "Scene Name"),
+                    SizedBox(
+                      width: _width * 0.9,
+                      child: Card(
+                        elevation: 10,
+                        margin: const EdgeInsets.all(7),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        color: Colors.blue[100],
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              title: Text("新規追加"),
+                              trailing: IconButton(
+                                onPressed: () {
+                                  insertScene();
+                                },
+                                iconSize: 32,
+                                icon: const Icon(Icons.add),
+                              ),
                             ),
-                            subtitle: TextField(
-                              controller: sceneNoteController,
-                              decoration:
-                                  const InputDecoration(labelText: "Note"),
+                            SizedBox(
+                              width: _width * 0.7,
+                              child: Column(
+                                children: [
+                                  TextField(
+                                    controller: sceneNameController,
+                                    decoration: const InputDecoration(
+                                        labelText: "Scene Name"),
+                                  ),
+                                  TextField(
+                                    controller: sceneNoteController,
+                                    decoration: const InputDecoration(
+                                        labelText: "Note"),
+                                  ),
+                                ],
+                              ),
                             ),
-                            leading: const Icon(Icons.post_add),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
+                    Divider(),
                     ListView.builder(
                       shrinkWrap: true, //追加
                       physics: const NeverScrollableScrollPhysics(), //追加
@@ -172,14 +195,6 @@ class _SurveyingListPageState extends State<SurveyingList> {
                     ),
                   ],
                 ),
-              ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  insertScene();
-                  // deleteDialog(1);
-                },
-                backgroundColor: Colors.green,
-                child: const Icon(Icons.add_circle),
               ),
             ),
           );
