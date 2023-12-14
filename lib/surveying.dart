@@ -47,7 +47,6 @@ class _SurveyingPageState extends State<Surveying> {
 
   final dbInit = DatabaseInit.instance;
   double textWidth = 60;
-  double textSize = 15;
   double fieldTextSize = 13;
   double iconFieldSize = 100;
   double elementHeight = 600;
@@ -89,6 +88,15 @@ class _SurveyingPageState extends State<Surveying> {
         print("GHの計算を行いました${j}番目");
       }
     }
+  }
+
+  String? doubleValidate(String? value) {
+    if (value != null &&
+        value != "" &&
+        !RegExp(r'^\d+(\.\d+)?$').hasMatch(value)) {
+      return "";
+    }
+    return null;
   }
 
   void GhCalclate(int index, String gh, String fs, String lastFs) {
@@ -155,6 +163,8 @@ class _SurveyingPageState extends State<Surveying> {
     }
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
@@ -169,181 +179,213 @@ class _SurveyingPageState extends State<Surveying> {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 title: Text("Surveying v1.0.0"),
               ),
-              body: Column(
-                children: [
-                  CardTemplate(result: state),
-                  const Divider(
-                    height: 20,
-                    endIndent: 0,
-                    color: Colors.black,
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => {AllCalclate()},
-                        icon: const Icon(Icons.calculate),
-                      ),
-                      IconButton(
-                        onPressed: () => {trnDeleteAndReload()},
-                        icon: const Icon(Icons.delete),
-                      ),
-                      IconButton(
-                        onPressed: () => {getAllNumber()},
-                        icon: const Icon(Icons.published_with_changes),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                      child: SingleChildScrollView(
-                          child: SizedBox(
-                    width: _width * 0.9,
-                    child: DataTable(
-                      dividerThickness: 2,
-                      horizontalMargin: 10,
-                      columnSpacing: 10.0,
-                      columns: const [
-                        DataColumn(
-                            label: Text(
-                          'BM',
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'No',
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'BS',
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Ih',
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'FS',
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        )),
-                        DataColumn(
-                            label: Text(
-                          'Gh',
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        )),
+              body: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    CardTemplate(result: state),
+                    const Divider(
+                      height: 20,
+                      endIndent: 0,
+                      color: Colors.black,
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => {AllCalclate()},
+                          icon: const Icon(Icons.calculate),
+                        ),
+                        IconButton(
+                          onPressed: () => {trnDeleteAndReload()},
+                          icon: const Icon(Icons.delete),
+                        ),
+                        IconButton(
+                          onPressed: () => {getAllNumber()},
+                          icon: const Icon(Icons.published_with_changes),
+                        ),
                       ],
-                      rows: [
-                        for (int index = 0; index < itemCount; index++)
-                          //BMちぇっくりすと
-                          DataRow(
-                              color: MaterialStateProperty.resolveWith<Color?>(
-                                  (Set<MaterialState> states) {
-                                // All rows will have the same selected color.
-                                if (states.contains(MaterialState.selected)) {
-                                  return Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withOpacity(0.08);
-                                }
-                                // Even rows will have a grey color.
-                                if (index.isEven) {
-                                  return Colors.blue[100];
-                                }
-                                return null; // Use default value for other states and odd rows.
-                              }),
-                              cells: [
-                                DataCell(Checkbox(
-                                  value: _bmCheckList[index],
-                                  onChanged: (bool? checkedValue) {
-                                    setState(() {
-                                      _bmCheckList[index] = checkedValue!;
-                                    });
-                                  },
-                                )),
-                                //PointListちぇっくりすと
-                                DataCell(
-                                  TextFormField(
+                    ),
+                    Expanded(
+                        child: SingleChildScrollView(
+                            child: SizedBox(
+                      width: _width * 0.9,
+                      child: DataTable(
+                        dividerThickness: 2,
+                        horizontalMargin: 10,
+                        columnSpacing: 10.0,
+                        columns: const [
+                          DataColumn(
+                              label: Text(
+                            'BM',
+                            style: TextStyle(fontStyle: FontStyle.italic),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            'No',
+                            style: TextStyle(fontStyle: FontStyle.italic),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            'BS',
+                            style: TextStyle(fontStyle: FontStyle.italic),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            'Ih',
+                            style: TextStyle(fontStyle: FontStyle.italic),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            'FS',
+                            style: TextStyle(fontStyle: FontStyle.italic),
+                          )),
+                          DataColumn(
+                              label: Text(
+                            'Gh',
+                            style: TextStyle(fontStyle: FontStyle.italic),
+                          )),
+                        ],
+                        rows: [
+                          for (int index = 0; index < itemCount; index++)
+                            //BMちぇっくりすと
+                            DataRow(
+                                color:
+                                    MaterialStateProperty.resolveWith<Color?>(
+                                        (Set<MaterialState> states) {
+                                  // All rows will have the same selected color.
+                                  if (states.contains(MaterialState.selected)) {
+                                    return Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withOpacity(0.08);
+                                  }
+                                  // Even rows will have a grey color.
+                                  if (index.isEven) {
+                                    return Colors.blue[100];
+                                  }
+                                  return null; // Use default value for other states and odd rows.
+                                }),
+                                cells: [
+                                  DataCell(Checkbox(
+                                    value: _bmCheckList[index],
+                                    onChanged: (bool? checkedValue) {
+                                      setState(() {
+                                        _bmCheckList[index] = checkedValue!;
+                                      });
+                                    },
+                                  )),
+                                  //PointListちぇっくりすと
+                                  DataCell(Container(
+                                    width: _width * 0.1,
+                                    height: _height * 0.1,
+                                    child: TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        style: TextStyle(
+                                          fontSize: fieldTextSize,
+                                        ),
+                                        readOnly: true,
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                        ),
+                                        // controller: _pointControllers[index]);
+                                        initialValue: _pointList[index]),
+                                  )),
+                                  //BS
+                                  DataCell(Container(
+                                    width: _width * 0.1,
+                                    height: _height * 0.1,
+                                    child: TextFormField(
                                       keyboardType: TextInputType.number,
-                                      style: const TextStyle(
-                                        fontSize: 13,
+                                      validator: (value) {
+                                        return doubleValidate(value);
+                                      },
+                                      style: TextStyle(
+                                        fontSize: fieldTextSize,
                                       ),
-                                      readOnly: true,
+                                      enabled: _bmCheckList[index],
+                                      controller: _bsControllers[index],
+                                      decoration: InputDecoration(
+                                          errorStyle:
+                                              TextStyle(color: Colors.red),
+                                          border: InputBorder.none,
+                                          filled: !_bmCheckList[index],
+                                          fillColor: Colors.black26),
+                                    ),
+                                  )),
+                                  //Ih
+                                  DataCell(Container(
+                                    width: _width * 0.1,
+                                    height: _height * 0.1,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        return doubleValidate(value);
+                                      },
+                                      style: TextStyle(
+                                        fontSize: fieldTextSize,
+                                      ),
+                                      enabled: false,
+                                      controller: _ihControllers[index],
+                                      decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          filled: true,
+                                          fillColor: Colors.black26),
+                                    ),
+                                  )),
+                                  //FS
+                                  DataCell(Container(
+                                    width: _width * 0.1,
+                                    height: _height * 0.1,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        return doubleValidate(value);
+                                      },
+                                      style: TextStyle(
+                                        fontSize: fieldTextSize,
+                                      ),
+                                      enabled: !_bmCheckList[index],
+                                      controller: _fsControllers[index],
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          filled: _bmCheckList[index],
+                                          fillColor: Colors.black26),
+                                    ),
+                                  )),
+
+                                  //GH
+                                  DataCell(Container(
+                                    width: _width * 0.1,
+                                    height: _height * 0.1,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        return doubleValidate(value);
+                                      },
+                                      style: TextStyle(
+                                        fontSize: fieldTextSize,
+                                      ),
+                                      controller: _ghControllers[index],
+                                      readOnly: !_bmCheckList[index],
                                       decoration: const InputDecoration(
                                         border: InputBorder.none,
                                       ),
-                                      // controller: _pointControllers[index]);
-                                      initialValue: _pointList[index]),
-                                ),
-                                //BS
-                                DataCell(Container(
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    style: const TextStyle(
-                                      fontSize: 13,
                                     ),
-                                    enabled: _bmCheckList[index],
-                                    controller: _bsControllers[index],
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        filled: !_bmCheckList[index],
-                                        fillColor: Colors.black26),
-                                  ),
-                                )),
-                                //Ih
-                                DataCell(
-                                  TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                    ),
-                                    enabled: false,
-                                    controller: _ihControllers[index],
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                        filled: true,
-                                        fillColor: Colors.black26),
-                                  ),
-                                ),
-                                //FS
-                                DataCell(
-                                  TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                    ),
-                                    enabled: !_bmCheckList[index],
-                                    controller: _fsControllers[index],
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        filled: _bmCheckList[index],
-                                        fillColor: Colors.black26),
-                                  ),
-                                ),
-
-                                //GH
-                                DataCell(
-                                  TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    style: TextStyle(
-                                      fontSize: fieldTextSize,
-                                    ),
-                                    controller: _ghControllers[index],
-                                    readOnly: !_bmCheckList[index],
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
-                                ),
-                              ]),
-                      ],
-                    ),
-                  )))
-                ],
+                                  )),
+                                ]),
+                        ],
+                      ),
+                    )))
+                  ],
+                ),
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
-                  SaveList();
+                  if (_formKey.currentState!.validate()) {
+                    SaveList();
+                  } else {
+                    print("validationエラーがあるため、保存を実行できませんでした");
+                  }
                 },
                 backgroundColor: Colors.green,
                 child: const Icon(Icons.save_alt),
