@@ -90,13 +90,28 @@ class _SurveyingPageState extends State<Surveying> {
     }
   }
 
-  String? doubleValidate(String? value) {
-    if (value != null &&
-        value != "" &&
-        !RegExp(r'^\d+(\.\d+)?$').hasMatch(value)) {
-      return "";
+  bool validateAllFormField() {
+    bool validateResult = true;
+
+    for (var i = 0; i < itemCount; i++) {
+      validateResult = utils.doubleValidate(_bsControllers[i].text);
+      if (!validateResult) {
+        break;
+      }
+      validateResult = utils.doubleValidate(_fsControllers[i].text);
+      if (!validateResult) {
+        break;
+      }
+      validateResult = utils.doubleValidate(_ihControllers[i].text);
+      if (!validateResult) {
+        break;
+      }
+      validateResult = utils.doubleValidate(_ghControllers[i].text);
+      if (!validateResult) {
+        break;
+      }
     }
-    return null;
+    return validateResult;
   }
 
   void GhCalclate(int index, String gh, String fs, String lastFs) {
@@ -277,7 +292,7 @@ class _SurveyingPageState extends State<Surveying> {
                                   //PointListちぇっくりすと
                                   DataCell(Container(
                                     width: _width * 0.1,
-                                    height: _height * 0.1,
+                                    height: _height * 0.2,
                                     child: TextFormField(
                                         keyboardType: TextInputType.number,
                                         style: TextStyle(
@@ -293,12 +308,9 @@ class _SurveyingPageState extends State<Surveying> {
                                   //BS
                                   DataCell(Container(
                                     width: _width * 0.1,
-                                    height: _height * 0.1,
+                                    height: _height * 0.2,
                                     child: TextFormField(
                                       keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        return doubleValidate(value);
-                                      },
                                       style: TextStyle(
                                         fontSize: fieldTextSize,
                                       ),
@@ -315,12 +327,9 @@ class _SurveyingPageState extends State<Surveying> {
                                   //Ih
                                   DataCell(Container(
                                     width: _width * 0.1,
-                                    height: _height * 0.1,
+                                    height: _height * 0.2,
                                     child: TextFormField(
                                       keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        return doubleValidate(value);
-                                      },
                                       style: TextStyle(
                                         fontSize: fieldTextSize,
                                       ),
@@ -335,12 +344,9 @@ class _SurveyingPageState extends State<Surveying> {
                                   //FS
                                   DataCell(Container(
                                     width: _width * 0.1,
-                                    height: _height * 0.1,
+                                    height: _height * 0.2,
                                     child: TextFormField(
                                       keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        return doubleValidate(value);
-                                      },
                                       style: TextStyle(
                                         fontSize: fieldTextSize,
                                       ),
@@ -356,12 +362,9 @@ class _SurveyingPageState extends State<Surveying> {
                                   //GH
                                   DataCell(Container(
                                     width: _width * 0.1,
-                                    height: _height * 0.1,
+                                    height: _height * 0.2,
                                     child: TextFormField(
                                       keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        return doubleValidate(value);
-                                      },
                                       style: TextStyle(
                                         fontSize: fieldTextSize,
                                       ),
@@ -381,7 +384,7 @@ class _SurveyingPageState extends State<Surveying> {
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+                  if (validateAllFormField()) {
                     SaveList();
                   } else {
                     print("validationエラーがあるため、保存を実行できませんでした");
