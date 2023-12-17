@@ -53,8 +53,6 @@ class Utils {
   }
 
   void openMailApp(String csvResult, String info) async {
-    String emailTo = "shino.satoru@gmail.com";
-
     String bodyFormat = "";
 
     bodyFormat += 'アプリ「SurveyingApp@Napa」から送信されています。\n ';
@@ -68,10 +66,6 @@ class Utils {
     bodyFormat += '↓↓↓↓↓↓↓↓↓↓↓↓↓↓\n';
     bodyFormat += '${csvResult}\n';
     bodyFormat += '↑↑↑↑↑↑↑↑↑↑\n';
-    // String body = Uri.encodeComponent(bodyFormat);
-    // String subject = Uri.encodeComponent(info);
-
-    // Uri mail = Uri.parse("mailto:$emailTo?subject=$subject&body=$body");
 
     final Email email = Email(
       body: bodyFormat,
@@ -80,7 +74,6 @@ class Utils {
       // attachmentPaths: ['images/sample1.png'],
     );
 
-    // await launchMail(mail);
     await FlutterEmailSender.send(email);
   }
 
