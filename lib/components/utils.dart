@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-final _fileName = 'editTextField.txt';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class Utils {
   // 現在の時刻を文字列で取得する
@@ -54,7 +53,7 @@ class Utils {
   }
 
   void openMailApp(String csvResult, String info) async {
-    String email = Uri.encodeComponent("shino.satoru@gmail.com");
+    String emailTo = "shino.satoru@gmail.com";
 
     String bodyFormat = "";
 
@@ -69,12 +68,20 @@ class Utils {
     bodyFormat += '↓↓↓↓↓↓↓↓↓↓↓↓↓↓\n';
     bodyFormat += '${csvResult}\n';
     bodyFormat += '↑↑↑↑↑↑↑↑↑↑\n';
-    String body = Uri.encodeComponent(bodyFormat);
-    String subject = Uri.encodeComponent(info);
+    // String body = Uri.encodeComponent(bodyFormat);
+    // String subject = Uri.encodeComponent(info);
 
-    Uri mail = Uri.parse("mailto:$email?subject=$subject&body=$body");
+    // Uri mail = Uri.parse("mailto:$emailTo?subject=$subject&body=$body");
 
-    await launchMail(mail);
+    final Email email = Email(
+      body: bodyFormat,
+      subject: info,
+      recipients: ["shino.satoru@gmail.com"],
+      // attachmentPaths: ['images/sample1.png'],
+    );
+
+    // await launchMail(mail);
+    await FlutterEmailSender.send(email);
   }
 
   Future<void> launchMail(Uri url) async {
