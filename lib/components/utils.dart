@@ -1,6 +1,11 @@
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+
+//アプリがファイルを保存可能な場所を取得するライブラリ
+import 'package:path_provider/path_provider.dart';
+
+//ファイル出力用ライブラリ
+import 'dart:io';
 
 class Utils {
   // 現在の時刻を文字列で取得する
@@ -56,28 +61,31 @@ class Utils {
     String bodyFormat = "";
 
     bodyFormat += 'アプリ「SurveyingApp@Napa」から送信されています。\n ';
-    bodyFormat += '下記の手順でご活用ください。\n';
-    bodyFormat += '1.宛先をご自身のパソコンに設定\n';
-    bodyFormat += '2.矢印の中のテキストをコピー\n';
-    bodyFormat += '3.パソコンのテキストエディタに張り付け。';
-    bodyFormat += '4.拡張子を.csvとして保存';
-    bodyFormat += '5.各自ご活用ください。（Excelなどで利用できます）';
+    bodyFormat += '結果がCSVファイルとして添付されます。\n';
+    bodyFormat += 'Excelなどでご活用ください。\n';
 
-    bodyFormat += '↓↓↓↓↓↓↓↓↓↓↓↓↓↓\n';
-    bodyFormat += '${csvResult}\n';
-    bodyFormat += '↑↑↑↑↑↑↑↑↑↑\n';
+    String attach_file = await outputCsv(csvResult, info);
 
     final Email email = Email(
       body: bodyFormat,
       subject: info,
       recipients: ["shino.satoru@gmail.com"],
-      // attachmentPaths: ['images/sample1.png'],
+      attachmentPaths: [attach_file],
     );
 
     await FlutterEmailSender.send(email);
   }
 
-  Future<void> launchMail(Uri url) async {
-    await launchUrl(url);
+  //ファイルの出力処理
+  Future<String> outputCsv(String targetStr, String fileName) async {
+    File file = await getFilePath(fileName);
+    file.writeAsString(targetStr);
+    return file.path;
+  }
+
+  //テキストファイルを保存するパスを取得する
+  Future<File> getFilePath(String fileName) async {
+    final directory = await getTemporaryDirectory();
+    return File(directory.path + '/' + fileName + '.csv');
   }
 }
