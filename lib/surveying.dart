@@ -69,7 +69,7 @@ class _SurveyingPageState extends State<Surveying> {
       List.generate(itemCount, (i) => TextEditingController());
 
   // 測点を連番で作成する
-  late final List<String> _pointList = List.generate(itemCount, (i) => "No.$i");
+  late final List<String> _pointList = List.generate(itemCount, (i) => "$i");
   late final List<bool> _bmCheckList =
       List<bool>.generate(itemCount, (i) => false);
 
@@ -282,17 +282,20 @@ class _SurveyingPageState extends State<Surveying> {
                                     return null; // Use default value for other states and odd rows.
                                   }),
                                   cells: [
-                                    DataCell(Checkbox(
-                                      value: _bmCheckList[index],
-                                      onChanged: (bool? checkedValue) {
-                                        setState(() {
-                                          _bmCheckList[index] = checkedValue!;
-                                        });
-                                      },
-                                    )),
+                                    DataCell(Container(
+                                        width: _width * 0.05,
+                                        child: Checkbox(
+                                          value: _bmCheckList[index],
+                                          onChanged: (bool? checkedValue) {
+                                            setState(() {
+                                              _bmCheckList[index] =
+                                                  checkedValue!;
+                                            });
+                                          },
+                                        ))),
                                     //PointListちぇっくりすと
                                     DataCell(Container(
-                                      width: _width * 0.1,
+                                      width: _width * 0.05,
                                       height: _height * 0.2,
                                       child: TextFormField(
                                           keyboardType: TextInputType.number,
