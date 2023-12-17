@@ -398,7 +398,7 @@ class _SurveyingPageState extends State<Surveying> {
                     ),
                     FloatingActionButton(
                       onPressed: () {
-                        utils.createCSV(resultTrn);
+                        utils.createCSV(resultTrn, state);
                       },
                       backgroundColor: Colors.green,
                       child: const Icon(Icons.import_export),

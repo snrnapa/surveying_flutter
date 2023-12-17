@@ -1,10 +1,5 @@
 import 'package:intl/intl.dart';
-
-//ファイル出力用ライブラリ
-import 'dart:io';
-
-//アプリがファイルを保存可能な場所を取得するライブラリ
-import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final _fileName = 'editTextField.txt';
 
@@ -27,7 +22,10 @@ class Utils {
   }
 
   //CSVの出力用
-  void createCSV(List<Map<String, dynamic>> targetObjectList) {
+  void createCSV(
+    List<Map<String, dynamic>> targetObjectList,
+    Map<String, dynamic> basicInfo,
+  ) {
     String csvStr = "no,gh\n";
 
     print("CSVの作成を開始します");
@@ -49,14 +47,37 @@ class Utils {
 
     print("CSVの作成が完了しました");
 
-    getFilePath().then((File file) {
-      file.writeAsString(csvStr);
-    });
+    String info =
+        "【SurveyingApp】ID:${basicInfo['id']} ${basicInfo['scene_name']}";
+
+    openMailApp(csvStr, info);
   }
 
-  //テキストファイルを保存するパスを取得する
-  Future<File> getFilePath() async {
-    final directory = await getTemporaryDirectory();
-    return File(directory.path + '/' + _fileName);
+  void openMailApp(String csvResult, String info) async {
+    String email = Uri.encodeComponent("shino.satoru@gmail.com");
+
+    String bodyFormat = "";
+
+    bodyFormat += 'アプリ「SurveyingApp@Napa」から送信されています。\n ';
+    bodyFormat += '下記の手順でご活用ください。\n';
+    bodyFormat += '1.宛先をご自身のパソコンに設定\n';
+    bodyFormat += '2.矢印の中のテキストをコピー\n';
+    bodyFormat += '3.パソコンのテキストエディタに張り付け。';
+    bodyFormat += '4.拡張子を.csvとして保存';
+    bodyFormat += '5.各自ご活用ください。（Excelなどで利用できます）';
+
+    bodyFormat += '↓↓↓↓↓↓↓↓↓↓↓↓↓↓\n';
+    bodyFormat += '${csvResult}\n';
+    bodyFormat += '↑↑↑↑↑↑↑↑↑↑\n';
+    String body = Uri.encodeComponent(bodyFormat);
+    String subject = Uri.encodeComponent(info);
+
+    Uri mail = Uri.parse("mailto:$email?subject=$subject&body=$body");
+
+    await launchMail(mail);
+  }
+
+  Future<void> launchMail(Uri url) async {
+    await launchUrl(url);
   }
 }
