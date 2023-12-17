@@ -339,18 +339,17 @@ class _SurveyingPageState extends State<Surveying> {
                                     width: _width * 0.1,
                                     height: _height * 0.2,
                                     child: TextFormField(
-                                      keyboardType: TextInputType.number,
+                                      keyboardType: TextInputType.phone,
                                       style: TextStyle(
                                         fontSize: fieldTextSize,
                                       ),
                                       enabled: _bmCheckList[index],
                                       controller: _bsControllers[index],
                                       decoration: InputDecoration(
-                                          errorStyle:
-                                              TextStyle(color: Colors.red),
-                                          border: InputBorder.none,
-                                          filled: !_bmCheckList[index],
-                                          fillColor: Colors.black26),
+                                        border: InputBorder.none,
+                                        hintText:
+                                            _bmCheckList[index] ? null : "ー",
+                                      ),
                                     ),
                                   )),
                                   //Ih
@@ -364,10 +363,10 @@ class _SurveyingPageState extends State<Surveying> {
                                       ),
                                       enabled: false,
                                       controller: _ihControllers[index],
-                                      decoration: const InputDecoration(
-                                          border: InputBorder.none,
-                                          filled: true,
-                                          fillColor: Colors.black26),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "ー",
+                                      ),
                                     ),
                                   )),
                                   //FS
@@ -382,9 +381,10 @@ class _SurveyingPageState extends State<Surveying> {
                                       enabled: !_bmCheckList[index],
                                       controller: _fsControllers[index],
                                       decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          filled: _bmCheckList[index],
-                                          fillColor: Colors.black26),
+                                        hintText:
+                                            _bmCheckList[index] ? null : "ー",
+                                        border: InputBorder.none,
+                                      ),
                                     ),
                                   )),
 
@@ -400,6 +400,7 @@ class _SurveyingPageState extends State<Surveying> {
                                       controller: _ghControllers[index],
                                       readOnly: !_bmCheckList[index],
                                       decoration: const InputDecoration(
+                                        hintText: "Auto",
                                         border: InputBorder.none,
                                       ),
                                     ),
