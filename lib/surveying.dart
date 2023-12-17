@@ -19,6 +19,7 @@ class _SurveyingPageState extends State<Surveying> {
   bool isLoading = false;
   bool existFlg = false;
   List<Map<String, dynamic>> resultTrn = [];
+  FontStyle headerStyle = FontStyle.italic;
 
   @override
   void initState() {
@@ -178,6 +179,13 @@ class _SurveyingPageState extends State<Surveying> {
     }
   }
 
+  Widget buildHeaderText(String dispText) {
+    return Text(
+      dispText,
+      style: TextStyle(fontStyle: headerStyle),
+    );
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -229,186 +237,159 @@ class _SurveyingPageState extends State<Surveying> {
                           },
                           label: const Text('メール送信'),
                         ),
-
-                        // TextButton.icon(
-                        //   onPressed: () => {trnDeleteAndReload()},
-                        //   icon: const Icon(Icons.delete),
-                        //   label: const Text('削除'),
-                        // ),
-                        // TextButton.icon(
-                        //   onPressed: () => {getAllNumber()},
-                        //   icon: const Icon(Icons.published_with_changes),
-                        //   label: const Text('更新'),
-                        // ),
-                        // IconButton(
-                        //   iconSize: 40,
-                        //   onPressed: () => {getAllNumber()},
-                        //   icon: const Icon(Icons.published_with_changes),
-                        // ),
                       ],
                     ),
+                    const Divider(
+                      height: 20,
+                      endIndent: 0,
+                      color: Colors.black,
+                    ),
                     Expanded(
-                        child: SingleChildScrollView(
-                            child: SizedBox(
-                      width: _width * 0.9,
-                      child: DataTable(
-                        dividerThickness: 2,
-                        horizontalMargin: 10,
-                        columnSpacing: 10.0,
-                        columns: const [
-                          DataColumn(
-                              label: Text(
-                            'BM',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            'No',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            'BS',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            'Ih',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            'FS',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            'Gh',
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                          )),
-                        ],
-                        rows: [
-                          for (int index = 0; index < itemCount; index++)
-                            //BMちぇっくりすと
-                            DataRow(
-                                color:
-                                    MaterialStateProperty.resolveWith<Color?>(
-                                        (Set<MaterialState> states) {
-                                  // All rows will have the same selected color.
-                                  if (states.contains(MaterialState.selected)) {
-                                    return Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withOpacity(0.08);
-                                  }
-                                  // Even rows will have a grey color.
-                                  if (index.isEven) {
-                                    return Colors.blue[100];
-                                  }
-                                  return null; // Use default value for other states and odd rows.
-                                }),
-                                cells: [
-                                  DataCell(Container(
-                                      width: _width * 0.05,
-                                      child: Checkbox(
-                                        value: _bmCheckList[index],
-                                        onChanged: (bool? checkedValue) {
-                                          setState(() {
-                                            _bmCheckList[index] = checkedValue!;
-                                          });
-                                        },
-                                      ))),
-                                  //PointListちぇっくりすと
-                                  DataCell(Container(
-                                    width: _width * 0.05,
-                                    height: _height * 0.2,
-                                    child: TextFormField(
-                                        keyboardType: TextInputType.number,
-                                        style: TextStyle(
-                                          fontSize: fieldTextSize,
+                      child: SingleChildScrollView(
+                        child: SizedBox(
+                          width: _width * 0.9,
+                          child: DataTable(
+                            dividerThickness: 2,
+                            horizontalMargin: 10,
+                            columnSpacing: 10.0,
+                            columns: [
+                              DataColumn(label: buildHeaderText('BM')),
+                              DataColumn(label: buildHeaderText('No')),
+                              DataColumn(label: buildHeaderText('BS')),
+                              DataColumn(label: buildHeaderText('IH')),
+                              DataColumn(label: buildHeaderText('FS')),
+                              DataColumn(label: buildHeaderText('GH')),
+                            ],
+                            rows: [
+                              for (int index = 0; index < itemCount; index++)
+                                //BMちぇっくりすと
+                                DataRow(
+                                    color: MaterialStateProperty.resolveWith<
+                                        Color?>((Set<MaterialState> states) {
+                                      // All rows will have the same selected color.
+                                      if (states
+                                          .contains(MaterialState.selected)) {
+                                        return Theme.of(context)
+                                            .colorScheme
+                                            .primary
+                                            .withOpacity(0.08);
+                                      }
+                                      // Even rows will have a grey color.
+                                      if (index.isEven) {
+                                        return Colors.blue[100];
+                                      }
+                                      return null; // Use default value for other states and odd rows.
+                                    }),
+                                    cells: [
+                                      DataCell(Container(
+                                          width: _width * 0.05,
+                                          child: Checkbox(
+                                            checkColor: Colors.black,
+                                            fillColor: MaterialStateProperty
+                                                .resolveWith((states) =>
+                                                    Colors.transparent),
+                                            value: _bmCheckList[index],
+                                            onChanged: (bool? checkedValue) {
+                                              setState(() {
+                                                _bmCheckList[index] =
+                                                    checkedValue!;
+                                              });
+                                            },
+                                          ))),
+                                      //PointListちぇっくりすと
+                                      DataCell(Container(
+                                        width: _width * 0.05,
+                                        height: _height * 0.2,
+                                        child: TextFormField(
+                                            keyboardType: TextInputType.number,
+                                            style: TextStyle(
+                                              fontSize: fieldTextSize,
+                                            ),
+                                            readOnly: true,
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none,
+                                            ),
+                                            initialValue: _pointList[index]),
+                                      )),
+                                      //BS
+                                      DataCell(Container(
+                                        width: _width * 0.1,
+                                        height: _height * 0.2,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.phone,
+                                          style: TextStyle(
+                                            fontSize: fieldTextSize,
+                                          ),
+                                          enabled: _bmCheckList[index],
+                                          controller: _bsControllers[index],
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: _bmCheckList[index]
+                                                ? null
+                                                : "ー",
+                                          ),
                                         ),
-                                        readOnly: true,
-                                        decoration: const InputDecoration(
-                                          border: InputBorder.none,
+                                      )),
+                                      //Ih
+                                      DataCell(Container(
+                                        width: _width * 0.15,
+                                        height: _height * 0.2,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.number,
+                                          style: TextStyle(
+                                            fontSize: fieldTextSize,
+                                          ),
+                                          enabled: false,
+                                          controller: _ihControllers[index],
+                                          decoration: const InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: "ー",
+                                          ),
                                         ),
-                                        // controller: _pointControllers[index]);
-                                        initialValue: _pointList[index]),
-                                  )),
-                                  //BS
-                                  DataCell(Container(
-                                    width: _width * 0.1,
-                                    height: _height * 0.2,
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.phone,
-                                      style: TextStyle(
-                                        fontSize: fieldTextSize,
-                                      ),
-                                      enabled: _bmCheckList[index],
-                                      controller: _bsControllers[index],
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText:
-                                            _bmCheckList[index] ? null : "ー",
-                                      ),
-                                    ),
-                                  )),
-                                  //Ih
-                                  DataCell(Container(
-                                    width: _width * 0.1,
-                                    height: _height * 0.2,
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      style: TextStyle(
-                                        fontSize: fieldTextSize,
-                                      ),
-                                      enabled: false,
-                                      controller: _ihControllers[index],
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: "ー",
-                                      ),
-                                    ),
-                                  )),
-                                  //FS
-                                  DataCell(Container(
-                                    width: _width * 0.1,
-                                    height: _height * 0.2,
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      style: TextStyle(
-                                        fontSize: fieldTextSize,
-                                      ),
-                                      enabled: !_bmCheckList[index],
-                                      controller: _fsControllers[index],
-                                      decoration: InputDecoration(
-                                        hintText:
-                                            _bmCheckList[index] ? null : "ー",
-                                        border: InputBorder.none,
-                                      ),
-                                    ),
-                                  )),
+                                      )),
+                                      //FS
+                                      DataCell(Container(
+                                        width: _width * 0.1,
+                                        height: _height * 0.2,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.number,
+                                          style: TextStyle(
+                                            fontSize: fieldTextSize,
+                                          ),
+                                          enabled: !_bmCheckList[index],
+                                          controller: _fsControllers[index],
+                                          decoration: InputDecoration(
+                                            hintText: _bmCheckList[index]
+                                                ? null
+                                                : "ー",
+                                            border: InputBorder.none,
+                                          ),
+                                        ),
+                                      )),
 
-                                  //GH
-                                  DataCell(Container(
-                                    width: _width * 0.1,
-                                    height: _height * 0.2,
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      style: TextStyle(
-                                        fontSize: fieldTextSize,
-                                      ),
-                                      controller: _ghControllers[index],
-                                      readOnly: !_bmCheckList[index],
-                                      decoration: const InputDecoration(
-                                        hintText: "Auto",
-                                        border: InputBorder.none,
-                                      ),
-                                    ),
-                                  )),
-                                ]),
-                        ],
+                                      //GH
+                                      DataCell(Container(
+                                        width: _width * 0.15,
+                                        height: _height * 0.2,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.number,
+                                          style: TextStyle(
+                                            fontSize: fieldTextSize,
+                                          ),
+                                          controller: _ghControllers[index],
+                                          readOnly: !_bmCheckList[index],
+                                          decoration: const InputDecoration(
+                                            hintText: "Auto",
+                                            border: InputBorder.none,
+                                          ),
+                                        ),
+                                      )),
+                                    ]),
+                            ],
+                          ),
+                        ),
                       ),
-                    )))
+                    ),
                   ],
                 ),
               ),
