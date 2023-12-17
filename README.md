@@ -2,6 +2,14 @@
 
 for surveying
 
+## おまじないコマンド！！
+
+```
+flutter clean;
+flutter pub get;
+flutter run;
+```
+
 ## 必要な情報
 - 誰が作成したか
 - 現場の写真
