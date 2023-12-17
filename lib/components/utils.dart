@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:surveying_app/constants/mail_constants.dart';
 
 //アプリがファイルを保存可能な場所を取得するライブラリ
 import 'package:path_provider/path_provider.dart';
@@ -69,7 +70,7 @@ class Utils {
     final Email email = Email(
       body: bodyFormat,
       subject: info,
-      recipients: ["shino.satoru@gmail.com"],
+      recipients: [MailConstants.adminMail],
       attachmentPaths: [attach_file],
     );
 
