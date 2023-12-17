@@ -129,7 +129,7 @@ class _SurveyingPageState extends State<Surveying> {
       targetLastFs = double.parse(lastFs);
     }
     _ghControllers[index].text =
-        (targetGh + targetFs - targetLastFs).toString();
+        (targetGh + targetFs - targetLastFs).toStringAsFixed(3);
   }
 
   void IhCalclate(int index, String baesGh, String bs) {
@@ -142,7 +142,7 @@ class _SurveyingPageState extends State<Surveying> {
     } else {
       return;
     }
-    _ihControllers[index].text = (targetBaseGh + targetBs).toString();
+    _ihControllers[index].text = (targetBaseGh + targetBs).toStringAsFixed(3);
   }
 
   void trnDeleteAndReload() async {
