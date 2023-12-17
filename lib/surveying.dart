@@ -360,13 +360,12 @@ class _SurveyingPageState extends State<Surveying> {
                                           controller: _fsControllers[index],
                                           decoration: InputDecoration(
                                             hintText: _bmCheckList[index]
-                                                ? null
-                                                : "ー",
+                                                ? "ー"
+                                                : null,
                                             border: InputBorder.none,
                                           ),
                                         ),
                                       )),
-
                                       //GH
                                       DataCell(Container(
                                         width: _width * 0.15,

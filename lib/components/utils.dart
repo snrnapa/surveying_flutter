@@ -59,16 +59,10 @@ class Utils {
   }
 
   void openMailApp(String csvResult, String info) async {
-    String bodyFormat = "";
-
-    bodyFormat += 'アプリ「SurveyingApp@Napa」から送信されています。\n ';
-    bodyFormat += '結果がCSVファイルとして添付されます。\n';
-    bodyFormat += 'Excelなどでご活用ください。\n';
-
     String attach_file = await outputCsv(csvResult, info);
 
     final Email email = Email(
-      body: bodyFormat,
+      body: MailConstants.mailBody,
       subject: info,
       recipients: [MailConstants.adminMail],
       attachmentPaths: [attach_file],
