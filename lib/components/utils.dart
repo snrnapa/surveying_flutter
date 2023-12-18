@@ -2,6 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:surveying_app/constants/mail_constants.dart';
 
+import 'package:image_picker/image_picker.dart';
+
 //アプリがファイルを保存可能な場所を取得するライブラリ
 import 'package:path_provider/path_provider.dart';
 
@@ -14,6 +16,24 @@ class Utils {
     DateTime now = DateTime.now();
     DateFormat formatTimeStamp = DateFormat('yyyy-MM-dd hh:mm:ss');
     return formatTimeStamp.format(now);
+  }
+
+  // カメラor写真アプリの起動
+  static void execImage() async {
+    //ストレージのパスを取得する
+    final directory = await getExternalStorageDirectory();
+    String path = "";
+
+    final picker = ImagePicker();
+
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    if (directory != null && pickedFile != null) {
+      path = directory.path + '${DateTime.now()}.png';
+
+      // saveTo()を使って指定したパスに画像を保存
+      await pickedFile.saveTo(path);
+    }
   }
 
   //少数型であるかどうかのヴァリデーションチェック

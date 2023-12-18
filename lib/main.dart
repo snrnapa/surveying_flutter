@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:surveying_app/components/menu_card_template.dart';
+import 'package:surveying_app/components/utils.dart';
 import 'package:surveying_app/database_init.dart';
 import 'package:surveying_app/surveying_list.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -188,6 +189,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     mainTitle: 'Debug',
                     explain: '開発用 DBを新規作成します'),
+              ),
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: _width * 0.4, // カードの横幅（最大値）
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  Utils.execImage();
+                },
+                child: const MenuCardTemplate(
+                    icon: Icon(
+                      Icons.adb,
+                      size: 100,
+                    ),
+                    mainTitle: 'Debug',
+                    explain: '写真機能を起動します'),
               ),
             ),
           ],

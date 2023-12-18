@@ -75,6 +75,8 @@ class _SurveyingListPageState extends State<SurveyingList> {
       targetId = maxId + 1;
     }
 
+    Utils.execImage();
+
     var targetRow = <String, dynamic>{
       'id': targetId,
       'scene_name': sceneNameController.text,
