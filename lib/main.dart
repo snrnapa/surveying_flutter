@@ -1,4 +1,9 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:surveying_app/components/menu_card_template.dart';
 import 'package:surveying_app/components/utils.dart';
 import 'package:surveying_app/database_init.dart';
@@ -41,6 +46,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final dbInit = DatabaseInit.instance;
+
+  File? image;
+
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
@@ -197,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  Utils.execImage();
+                  _execImage();
                 },
                 child: const MenuCardTemplate(
                     icon: Icon(
@@ -208,9 +216,42 @@ class _MyHomePageState extends State<MyHomePage> {
                     explain: '写真機能を起動します'),
               ),
             ),
+            Container(
+              child: image == null
+                  ? const Text("画像が表示できませんでした")
+                  : Image.file(image!),
+            )
           ],
         ),
       ),
     );
+  }
+
+  // カメラor写真アプリの起動
+  void _execImage() async {
+    //ストレージのパスを取得する
+
+    final picker = ImagePicker();
+
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    final directory = await getApplicationDocumentsDirectory();
+    String path = "";
+
+    if (directory != null && pickedFile != null) {
+      path = "${directory.path}/${DateTime.now()}.png";
+
+      // saveTo()を使って指定したパスに画像を保存
+      await pickedFile.saveTo(path);
+    }
+
+    final file = File(path);
+
+    if (await file.exists()) {
+      print("このファイルは無事保存されています:${path}");
+      setState(() {
+        image = file;
+      });
+    }
   }
 }

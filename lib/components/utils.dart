@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:intl/intl.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:surveying_app/constants/mail_constants.dart';
@@ -19,21 +21,27 @@ class Utils {
   }
 
   // カメラor写真アプリの起動
-  static void execImage() async {
+  static Future<String> execImage() async {
     //ストレージのパスを取得する
-    final directory = await getExternalStorageDirectory();
+    final directory = await getApplicationDocumentsDirectory();
     String path = "";
 
     final picker = ImagePicker();
 
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
-
     if (directory != null && pickedFile != null) {
+      final Uint8List buffer = await pickedFile.readAsBytes();
       path = directory.path + '${DateTime.now()}.png';
 
+      final File saveFile = File(path);
+      saveFile.writeAsBytesSync(buffer, flush: true, mode: FileMode.write);
+      // 画像ギャラリーにも保存（オプション）
+
       // saveTo()を使って指定したパスに画像を保存
-      await pickedFile.saveTo(path);
+      // await pickedFile.saveTo(path);
     }
+
+    return path;
   }
 
   //少数型であるかどうかのヴァリデーションチェック

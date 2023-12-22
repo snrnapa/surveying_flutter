@@ -46,6 +46,7 @@ class DatabaseInit {
             scene_note TEXT,
             person_in_charge TEXT,
             place TEXT,
+            file_name TEXT,
             upd_date TEXT,
             primary key ("id" , "scene_seq")
           )

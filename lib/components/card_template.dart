@@ -45,7 +45,8 @@ class CardTemplate extends StatelessWidget {
                 width: _width * 0.35,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.asset('appImage/kushima.jpg'),
+                  // child: Image.asset('appImage/kushima.jpg'),
+                  child: Image.asset(result['file_name']),
                 ),
               ),
             ],

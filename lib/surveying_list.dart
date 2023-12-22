@@ -75,7 +75,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
       targetId = maxId + 1;
     }
 
-    Utils.execImage();
+    String file_path = await Utils.execImage();
 
     var targetRow = <String, dynamic>{
       'id': targetId,
@@ -83,6 +83,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
       'scene_seq': 1,
       'scene_note': sceneNoteController.text,
       'upd_date': utils.time2Str(),
+      'file_name': file_path,
       'person_in_charge': scenePersonController.text,
       'place': scenePlaceController.text,
     };
