@@ -68,14 +68,14 @@ class _SurveyingListPageState extends State<SurveyingList> {
     getAllSceneList();
   }
 
-  void insertScene() async {
+  void insertScene(String method) async {
     int targetId = 1;
     final maxId = await dbInit.queryMaxId();
     if (maxId != null) {
       targetId = maxId + 1;
     }
 
-    String file_path = await Utils.execImage();
+    String file_path = await Utils.execImage(method);
 
     var targetRow = <String, dynamic>{
       'id': targetId,
@@ -140,13 +140,6 @@ class _SurveyingListPageState extends State<SurveyingList> {
                           children: <Widget>[
                             ListTile(
                               title: Text("新規追加"),
-                              trailing: IconButton(
-                                onPressed: () {
-                                  insertScene();
-                                },
-                                iconSize: 32,
-                                icon: const Icon(Icons.add),
-                              ),
                             ),
                             SizedBox(
                               width: _width * 0.7,
@@ -172,6 +165,37 @@ class _SurveyingListPageState extends State<SurveyingList> {
                                     decoration: const InputDecoration(
                                         labelText: "Place"),
                                   ),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          insertScene("camera");
+                                        },
+                                        icon: const Icon(
+                                          Icons.add_a_photo,
+                                          size: 32,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          insertScene("album");
+                                        },
+                                        icon: const Icon(
+                                          Icons.photo_library,
+                                          size: 32,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          insertScene("none");
+                                        },
+                                        icon: const Icon(
+                                          Icons.no_sim,
+                                          size: 32,
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
                             ),

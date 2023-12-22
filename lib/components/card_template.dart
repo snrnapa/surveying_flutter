@@ -47,10 +47,13 @@ class CardTemplate extends StatelessWidget {
                 width: _width * 0.35,
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    // child: Image.asset('appImage/kushima.jpg'),
-                    child: result['file_name'] != null
+                    child: (result['file_name'] != "" &&
+                            result['file_name'] != null)
                         ? Image.file(File(result['file_name']))
-                        : const Text("画像が取得できませんでした")),
+                        : const Icon(
+                            Icons.no_sim,
+                            size: 100,
+                          )),
               ),
             ],
           ),
