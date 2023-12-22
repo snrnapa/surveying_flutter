@@ -23,22 +23,21 @@ class Utils {
   // カメラor写真アプリの起動
   static Future<String> execImage() async {
     //ストレージのパスを取得する
-    final directory = await getApplicationDocumentsDirectory();
     String path = "";
+    final directory = await getApplicationDocumentsDirectory();
 
     final picker = ImagePicker();
 
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
     if (directory != null && pickedFile != null) {
-      final Uint8List buffer = await pickedFile.readAsBytes();
-      path = directory.path + '${DateTime.now()}.png';
+      path = "${directory.path}/${DateTime.now()}.png";
 
-      final File saveFile = File(path);
-      saveFile.writeAsBytesSync(buffer, flush: true, mode: FileMode.write);
-      // 画像ギャラリーにも保存（オプション）
+      await pickedFile.saveTo(path);
+    }
 
-      // saveTo()を使って指定したパスに画像を保存
-      // await pickedFile.saveTo(path);
+    final savedFile = File(path);
+    if (await savedFile.exists()) {
+      print("撮影した画像は無事保存されました: ${path}");
     }
 
     return path;

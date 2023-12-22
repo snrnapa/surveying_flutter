@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:surveying_app/components/basic_text.dart';
 import 'package:surveying_app/database_init.dart';
@@ -44,10 +46,11 @@ class CardTemplate extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 width: _width * 0.35,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  // child: Image.asset('appImage/kushima.jpg'),
-                  child: Image.asset(result['file_name']),
-                ),
+                    borderRadius: BorderRadius.circular(10),
+                    // child: Image.asset('appImage/kushima.jpg'),
+                    child: result['file_name'] != null
+                        ? Image.file(File(result['file_name']))
+                        : const Text("画像が取得できませんでした")),
               ),
             ],
           ),
