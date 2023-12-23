@@ -49,7 +49,11 @@ class CardTemplate extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     child: (result['file_name'] != "" &&
                             result['file_name'] != null)
-                        ? Image.file(File(result['file_name']))
+                        ? Container(
+                            width: 150,
+                            height: 150,
+                            child: Image.file(File(result['file_name'])),
+                          )
                         : const Icon(
                             Icons.no_sim,
                             size: 100,
