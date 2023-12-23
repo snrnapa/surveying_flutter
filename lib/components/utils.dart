@@ -22,6 +22,8 @@ class Utils {
   // カメラor写真アプリの起動
   static Future<String> execImage(String method) async {
     //ストレージのパスを取得する
+    int _imageQuality = 20;
+
     String path = "";
     final directory = await getApplicationDocumentsDirectory();
 
@@ -30,9 +32,11 @@ class Utils {
     XFile? pickedFile;
 
     if (method == "camera") {
-      pickedFile = await picker.pickImage(source: ImageSource.camera);
+      pickedFile = await picker.pickImage(
+          source: ImageSource.camera, imageQuality: _imageQuality);
     } else if (method == "album") {
-      pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      pickedFile = await picker.pickImage(
+          source: ImageSource.gallery, imageQuality: _imageQuality);
     } else {
       pickedFile = null;
     }
@@ -69,10 +73,8 @@ class Utils {
   }
 
   //CSVの出力用
-  void createCSV(
-    List<Map<String, dynamic>> targetObjectList,
-    Map<String, dynamic> basicInfo,
-  ) {
+  void createCSV(List<Map<String, dynamic>> targetObjectList,
+      Map<String, dynamic> basicInfo, bool _pictureFlg) {
     String csvStr = "no,gh\n";
 
     print("CSVの作成を開始します");
@@ -97,17 +99,23 @@ class Utils {
     String info =
         "【SurveyingApp】ID:${basicInfo['id']} ${basicInfo['scene_name']}";
 
-    openMailApp(csvStr, info);
+    openMailApp(csvStr, info, basicInfo['file_name'], _pictureFlg);
   }
 
-  void openMailApp(String csvResult, String info) async {
-    String attach_file = await outputCsv(csvResult, info);
+  void openMailApp(
+      String csvResult, String info, String imagePath, bool _pictureFlg) async {
+    String csv_file = await outputCsv(csvResult, info);
+
+    List<String> attachFilesPath = [csv_file];
+    if (_pictureFlg && imagePath != null) {
+      attachFilesPath.add(imagePath);
+    }
 
     final Email email = Email(
       body: MailConstants.mailBody,
       subject: info,
       recipients: [MailConstants.adminMail],
-      attachmentPaths: [attach_file],
+      attachmentPaths: attachFilesPath,
     );
 
     await FlutterEmailSender.send(email);

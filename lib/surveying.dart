@@ -20,6 +20,7 @@ class _SurveyingPageState extends State<Surveying> {
   bool existFlg = false;
   List<Map<String, dynamic>> resultTrn = [];
   FontStyle headerStyle = FontStyle.italic;
+  bool _pictureFlg = false;
 
   @override
   void initState() {
@@ -233,10 +234,19 @@ class _SurveyingPageState extends State<Surveying> {
                         TextButton.icon(
                           icon: const Icon(Icons.email),
                           onPressed: () {
-                            utils.createCSV(resultTrn, state);
+                            utils.createCSV(resultTrn, state, _pictureFlg);
                           },
-                          label: const Text('メール送信'),
+                          label: const Text('メール'),
                         ),
+                        Checkbox(
+                          value: _pictureFlg,
+                          onChanged: (value) {
+                            setState(() {
+                              _pictureFlg = value!;
+                            });
+                          },
+                        ),
+                        Text("写真添付")
                       ],
                     ),
                     const Divider(
@@ -352,7 +362,7 @@ class _SurveyingPageState extends State<Surveying> {
                                         width: _width * 0.1,
                                         height: _height * 0.2,
                                         child: TextFormField(
-                                          keyboardType: TextInputType.number,
+                                          keyboardType: TextInputType.phone,
                                           style: TextStyle(
                                             fontSize: fieldTextSize,
                                           ),
@@ -371,16 +381,20 @@ class _SurveyingPageState extends State<Surveying> {
                                         width: _width * 0.15,
                                         height: _height * 0.2,
                                         child: TextFormField(
-                                          keyboardType: TextInputType.number,
+                                          keyboardType: TextInputType.phone,
                                           style: TextStyle(
                                             fontSize: fieldTextSize,
                                           ),
                                           controller: _ghControllers[index],
                                           readOnly: !_bmCheckList[index],
-                                          decoration: const InputDecoration(
-                                            hintText: "Auto",
-                                            border: InputBorder.none,
-                                          ),
+                                          decoration: !_bmCheckList[index]
+                                              ? const InputDecoration(
+                                                  hintText: "Auto",
+                                                  border: InputBorder.none,
+                                                )
+                                              : const InputDecoration(
+                                                  border: InputBorder.none,
+                                                ),
                                         ),
                                       )),
                                     ]),
