@@ -50,6 +50,14 @@ class Utils {
     return path;
   }
 
+  // 写真を削除する
+  static void deleteImage(String filePath) async {
+    final targetFile = File(filePath);
+    if (await targetFile.exists()) {
+      targetFile.delete();
+    }
+  }
+
   //少数型であるかどうかのヴァリデーションチェック
   bool doubleValidate(String? targetText) {
     if (targetText != null &&

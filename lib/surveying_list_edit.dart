@@ -39,10 +39,13 @@ class _SurveyingListEditPageState extends State<SurveyingListEdit> {
     _targetRow['place'] = scenePlaceController.text;
     _targetRow['upd_date'] = utils.time2Str();
 
+    final beforePicture = File(_targetRow['file_name']);
+
     String savedFileName = await Utils.execImage(method);
 
     if (savedFileName != null && savedFileName != "") {
       _targetRow['file_name'] = savedFileName;
+      beforePicture.delete();
     }
 
     dbInit.update(_targetRow);
