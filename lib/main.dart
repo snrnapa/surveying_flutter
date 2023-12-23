@@ -63,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               padding: EdgeInsets.only(top: 32),
             ),
+            Text("実装済み"),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -82,36 +83,35 @@ class _MyHomePageState extends State<MyHomePage> {
                         icon: Icon(
                           Icons.note_alt_outlined,
                           size: 100,
+                          color: Colors.blue,
                         ),
                         mainTitle: 'Surveying',
                         explain: '水準測量'),
-                  ),
-                ),
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: _width * 0.4, // カードの横幅（最大値）
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SurveyingList()),
-                      );
-                    },
-                    child: const MenuCardTemplate(
-                        icon: Icon(
-                          Icons.collections,
-                          size: 100,
-                        ),
-                        mainTitle: 'Picture on Mapping',
-                        explain: '地図上に写真を配置'),
                   ),
                 ),
               ],
             ),
             SizedBox(
               height: _height * 0.03,
+            ),
+            Divider(thickness: 3, color: Colors.black),
+            Text("未実装"),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: _width * 0.4,
+                // カードの横幅（最大値）
+              ),
+              child: GestureDetector(
+                onTap: () {},
+                child: const MenuCardTemplate(
+                    icon: Icon(
+                      Icons.collections,
+                      size: 100,
+                      color: Colors.grey,
+                    ),
+                    mainTitle: 'Picture on Mapping',
+                    explain: '地図上に写真を配置'),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -121,17 +121,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     maxWidth: _width * 0.4, // カードの横幅（最大値）
                   ),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SurveyingList()),
-                      );
-                    },
+                    onTap: () {},
                     child: const MenuCardTemplate(
                         icon: Icon(
                           Icons.payments,
                           size: 100,
+                          color: Colors.grey,
                         ),
                         mainTitle: 'Expense',
                         explain: '経費精算アプリ'),
@@ -142,17 +137,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     maxWidth: _width * 0.4, // カードの横幅（最大値）
                   ),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SurveyingList()),
-                      );
-                    },
+                    onTap: () {},
                     child: const MenuCardTemplate(
                         icon: Icon(
                           Icons.collections,
                           size: 100,
+                          color: Colors.grey,
                         ),
                         mainTitle: 'Setting',
                         explain: '各種設定'),
@@ -160,40 +150,42 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: _width * 0.4, // カードの横幅（最大値）
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  dbInit.dropDatabase();
-                },
-                child: const MenuCardTemplate(
-                    icon: Icon(
-                      Icons.adb,
-                      size: 100,
-                    ),
-                    mainTitle: 'Debug',
-                    explain: '開発用 DBを削除します'),
-              ),
-            ),
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: _width * 0.4, // カードの横幅（最大値）
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  dbInit.initDatabase();
-                },
-                child: const MenuCardTemplate(
-                    icon: Icon(
-                      Icons.adb,
-                      size: 100,
-                    ),
-                    mainTitle: 'Debug',
-                    explain: '開発用 DBを新規作成します'),
-              ),
-            ),
+            // ConstrainedBox(
+            //   constraints: BoxConstraints(
+            //     maxWidth: _width * 0.4, // カードの横幅（最大値）
+            //   ),
+            //   child: GestureDetector(
+            //     onTap: () {
+            //       dbInit.dropDatabase();
+            //     },
+            //     child: const MenuCardTemplate(
+            //         icon: Icon(
+            //           Icons.adb,
+            //           size: 100,
+            //           color: Colors.grey,
+            //         ),
+            //         mainTitle: 'Debug',
+            //         explain: '開発用 DBを削除します'),
+            //   ),
+            // ),
+            // ConstrainedBox(
+            //   constraints: BoxConstraints(
+            //     maxWidth: _width * 0.4, // カードの横幅（最大値）
+            //   ),
+            //   child: GestureDetector(
+            //     onTap: () {
+            //       dbInit.initDatabase();
+            //     },
+            //     child: const MenuCardTemplate(
+            //         icon: Icon(
+            //           Icons.adb,
+            //           size: 100,
+            //           color: Colors.grey,
+            //         ),
+            //         mainTitle: 'Debug',
+            //         explain: '開発用 DBを新規作成します'),
+            //   ),
+            // ),
           ],
         ),
       ),
