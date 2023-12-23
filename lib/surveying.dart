@@ -22,6 +22,8 @@ class _SurveyingPageState extends State<Surveying> {
   FontStyle headerStyle = FontStyle.italic;
   bool _pictureFlg = false;
 
+  String validateErrorMsg = "入力値にエラーがあるため、実行できませんでした";
+
   @override
   void initState() {
     super.initState();
@@ -201,7 +203,7 @@ class _SurveyingPageState extends State<Surveying> {
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                title: Text("Surveying v1.0.0"),
+                title: Text("Surveying"),
               ),
               body: Form(
                 key: _formKey,
@@ -217,7 +219,14 @@ class _SurveyingPageState extends State<Surveying> {
                       children: [
                         TextButton.icon(
                           icon: const Icon(Icons.calculate),
-                          onPressed: () => {AllCalclate()},
+                          onPressed: () {
+                            if (validateAllFormField()) {
+                              AllCalclate();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  utils.makeSnackBar(validateErrorMsg));
+                            }
+                          },
                           label: const Text('計算'),
                         ),
                         TextButton.icon(
@@ -226,7 +235,8 @@ class _SurveyingPageState extends State<Surveying> {
                             if (validateAllFormField()) {
                               SaveList();
                             } else {
-                              print("validationエラーがあるため、保存を実行できませんでした");
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  utils.makeSnackBar(validateErrorMsg));
                             }
                           },
                           label: const Text('保存'),
@@ -234,7 +244,13 @@ class _SurveyingPageState extends State<Surveying> {
                         TextButton.icon(
                           icon: const Icon(Icons.email),
                           onPressed: () {
-                            utils.createCSV(resultTrn, state, _pictureFlg);
+                            if (validateAllFormField()) {
+                              SaveList();
+                              utils.createCSV(resultTrn, state, _pictureFlg);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  utils.makeSnackBar(validateErrorMsg));
+                            }
                           },
                           label: const Text('メール'),
                         ),

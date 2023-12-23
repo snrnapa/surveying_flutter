@@ -143,7 +143,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
             child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                title: const Text("SurveyinList"),
+                title: const Text("SceneList"),
               ),
               body: SingleChildScrollView(
                 child: Column(
