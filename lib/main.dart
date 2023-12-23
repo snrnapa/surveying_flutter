@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       darkTheme: ThemeData.dark(),
-      home: const MyHomePage(title: 'Surveying App ver.dev1.0'),
+      home: const MyHomePage(title: 'Surveying App'),
     );
   }
 }

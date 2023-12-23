@@ -67,6 +67,8 @@ class _SurveyingListPageState extends State<SurveyingList> {
     int dummy1 = await dbInit.deleteMst(deleteTargetId);
     int dummy2 = await dbInit.deleteTrn(deleteTargetId, deleteTargetSeq);
 
+    Utils.deleteImage(resultCardList[resultIndex]['file_name']);
+
     ScaffoldMessenger.of(context).showSnackBar(utils.makeSnackBar(massage));
 
     getAllSceneList();
