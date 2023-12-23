@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:surveying_app/components/utils.dart';
 import 'package:surveying_app/database_init.dart';
@@ -26,8 +28,8 @@ class _SurveyingListEditPageState extends State<SurveyingListEdit> {
   bool isLoading = false;
   var utils = Utils();
   final dbInit = DatabaseInit.instance;
-
-  void updateSceneInfo() {
+  // 現場情報の更新を行う
+  void updateSceneInfo(String method) async {
     var _targetRow = <String, dynamic>{};
     _targetRow.addAll(state);
 
@@ -36,6 +38,12 @@ class _SurveyingListEditPageState extends State<SurveyingListEdit> {
     _targetRow['person_in_charge'] = scenePersonController.text;
     _targetRow['place'] = scenePlaceController.text;
     _targetRow['upd_date'] = utils.time2Str();
+
+    String savedFileName = await Utils.execImage(method);
+
+    if (savedFileName != null && savedFileName != "") {
+      _targetRow['file_name'] = savedFileName;
+    }
 
     dbInit.update(_targetRow);
 
@@ -65,7 +73,7 @@ class _SurveyingListEditPageState extends State<SurveyingListEdit> {
                 title: const Text("Edit"),
               ),
               body: SizedBox(
-                height: _height * 0.4,
+                height: _height * 0.8,
                 child: Card(
                   elevation: 10,
                   margin: const EdgeInsets.all(7),
@@ -76,13 +84,6 @@ class _SurveyingListEditPageState extends State<SurveyingListEdit> {
                     children: <Widget>[
                       ListTile(
                         title: Text("編集"),
-                        trailing: IconButton(
-                          onPressed: () {
-                            updateSceneInfo();
-                          },
-                          iconSize: 32,
-                          icon: const Icon(Icons.update),
-                        ),
                       ),
                       SizedBox(
                         width: _width * 0.7,
@@ -108,6 +109,62 @@ class _SurveyingListEditPageState extends State<SurveyingListEdit> {
                               decoration:
                                   const InputDecoration(labelText: "Place"),
                             ),
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              width: _width * 0.35,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: (state['file_name'] != "" &&
+                                          state['file_name'] != null)
+                                      ? Image.file(File(state['file_name']))
+                                      : const Icon(
+                                          Icons.no_sim,
+                                          size: 100,
+                                        )),
+                            ),
+                            Text("更新種類"),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        updateSceneInfo("camera");
+                                      },
+                                      icon: const Icon(
+                                        Icons.add_a_photo,
+                                        size: 32,
+                                      ),
+                                    ),
+                                    Text("カメラ"),
+                                    IconButton(
+                                      onPressed: () {
+                                        updateSceneInfo("album");
+                                      },
+                                      icon: const Icon(
+                                        Icons.photo_library,
+                                        size: 32,
+                                      ),
+                                    ),
+                                    Text("ギャラリー"),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        updateSceneInfo("none");
+                                      },
+                                      icon: const Icon(
+                                        Icons.no_sim,
+                                        size: 32,
+                                      ),
+                                    ),
+                                    Text("変更なし"),
+                                  ],
+                                )
+                              ],
+                            )
                           ],
                         ),
                       ),

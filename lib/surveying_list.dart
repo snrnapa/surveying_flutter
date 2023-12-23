@@ -48,6 +48,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
     getAllSceneList();
   }
 
+  //すべてのシーンを取得する
   Future getAllSceneList() async {
     setState(() => isLoading = true);
     List<Map<String, dynamic>> result = await dbInit.queryAllRows();
@@ -55,19 +56,23 @@ class _SurveyingListPageState extends State<SurveyingList> {
     setState(() => isLoading = false);
   }
 
+  //　指定した現場データの削除
   void deleteMstAndTrn(int resultIndex) async {
     int deleteTargetId = resultCardList[resultIndex]['id'];
     int deleteTargetSeq = resultCardList[resultIndex]['scene_seq'];
 
-    print("次の現場データを削除します。 id = ${deleteTargetId} seq = ${deleteTargetSeq}");
+    String massage =
+        "次の現場データを削除しました。 id = ${deleteTargetId} seq = ${deleteTargetSeq}";
 
     int dummy1 = await dbInit.deleteMst(deleteTargetId);
     int dummy2 = await dbInit.deleteTrn(deleteTargetId, deleteTargetSeq);
-    print(dummy1);
-    print(dummy2);
+
+    ScaffoldMessenger.of(context).showSnackBar(utils.makeSnackBar(massage));
+
     getAllSceneList();
   }
 
+  //　シーンを追加する
   void insertScene(String method) async {
     int targetId = 1;
     final maxId = await dbInit.queryMaxId();
@@ -89,9 +94,22 @@ class _SurveyingListPageState extends State<SurveyingList> {
     };
 
     dbInit.insert(targetRow);
+
     getAllSceneList();
+
+    String massage = "";
+
+    massage += "下記データの保存が完了しました\n";
+    massage += "ID:${targetId} \n ${sceneNameController.text} ";
+
+    ScaffoldMessenger.of(context).showSnackBar(utils.makeSnackBar(massage));
+    sceneNameController.text = "";
+    sceneNoteController.text = "";
+    scenePersonController.text = "";
+    scenePlaceController.text = "";
   }
 
+  // 保存済みのシーンを編集する画面へ遷移する
   void navigatorEdit(int index) async {
     await Navigator.push(
       context,
@@ -138,7 +156,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
                         color: Colors.blue[100],
                         child: Column(
                           children: <Widget>[
-                            ListTile(
+                            const ListTile(
                               title: Text("新規追加"),
                             ),
                             SizedBox(
@@ -203,7 +221,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
                         ),
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                     ListView.builder(
                       shrinkWrap: true, //追加
                       physics: const NeverScrollableScrollPhysics(), //追加
