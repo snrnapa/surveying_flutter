@@ -163,7 +163,7 @@ class _SurveyingListEditPageState extends State<SurveyingListEdit> {
                                         size: 32,
                                       ),
                                     ),
-                                    Text("変更なし"),
+                                    Text("変更なし/写真なし"),
                                   ],
                                 )
                               ],

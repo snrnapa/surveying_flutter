@@ -129,10 +129,8 @@ class Utils {
   SnackBar makeSnackBar(String str) {
     final snackBar = SnackBar(
       content: Text(str),
-      action: SnackBarAction(
-        label: 'OK',
-        onPressed: () {},
-      ),
+      duration: const Duration(milliseconds: 2000),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
     );
 
     return snackBar;
