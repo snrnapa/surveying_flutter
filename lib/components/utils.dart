@@ -1,5 +1,4 @@
-import 'dart:typed_data';
-
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:surveying_app/constants/mail_constants.dart';
@@ -117,5 +116,17 @@ class Utils {
   Future<File> getFilePath(String fileName) async {
     final directory = await getTemporaryDirectory();
     return File(directory.path + '/' + fileName + '.csv');
+  }
+
+  SnackBar makeSnackBar(String str) {
+    final snackBar = SnackBar(
+      content: Text(str),
+      action: SnackBarAction(
+        label: 'OK',
+        onPressed: () {},
+      ),
+    );
+
+    return snackBar;
   }
 }
