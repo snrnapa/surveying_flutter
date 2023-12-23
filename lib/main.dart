@@ -62,7 +62,6 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(top: 32),
-              child: Text('Function List'),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -85,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           size: 100,
                         ),
                         mainTitle: 'Surveying',
-                        explain: '水準測量です'),
+                        explain: '水準測量'),
                   ),
                 ),
                 ConstrainedBox(
