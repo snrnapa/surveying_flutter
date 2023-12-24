@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:surveying_app/components/menu_card_template.dart';
 import 'package:surveying_app/database_init.dart';
+import 'package:surveying_app/review_developper.dart';
 import 'package:surveying_app/surveying_list.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -87,6 +88,28 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         mainTitle: 'Surveying',
                         explain: '水準測量'),
+                  ),
+                ),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: _width * 0.4,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ReviewDevelopper()),
+                      );
+                    },
+                    child: const MenuCardTemplate(
+                        icon: Icon(
+                          Icons.rate_review,
+                          size: 100,
+                          color: Colors.blue,
+                        ),
+                        mainTitle: 'Review',
+                        explain: '開発者へレビュー'),
                   ),
                 ),
               ],
