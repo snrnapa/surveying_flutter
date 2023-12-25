@@ -26,7 +26,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      darkTheme: ThemeData.dark(),
+      darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.red,
+          fontFamily: 'NotoSansCJKJP'),
       home: const MyHomePage(title: 'Surveying App'),
     );
   }
@@ -117,7 +120,9 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: _height * 0.03,
             ),
-            Divider(thickness: 3, color: Colors.black),
+            Divider(
+              thickness: 3,
+            ),
             Text("未実装"),
             ConstrainedBox(
               constraints: BoxConstraints(

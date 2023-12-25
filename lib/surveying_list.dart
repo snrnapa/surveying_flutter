@@ -155,7 +155,7 @@ class _SurveyingListPageState extends State<SurveyingList> {
                         margin: const EdgeInsets.all(7),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        color: Colors.blue[100],
+                        // color: Colors.blue[100],
                         child: Column(
                           children: <Widget>[
                             const ListTile(

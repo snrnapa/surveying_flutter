@@ -20,14 +20,13 @@ class CardTemplate extends StatelessWidget {
         elevation: 10,
         margin: const EdgeInsets.all(7),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: Colors.green[100],
+        // color: Colors.green[100],
         child: Padding(
           padding: const EdgeInsets.only(left: 16),
           child: Row(
             children: [
               Container(
                 width: _width * 0.45,
-                // color: Colors.black,
                 alignment: Alignment.centerLeft,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

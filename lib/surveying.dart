@@ -213,7 +213,6 @@ class _SurveyingPageState extends State<Surveying> {
                     const Divider(
                       height: 20,
                       endIndent: 0,
-                      color: Colors.black,
                     ),
                     Row(
                       children: [
@@ -268,7 +267,6 @@ class _SurveyingPageState extends State<Surveying> {
                     const Divider(
                       height: 20,
                       endIndent: 0,
-                      color: Colors.black,
                     ),
                     Expanded(
                       child: SingleChildScrollView(
@@ -302,7 +300,8 @@ class _SurveyingPageState extends State<Surveying> {
                                       }
                                       // Even rows will have a grey color.
                                       if (index.isEven) {
-                                        return Colors.blue[100];
+                                        return Color.fromARGB(
+                                            223, 234, 156, 67);
                                       }
                                       return null; // Use default value for other states and odd rows.
                                     }),
@@ -310,7 +309,6 @@ class _SurveyingPageState extends State<Surveying> {
                                       DataCell(Container(
                                           width: _width * 0.05,
                                           child: Checkbox(
-                                            checkColor: Colors.black,
                                             fillColor: MaterialStateProperty
                                                 .resolveWith((states) =>
                                                     Colors.transparent),

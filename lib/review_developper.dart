@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:surveying_app/components/basic_text.dart';
-import 'package:surveying_app/components/card_text.dart';
+import 'package:surveying_app/components/drawer_helper.dart';
 import 'package:surveying_app/components/title_text.dart';
 import 'package:surveying_app/components/utils.dart';
 
@@ -34,8 +33,11 @@ class _ReviewDevelopperPageState extends State<ReviewDevelopper> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TitleText(text: '開発者へのレビュー'),
+              IconButton(
+                  onPressed: () => DrawerHelper.launchStoreReview(context),
+                  icon: Icon(Icons.reviews)),
               const Card(
-                color: Color.fromARGB(207, 28, 225, 163),
+                // color: Color.fromARGB(207, 28, 225, 163),
                 child: Column(children: [
                   ListTile(
                     leading: Icon(Icons.developer_board),
@@ -57,7 +59,7 @@ class _ReviewDevelopperPageState extends State<ReviewDevelopper> {
                     leading: Icon(Icons.contact_mail),
                     title: Text("Contact・SNS"),
                     subtitle: Text(
-                        "mail:  shino.satoru@gmail.com\ngithub:https://github.com/snrnapa"),
+                        "mail:   shino.satoru@gmail.com\ngithub:   https://github.com/snrnapa"),
                   ),
                 ]),
               ),

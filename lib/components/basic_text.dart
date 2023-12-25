@@ -12,6 +12,10 @@ class BasicText extends StatelessWidget {
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
-    return Text(style: TextStyle(fontSize: 13, color: Colors.black), text);
+    return Text(
+        style: TextStyle(
+          fontSize: 13,
+        ),
+        text);
   }
 }

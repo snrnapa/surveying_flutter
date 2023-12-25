@@ -12,7 +12,6 @@ class CardText extends StatelessWidget {
     return Text(
         style: TextStyle(
           fontSize: 13,
-          color: Colors.black,
         ),
         text);
   }

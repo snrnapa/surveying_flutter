@@ -21,7 +21,7 @@ class _ToDoAddPageState extends State<ToDoAddPage> {
           children: <Widget>[
             Text(
               _text,
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(),
             ),
             TextField(
               onChanged: (String value) {
@@ -44,7 +44,7 @@ class _ToDoAddPageState extends State<ToDoAddPage> {
                 },
                 child: Text(
                   'リスト追加',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(),
                 ),
               ),
             ),
@@ -53,7 +53,7 @@ class _ToDoAddPageState extends State<ToDoAddPage> {
               child: TextButton(
                 child: Text(
                   'キャンセル',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();

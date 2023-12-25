@@ -12,7 +12,6 @@ class TitleText extends StatelessWidget {
     return Text(
         style: TextStyle(
           fontSize: 20,
-          color: Colors.black,
           fontStyle: FontStyle.italic,
           letterSpacing: 2.0,
         ),
