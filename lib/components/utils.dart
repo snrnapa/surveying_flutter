@@ -11,6 +11,8 @@ import 'package:path_provider/path_provider.dart';
 //ファイル出力用ライブラリ
 import 'dart:io';
 
+import 'package:surveying_app/constants/review_constants.dart';
+
 class Utils {
   // 現在の時刻を文字列で取得する
   String time2Str() {
@@ -116,6 +118,17 @@ class Utils {
       subject: info,
       recipients: [MailConstants.adminMail],
       attachmentPaths: attachFilesPath,
+    );
+
+    await FlutterEmailSender.send(email);
+  }
+
+  void openReviewMail() async {
+    final Email email = Email(
+      // body: MailConstants.mailBody,
+      // subject: info,
+      recipients: [ReviewConstants.mail],
+      // attachmentPaths: attachFilesPath,
     );
 
     await FlutterEmailSender.send(email);

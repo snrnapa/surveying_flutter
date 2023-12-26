@@ -1,7 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:surveying_app/components/drawer_helper.dart';
 import 'package:surveying_app/components/title_text.dart';
 import 'package:surveying_app/components/utils.dart';
+import 'package:surveying_app/constants/review_constants.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ReviewDevelopper extends StatefulWidget {
   @override
@@ -32,35 +35,70 @@ class _ReviewDevelopperPageState extends State<ReviewDevelopper> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TitleText(text: '開発者へのレビュー'),
+              TitleText(text: '開発者について'),
               IconButton(
                   onPressed: () => DrawerHelper.launchStoreReview(context),
                   icon: Icon(Icons.reviews)),
-              const Card(
+              Card(
                 // color: Color.fromARGB(207, 28, 225, 163),
                 child: Column(children: [
                   ListTile(
                     leading: Icon(Icons.developer_board),
                     title: Text("Developper Info"),
-                    subtitle: Text("Name : Napa \n Age : 27"),
+                    subtitle: Text(ReviewConstants.developperInfo),
                   ),
                   ListTile(
                     leading: Icon(Icons.adb),
                     title: Text("Technology"),
-                    subtitle: Text("バックエンドエンジニア Java,GoLang,React,Flutter"),
+                    subtitle: Text(ReviewConstants.technology),
                   ),
                   ListTile(
                     leading: Icon(Icons.work),
                     title: Text("Career"),
-                    subtitle: Text(
-                        "・大学で土木工学を４年間専攻\n・新卒で県庁へ入庁。3年間従事。\n・未経験からIT転職のため上京。\n・・客室乗務員アプリのバックエンドを担当。\n・都内ITコンサルタントへ転職。"),
+                    subtitle: Text(ReviewConstants.career),
                   ),
                   ListTile(
-                    leading: Icon(Icons.contact_mail),
-                    title: Text("Contact・SNS"),
-                    subtitle: Text(
-                        "mail:   shino.satoru@gmail.com\ngithub:   https://github.com/snrnapa"),
-                  ),
+                      leading: Icon(Icons.contact_mail),
+                      title: Text("Contact・SNS"),
+                      subtitle: Column(
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                    text: "Mail:  ",
+                                    style: TextStyle(color: Colors.black)),
+                                TextSpan(
+                                    text: ReviewConstants.mail,
+                                    style: const TextStyle(
+                                        color: Colors.lightBlue),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        utils.openReviewMail();
+                                      }),
+                              ],
+                            ),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                    text: "github:  ",
+                                    style: TextStyle(color: Colors.black)),
+                                TextSpan(
+                                    text: ReviewConstants.githubUrl,
+                                    style: const TextStyle(
+                                        color: Colors.lightBlue),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrlString(
+                                            ReviewConstants.githubUrl);
+                                      }),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )),
                 ]),
               ),
             ],
