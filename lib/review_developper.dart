@@ -36,9 +36,6 @@ class _ReviewDevelopperPageState extends State<ReviewDevelopper> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TitleText(text: '開発者について'),
-              IconButton(
-                  onPressed: () => DrawerHelper.launchStoreReview(context),
-                  icon: Icon(Icons.reviews)),
               Card(
                 // color: Color.fromARGB(207, 28, 225, 163),
                 child: Column(children: [
@@ -101,6 +98,13 @@ class _ReviewDevelopperPageState extends State<ReviewDevelopper> {
                       )),
                 ]),
               ),
+              IconButton(
+                onPressed: () => DrawerHelper.launchStoreReview(context),
+                icon: Icon(Icons.reviews),
+                iconSize: 32,
+              ),
+              Text(
+                  "アプリのレビューはこちら↑↑。もしくは、直接上記アドレスへお願いします。\nアプリのいけてないところ、こうしたいというところ、いただけるとうれしいです。こういうところがよかったや、感想は、かなり励みになります。\n開発私一人ですが、時間を見つけて対応をさせていただきます。"),
             ],
           ),
         )),
