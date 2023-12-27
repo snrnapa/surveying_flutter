@@ -36,6 +36,7 @@ class _ReviewDevelopperPageState extends State<ReviewDevelopper> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TitleText(text: '開発者について'),
+              Divider(),
               Card(
                 // color: Color.fromARGB(207, 28, 225, 163),
                 child: Column(children: [
@@ -63,8 +64,8 @@ class _ReviewDevelopperPageState extends State<ReviewDevelopper> {
                             text: TextSpan(
                               children: [
                                 const TextSpan(
-                                    text: "Mail:  ",
-                                    style: TextStyle(color: Colors.black)),
+                                  text: "Mail:  ",
+                                ),
                                 TextSpan(
                                     text: ReviewConstants.mail,
                                     style: const TextStyle(
@@ -80,8 +81,8 @@ class _ReviewDevelopperPageState extends State<ReviewDevelopper> {
                             text: TextSpan(
                               children: [
                                 const TextSpan(
-                                    text: "github:  ",
-                                    style: TextStyle(color: Colors.black)),
+                                  text: "github:  ",
+                                ),
                                 TextSpan(
                                     text: ReviewConstants.githubUrl,
                                     style: const TextStyle(
@@ -98,16 +99,32 @@ class _ReviewDevelopperPageState extends State<ReviewDevelopper> {
                       )),
                 ]),
               ),
-              IconButton(
-                onPressed: () => DrawerHelper.launchStoreReview(context),
-                icon: Icon(Icons.reviews),
-                iconSize: 32,
+              TitleText(text: '【お願い】ご意見お願いいたします。'),
+              Divider(),
+              Text(ReviewConstants.reviewBodyUpper),
+              Text(ReviewConstants.reviewBodyMiddle),
+              Text(ReviewConstants.reviewBodyEnd),
+              ElevatedButton.icon(
+                onPressed: () {
+                  utils.openReviewMail();
+                },
+                icon: Icon(Icons.mail), //アイコン
+                label: Text('開発者へメール'), //テキスト
               ),
-              Text(
-                  "アプリのレビューはこちら↑↑。もしくは、直接上記アドレスへお願いします。\nアプリのいけてないところ、こうしたいというところ、いただけるとうれしいです。こういうところがよかったや、感想は、かなり励みになります。\n開発私一人ですが、時間を見つけて対応をさせていただきます。"),
+              ElevatedButton.icon(
+                onPressed: () {
+                  DrawerHelper.launchStoreReview(context);
+                },
+                icon: Icon(Icons.shop), //アイコン
+                label: Text('アプリのレビュー（playStore)'), //テキスト
+              ),
             ],
           ),
         )),
+        floatingActionButton: FloatingActionButton.large(
+          onPressed: () => {DrawerHelper.launchStoreReview(context)},
+          child: const Icon(Icons.reviews),
+        ),
       ),
     );
   }
