@@ -1,6 +1,36 @@
 # surveying_app
 
-for surveying
+## release　Todo
+[FlutterでAndroidのリリース用APKをビルドする前の準備いろいろ](https://qiita.com/kasa_le/items/d23075d817f42e869778)
+[02.Google Play(Androidアプリ)](https://zenn.dev/kazutxt/books/flutter_practice_introduction/viewer/42_chapter5_googleplay)
+
+
+## icon
+[フリーアイコン](https://icooon-mono.com/)
+[google スプシでのアイコン作成](https://join.biglobe.ne.jp/mobile/sim/gurashi/pc_0105/)
+
+## App Name Candidate
+
+### 名称候補
+
+- SubSurveying
+- Mini測量
+- スマート測量
+- ポケット測量
+- ポケット職人
+
+### 単語羅列
+
+- surveying
+- 測量
+- 現場
+- 野帳
+- スマート
+- ポケット
+- 工事
+- 職人
+- Sub
+- 
 
 ## おまじないコマンド！！
 
