@@ -1,4 +1,8 @@
 # surveying_app
+署名コマンド（java)
+```
+keytool -genkey -v -keystore ./key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
+```
 
 ## release　Todo
 [FlutterでAndroidのリリース用APKをビルドする前の準備いろいろ](https://qiita.com/kasa_le/items/d23075d817f42e869778)
