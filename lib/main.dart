@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.red,
           fontFamily: 'NotoSansCJKJP'),
       home: const MyHomePage(title: 'Surveying App'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
