@@ -5,8 +5,7 @@ class ReviewConstants {
   static String technology = "バックエンドエンジニア Java,GoLang,React,Flutter";
   static String career =
       "2019年国公立大学の土木部を卒業。\n・2019年 県庁へ入庁。土木部。\n・2022年未経験からIT転職のため上京。\n・・客室乗務員アプリのバックエンドを担当。1年間経験を積む。\n・2023年ITコンサルタントへ転職。";
-  static String reviewBodyUpper =
-      "この度は、開発したアプリをご使用いただきありがとうございます。\n是非、アプリを使用していただいての、皆様のご意見をいただきたいです。\n";
+  static String reviewBodyUpper = "この度は、開発したアプリをご使用いただきありがとうございます。\n";
 
   static String reviewBodyMiddle =
       "少しずつ本アプリをより良いものにしたいと考えていますので、ぜひ皆様のご意見をお聞かせください。\n・もっとこういう機能が欲しい\n・ここはそもそも土木業界の考えで間違ってないか？\n・この機能があると助かる。\nなど、いただけると本当にうれしいです。使用の報告や、感想も、開発の励みになります。";
