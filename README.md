@@ -8,6 +8,10 @@ keytool -genkey -v -keystore ./key.jks -keyalg RSA -keysize 2048 -validity 10000
 [FlutterでAndroidのリリース用APKをビルドする前の準備いろいろ](https://qiita.com/kasa_le/items/d23075d817f42e869778)
 [02.Google Play(Androidアプリ)](https://zenn.dev/kazutxt/books/flutter_practice_introduction/viewer/42_chapter5_googleplay)
 
+### 内部テストでリリースするも、インストール後、「開く」が表示されずアプリが起動できない
+
+https://note.com/chute/n/n75cde5f1712a
+
 
 ## icon
 [フリーアイコン](https://icooon-mono.com/)
